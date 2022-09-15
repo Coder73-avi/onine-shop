@@ -1,0 +1,68 @@
+.title {
+  font-size: 1.5rem;
+  color: var(--color-secondary);
+  /* background-color: rgba(124, 124, 124, 0.219); */
+  font-family: Ubuntu;
+  margin-bottom: 0.9rem;
+}
+
+.design__by__hobbies {
+  /* height: 500px; */
+  background-image: url("../../../images/hobbies.avif");
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 5rem;
+}
+
+.hobbies__div {
+  width: 45%;
+  background-color: white;
+  color: black;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: rgba(50, 79, 93, 0.452) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.514) 0px 30px 60px -30px;
+}
+
+.hobbies__name {
+  position: absolute;
+  left: 0rem;
+  padding: 1rem;
+  padding-left: 2rem;
+  width: 100%;
+  height: 100%;
+  /* border-radius: 0 150% 0 0; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-family: Ubuntu;
+  z-index: 50;
+  background-color: rgba(56, 59, 59, 0.158);
+  color: white;
+  transition: all 0.5s ease-in-out;
+}
+
+.hobbies__div > button {
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-secondary);
+  color: white;
+  margin-top: 1.5rem;
+  width: 40%;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.hobbies__div > button:hover {
+  background-color: rgb(3, 70, 70);
+}

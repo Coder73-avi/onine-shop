@@ -1,0 +1,13 @@
+.bredcrumbs__text {
+  font-family: Popplins;
+  font-size: 12px;
+  font-weight: 400;
+  display: flex;
+  flex-direction: row;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.active {
+  color: var(--color-secondary);
+}

@@ -1,0 +1,13 @@
+@font-face {
+  font-family: Arial;
+  src: url("../fonts/Arial/arial.ttf");
+}
+@font-face {
+  font-family: Ubuntu;
+  src: url("../fonts/Ubuntu/Ubuntu-B.ttf");
+}
+
+@font-face {
+  font-family: Popplins;
+  src: url("../fonts/Poppins/Poppins-Regular.ttf");
+}

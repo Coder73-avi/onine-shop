@@ -1,0 +1,50 @@
+import Breadcrumbs from "components/Breadcrumbs";
+import ProductDetails from "components/ProductDetails";
+import Head from "next/head";
+import React, { useState } from "react";
+import axios from "controllers/axios";
+
+const Productdetails = ({ product }) => {
+  return (
+    <>
+      <Head>
+        <title>Product Details</title>
+      </Head>
+      <main>
+        <Breadcrumbs
+          location={[
+            { name: "Shop", path: "/shop" },
+            { name: "Product Details", path: "/productdetails" },
+          ]}
+        />
+        <ProductDetails data={product[0]} />
+      </main>
+    </>
+  );
+};
+
+export default Productdetails;
+
+export async function getStaticPaths() {
+  const res = await axios.get("/getproducts");
+  const paths = res.data?.map((curElement) => {
+    return { params: { id: curElement.id.toString() } };
+  });
+  return {
+    paths,
+    fallback: false, // can also be true or 'blocking'
+  };
+}
+export const getStaticProps = async (context) => {
+  const { id } = context.params;
+  const res = await axios.get("/getproduct/" + id);
+  let newData = [];
+
+  if (res.data?.length !== 0) {
+    newData = res.data;
+    const images = await axios.get("/getproductimages/" + id);
+    newData[0].imageSrc = images.data;
+  }
+
+  return { props: { product: newData } };
+};

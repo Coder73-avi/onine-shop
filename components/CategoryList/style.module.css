@@ -1,0 +1,27 @@
+.categoryDiv {
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  gap: 1rem;
+}
+.categoryDiv::-webkit-scrollbar {
+  width: 10px;
+}
+
+.category {
+  font-size: 14px;
+  border: 1px solid #135740b9;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.5rem;
+  color: var(--color-secondary);
+  transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+}
+
+.category:hover {
+  background-color: #135740b9;
+  color: white;
+}

@@ -1,0 +1,58 @@
+.nav {
+  display: flex;
+  flex-direction: row;
+  gap: 1.2rem;
+  color: #727070;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-bottom: 2px solid #ccc;
+  padding: 0.7rem 0;
+  font-family: Popplins;
+}
+
+.navList {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease-in;
+  -webkit-transition: all 0.3s ease-in;
+  -moz-transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+}
+.navList:hover {
+  color: black;
+}
+
+.active {
+  position: relative;
+  color: black;
+}
+.active::after,
+.navList:hover::after {
+  position: absolute;
+  bottom: -0.8rem;
+  left: 0;
+  content: "";
+  width: 100%;
+  background-color: black;
+  height: 2px;
+}
+
+.moreinfo {
+  font-size: 14px;
+  color: rgb(102, 101, 101);
+  font-family: Popplins;
+  text-align: justify;
+}
+
+.reviewBtn {
+  padding: 0.7rem 0.9rem;
+  background-color: rgba(0, 0, 0, 0.925);
+  color: white;
+  font-family: Popplins;
+  font-size: 14px;
+}
+
+.reviewBtn:hover {
+  background-color: var(--color-secondary);
+}

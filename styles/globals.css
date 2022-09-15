@@ -1,26 +1,28 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 * {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
   box-sizing: border-box;
+  font-family: Popplins;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+body {
+  box-sizing: border-box;
+  font-family: Ubuntu;
+  overflow-x: hidden;
+  background-color: rgba(255, 255, 255, 0.849);
+}
+
+.success {
+  color: green;
+}
+.error {
+  color: red;
+}
+.warning {
+  color: var(--color-danger);
 }
