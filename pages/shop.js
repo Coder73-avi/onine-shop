@@ -71,7 +71,7 @@ const Shop = ({ products }) => {
 
 export default Shop;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await axios.get(
     "https://online-shop-api001.herokuapp.com/getproducts"
   );
