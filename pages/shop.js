@@ -7,7 +7,8 @@ import { useStateValue } from "controllers/Reducer/stateProvider";
 import DefaultImage from "components/DefaultImage";
 import CategoryList from "components/CategoryList";
 import { useRouter } from "next/router";
-import axios from "controllers/axios";
+// import axios from "controllers/axios";
+import axios from "axios";
 
 import product1 from "images/home/another.jpg";
 
@@ -74,11 +75,15 @@ const Shop = ({ products }) => {
 export default Shop;
 
 export async function getStaticProps() {
-  const res = await axios.get("/getproducts");
+  const res = await axios.get(
+    "https://online-shop-api001.herokuapp.com/getproducts"
+  );
   const data = res.data;
   const newArr = [];
   for (let i = 0; i < data.length; i++) {
-    const images = await axios.get("/getproductimages/" + data[i].id);
+    const images = await axios.get(
+      "https://online-shop-api001.herokuapp.com/getproductimages/" + data[i].id
+    );
     data[i].imageSrc = images.data;
     newArr.push(data[i]);
   }
