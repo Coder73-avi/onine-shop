@@ -138,7 +138,10 @@ const ProductDetails = ({ data }) => {
             <div className="border p-4">
               <div className="relative">
                 <DefaultImage
-                  src={`http://localhost:4001/${imageUrl}` || product1}
+                  src={
+                    `https://online-shop-api001.herokuapp.com/${imageUrl}` ||
+                    product1
+                  }
                   alt="product-image"
                 />
               </div>
@@ -152,7 +155,10 @@ const ProductDetails = ({ data }) => {
                       className="relative w-24 h-24 cursor-pointer hover:opacity-80"
                     >
                       <Image
-                        src={`http://localhost:4001/${val?.url}` || product1}
+                        src={
+                          `https://online-shop-api001.herokuapp.com/${val?.url}` ||
+                          product1
+                        }
                         alt="carousel-images"
                         layout="fill"
                         objectFit="cover"

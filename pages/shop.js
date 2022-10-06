@@ -73,7 +73,7 @@ const Shop = ({ products }) => {
 
 export default Shop;
 
-export const getStaticProps = async () => {
+export async function getStaticProps() {
   const res = await axios.get("/getproducts");
   const data = res.data;
   const newArr = [];
@@ -83,4 +83,4 @@ export const getStaticProps = async () => {
     newArr.push(data[i]);
   }
   return { props: { products: newArr } };
-};
+}
