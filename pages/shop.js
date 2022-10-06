@@ -12,7 +12,6 @@ import axios from "controllers/axios";
 import product1 from "images/home/another.jpg";
 
 const Shop = ({ products }) => {
-  console.log(products);
   const router = useRouter();
   const [categoryData, setCategoryData] = React.useState("");
   const [{ cart }, dispatch] = useStateValue();
@@ -23,6 +22,7 @@ const Shop = ({ products }) => {
     }
   }, [router.query]);
 
+  console.log(process.env.URL);
   return (
     <>
       <Head>
@@ -53,7 +53,8 @@ const Shop = ({ products }) => {
                 <div className="mb-8" key={indx}>
                   <ShopCard
                     imageSrc={
-                      `http://localhost:4001/${imageSrc[0]?.url}` || product1
+                      `https://online-shop-api001.herokuapp.com/${imageSrc[0]?.url}` ||
+                      product1
                     }
                     id={id}
                     title={title}
@@ -81,6 +82,5 @@ export const getStaticProps = async () => {
     data[i].imageSrc = images.data;
     newArr.push(data[i]);
   }
-
   return { props: { products: newArr } };
 };
