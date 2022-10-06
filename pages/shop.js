@@ -53,10 +53,7 @@ const Shop = ({ products }) => {
               ) => (
                 <div className="mb-8" key={indx}>
                   <ShopCard
-                    imageSrc={
-                      `https://online-shop-api001.herokuapp.com/${imageSrc[0]?.url}` ||
-                      product1
-                    }
+                    imageSrc={product1}
                     id={id}
                     title={title}
                     price={price}
@@ -79,13 +76,13 @@ export async function getStaticProps() {
     "https://online-shop-api001.herokuapp.com/getproducts"
   );
   const data = res.data;
-  const newArr = [];
-  for (let i = 0; i < data.length; i++) {
-    const images = await axios.get(
-      "https://online-shop-api001.herokuapp.com/getproductimages/" + data[i].id
-    );
-    data[i].imageSrc = images.data;
-    newArr.push(data[i]);
-  }
-  return { props: { products: newArr } };
+  // const newArr = [];
+  // for (let i = 0; i < data.length; i++) {
+  //   const images = await axios.get(
+  //     "https://online-shop-api001.herokuapp.com/getproductimages/" + data[i].id
+  //   );
+  //   data[i].imageSrc = images.data;
+  //   newArr.push(data[i]);
+  // }
+  return { props: { products: data } };
 }
