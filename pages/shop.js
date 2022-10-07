@@ -72,10 +72,10 @@ const Shop = ({ products }) => {
 export default Shop;
 
 export async function getServerSideProps() {
-  const res = await axios.get(
-    "https://www.online-shop-api001.herokuapp.com/getproducts"
-  );
-  const data = res.data;
+  // const res = await axios.get(
+  //   "https://www.online-shop-api001.herokuapp.com/getproducts"
+  // );
+  // const data = res.data;
   // const newArr = [];
   // for (let i = 0; i < data.length; i++) {
   //   const images = await axios.get(
@@ -84,5 +84,5 @@ export async function getServerSideProps() {
   //   data[i].imageSrc = images.data;
   //   newArr.push(data[i]);
   // }
-  return { props: { products: data } };
+  return { props: { products: [] } };
 }
