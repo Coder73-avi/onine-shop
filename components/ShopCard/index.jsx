@@ -55,11 +55,11 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
     // return window.localStorage.setItem("wiselist", JSON.stringify(newData));
   };
 
-  useEffect(() => {
-    const wiseList = JSON.parse(window.localStorage.getItem("wiselist"));
-    const found = wiseList.some((val) => val.id == id);
-    if (found) setActiveStatus(true);
-  }, [id]);
+  // useEffect(() => {
+  //   const wiseList = JSON.parse(window.localStorage.getItem("wiselist"));
+  //   const found = wiseList.some((val) => val.id == id);
+  //   if (found) setActiveStatus(true);
+  // }, [id]);
 
   return (
     <div
