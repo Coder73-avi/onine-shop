@@ -14,7 +14,6 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
   const router = useRouter();
   const [{}, dispatch] = useStateValue();
   const [activeStatus, setActiveStatus] = useState(false);
-  const [checkWiseList, setCheckWiseList] = useState(false);
   const AddToCart = () => {
     dispatch({
       type: "ADDTOCART",
@@ -33,13 +32,11 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
 
   const AddToWishList = () => {
     const oldData = JSON.parse(window.localStorage?.getItem("wiselist"));
-    oldData.filter((val) =>
-      val.id == id ? setCheckWiseList(true) : setCheckWiseList(false)
-    );
-    console.log(checkWiseList);
+    const check = oldData?.some((val) => val.id == id);
+    console.log(check);
 
-    if (checkWiseList) {
-      const filterData = oldData?.filter((val) => val.id !== id);
+    if (check) {
+      const filterData = oldData.filter((val) => val.id !== id);
       setActiveStatus(false);
       return window.localStorage.setItem(
         "wiselist",
@@ -61,9 +58,8 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
 
   useEffect(() => {
     const wiseList = JSON.parse(window.localStorage.getItem("wiselist"));
-    wiseList?.filter((val) =>
-      val.id == id ? setActiveStatus(true) : setActiveStatus(false)
-    );
+    const found = wiseList?.some((val) => val.id == id);
+    if (found) setActiveStatus(true);
   }, [id]);
 
   return (

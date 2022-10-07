@@ -101,9 +101,9 @@ const ProductDetails = ({ data }) => {
     const oldData = JSON.parse(window.localStorage?.getItem("wiselist"));
     const { id } = router.query;
     const { imgSrc, title, price } = data;
-    const check = oldData.some((val) => val.id == id);
+    const check = oldData?.some((val) => val.id == id);
     if (check) {
-      const filterData = oldData.filter((val) => val.id !== id);
+      const filterData = oldData?.filter((val) => val.id !== id);
       setActiveStatus(false);
       return window.localStorage.setItem(
         "wiselist",
@@ -126,7 +126,7 @@ const ProductDetails = ({ data }) => {
 
   useEffect(() => {
     const wiseList = JSON.parse(window.localStorage.getItem("wiselist"));
-    const found = wiseList.some((val) => val.id == data?.id);
+    const found = wiseList?.some((val) => val.id == data?.id);
     if (found) setActiveStatus(true);
   }, [data?.id]);
 
