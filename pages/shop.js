@@ -77,5 +77,5 @@ export async function getStaticProps() {
     data[i].imageSrc = images.data;
     newArr.push(data[i]);
   }
-  return { props: { products: newArr } };
+  return { revalidate: 84000, props: { products: newArr } };
 }
