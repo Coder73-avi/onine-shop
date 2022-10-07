@@ -2,11 +2,10 @@ import React from "react";
 import Head from "next/head";
 import Breadcrumbs from "components/Breadcrumbs";
 import ShopCard from "components/ShopCard";
-import { useStateValue } from "controllers/Reducer/stateProvider";
 import CategoryList from "components/CategoryList";
 import { useRouter } from "next/router";
-// import axios from "controllers/axios";
-import axios from "axios";
+import axios from "controllers/axios";
+// import axios from "axios";
 
 import product1 from "images/home/another.jpg";
 
@@ -32,7 +31,7 @@ const Shop = ({ products }) => {
         {/* <DefaultImage src={productsList[0].imgSrc} alt="images" /> */}
         <CategoryList />
         <div className="w-[90%] mx-auto mt-4 mb-10 md:columns-3 lg:columns-3 gap-4 ">
-          {products
+          {/* {products
             .filter((val) => {
               if (categoryData == "" || categoryData == "all") {
                 return val;
@@ -59,7 +58,7 @@ const Shop = ({ products }) => {
                   />
                 </div>
               )
-            )}
+            )} */}
         </div>
       </main>
     </>
@@ -69,10 +68,7 @@ const Shop = ({ products }) => {
 export default Shop;
 
 export async function getServerSideProps() {
-  const res = await axios.get(
-    "https://online-shop-api001.herokuapp.com/getproducts"
-    // https://online-shop-api001.herokuapp.com/getproducts
-  );
+  const res = await axios.get("/getproducts");
   const data = res.data;
   // const newArr = [];
   // for (let i = 0; i < data.length; i++) {
