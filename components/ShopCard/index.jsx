@@ -66,7 +66,7 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
   return (
     <div
       className={css.shopCard}
-      onClick={() => router.push(`/productdetails/${id}`)}
+      // onClick={() => router.push(`/productdetails/${id}`)}
     >
       <div className="relative ">
         {newProduct && <div className={css.newBtn}>New</div>}

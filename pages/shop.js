@@ -19,7 +19,6 @@ const Shop = ({ products }) => {
     }
   }, [router.query]);
 
-  console.log(products);
   return (
     <>
       <Head>
@@ -42,18 +41,25 @@ const Shop = ({ products }) => {
                 return val;
               }
             })
-            .map(({ id, title, price, newProduct, saleStatus }, indx) => (
-              <div className="mb-8" key={indx}>
-                <ShopCard
-                  imageSrc={product1}
-                  id={id}
-                  title={title}
-                  price={price}
-                  newProduct={newProduct}
-                  saleStatus={saleStatus}
-                />
-              </div>
-            ))}
+            .map(
+              (
+                { id, title, price, imageSrc, newProduct, saleStatus },
+                indx
+              ) => (
+                <div className="mb-8" key={indx}>
+                  <ShopCard
+                    imageSrc={
+                      `${process.env.URL}/${imageSrc[0]?.url}` || product1
+                    }
+                    id={id}
+                    title={title}
+                    price={price}
+                    newProduct={newProduct}
+                    saleStatus={saleStatus}
+                  />
+                </div>
+              )
+            )}
         </div>
       </main>
     </>
@@ -62,16 +68,14 @@ const Shop = ({ products }) => {
 
 export default Shop;
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const res = await axios.get("/getproducts");
   const data = res.data;
-  // const newArr = [];
-  // for (let i = 0; i < data.length; i++) {
-  //   const images = await axios.get(
-  //     "https://online-shop-api001.herokuapp.com/getproductimages/" + data[i].id
-  //   );
-  //   data[i].imageSrc = images.data;
-  //   newArr.push(data[i]);
-  // }
-  return { props: { products: data } };
+  const newArr = [];
+  for (let i = 0; i < data.length; i++) {
+    const images = await axios.get("/getproductimages/" + data[i].id);
+    data[i].imageSrc = images.data;
+    newArr.push(data[i]);
+  }
+  return { props: { products: newArr } };
 }
