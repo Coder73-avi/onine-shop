@@ -33,14 +33,13 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
 
   const AddToWishList = () => {
     const oldData = JSON.parse(window.localStorage?.getItem("wiselist"));
-    // const check = oldData.some((val) => val.id == id);
     oldData.filter((val) =>
       val.id == id ? setCheckWiseList(true) : setCheckWiseList(false)
     );
     console.log(checkWiseList);
 
     if (checkWiseList) {
-      const filterData = oldData.filter((val) => val.id !== id);
+      const filterData = oldData?.filter((val) => val.id !== id);
       setActiveStatus(false);
       return window.localStorage.setItem(
         "wiselist",
@@ -62,7 +61,7 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
 
   useEffect(() => {
     const wiseList = JSON.parse(window.localStorage.getItem("wiselist"));
-    wiseList.filter((val) =>
+    wiseList?.filter((val) =>
       val.id == id ? setActiveStatus(true) : setActiveStatus(false)
     );
   }, [id]);
