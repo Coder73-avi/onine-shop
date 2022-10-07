@@ -19,7 +19,7 @@ const Shop = ({ products }) => {
     }
   }, [router.query]);
 
-  console.log(process.env.URL);
+  console.log(products);
   return (
     <>
       <Head>
