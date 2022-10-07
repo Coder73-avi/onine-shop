@@ -73,7 +73,7 @@ export default Shop;
 
 export async function getServerSideProps() {
   const res = await axios.get(
-    "https://online-shop-api001.herokuapp.com/getproducts"
+    "https://www.online-shop-api001.herokuapp.com/getproducts"
   );
   const data = res.data;
   // const newArr = [];
