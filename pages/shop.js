@@ -31,7 +31,7 @@ const Shop = ({ products }) => {
         {/* <DefaultImage src={productsList[0].imgSrc} alt="images" /> */}
         <CategoryList />
         <div className="w-[90%] mx-auto mt-4 mb-10 md:columns-3 lg:columns-3 gap-4 ">
-          {/* {products
+          {products
             .filter((val) => {
               if (categoryData == "" || categoryData == "all") {
                 return val;
@@ -42,23 +42,18 @@ const Shop = ({ products }) => {
                 return val;
               }
             })
-            .map(
-              (
-                { id, title, price, imageSrc, newProduct, saleStatus },
-                indx
-              ) => (
-                <div className="mb-8" key={indx}>
-                  <ShopCard
-                    imageSrc={product1}
-                    id={id}
-                    title={title}
-                    price={price}
-                    newProduct={newProduct}
-                    saleStatus={saleStatus}
-                  />
-                </div>
-              )
-            )} */}
+            .map(({ id, title, price, newProduct, saleStatus }, indx) => (
+              <div className="mb-8" key={indx}>
+                <ShopCard
+                  imageSrc={product1}
+                  id={id}
+                  title={title}
+                  price={price}
+                  newProduct={newProduct}
+                  saleStatus={saleStatus}
+                />
+              </div>
+            ))}
         </div>
       </main>
     </>
