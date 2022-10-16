@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import css from "./style.module.css";
 import { FaUser } from "react-icons/fa";
 import {
@@ -10,14 +10,18 @@ import {
 import { FaRegShareSquare } from "react-icons/fa";
 import { BiSearch } from "react-icons/bi";
 
+import axios from "controllers/axios";
 import logo from "images/logo.png";
 import Image from "next/image";
 import DropDownCart from "components/Cart/DropDownCart";
 import { useStateValue } from "controllers/Reducer/stateProvider";
+import { useRouter } from "next/router";
 
 const Navigation = () => {
+  const router = useRouter();
+  const [carts, setCarts] = useState([]);
   const [showCart, setShowCart] = useState(false);
-  const [{ cart }, dispatch] = useStateValue();
+  const [{ cart, user, checkout }, dispatch] = useStateValue();
 
   const subMenu = [
     { name: "My Account", icon: <FaUser />, path: "/myaccount" },
@@ -27,6 +31,7 @@ const Navigation = () => {
       path: "/wishlist",
     },
     { name: "Sign In", icon: <AiOutlineUnlock />, path: "/login" },
+    { name: "Log Out", icon: <AiOutlineUnlock />, path: "/login" },
     { name: "Check out", icon: <FaRegShareSquare />, path: "/checkout" },
   ];
   const mainMenu = [
@@ -44,6 +49,69 @@ const Navigation = () => {
     { name: "About Us", icon: "", path: "/" },
     { name: "Contact Us", icon: "", path: "/" },
   ];
+
+  // checking user is LogIn or Not
+
+  const checkingUserAuth = useCallback(async () => {
+    try {
+      const getUser = await axios.get("/getuser");
+      if (getUser.status == 200) {
+        if (Array.isArray(getUser?.data)) {
+          dispatch({ type: "AUTH__USER", user: getUser.data[0] });
+        } else {
+          dispatch({ type: "AUTH__USER", user: null });
+        }
+      }
+    } catch (error) {
+      // console.error(error);
+      dispatch({ type: "AUTH__USER", user: null });
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    checkingUserAuth();
+  }, [checkingUserAuth]);
+
+  const getCheckoutData = useCallback(async () => {
+    try {
+      if (user !== null) {
+        // let checkouts = [{ id: 1, name: "product-1" }];
+        const res = await axios.get("/getcheckouts/" + user?.id);
+        const checkouts = res.data?.map((val) => {
+          axios.get("/getproduct/" + val.product__id).then((res) => {
+            console.log(res.data[0]);
+            val.product = res.data[0];
+            axios.get("/getproductimages/" + res.data[0]?.id).then((image) => {
+              val.imageSrc = process.env.URL + "/" + image.data[0].url;
+              val.imagePath = image.data[0].url;
+            });
+          });
+
+          return val;
+        });
+
+        console.log(checkouts);
+        setCarts(checkouts);
+
+        dispatch({
+          type: "CHECKOUT",
+          checkout: [...checkout, ...checkouts],
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: "CHECKOUT",
+        checkout: [],
+      });
+    }
+  }, [dispatch, user]);
+
+  useEffect(() => {
+    getCheckoutData();
+  }, [getCheckoutData]);
+
+  console.log(checkout);
+
   return (
     <>
       <section
@@ -51,19 +119,21 @@ const Navigation = () => {
       >
         <div className={`text-xs text-gray-400`}>Default Welcome Msg!</div>
         <nav className={css.sub__nav}>
-          {subMenu.map(({ name, icon, path }, indx) => (
-            <div
-              key={indx}
-              className={`flex flex-row gap-2 justify-center items-center px-5 ${
-                subMenu.length - 1 !== indx ? "border-r" : " "
-              } `}
-            >
-              <div className={css.sub__icon}>{icon}</div>
-              <Link href={path}>
-                <a className={``}>{name}</a>
-              </Link>
-            </div>
-          ))}
+          {subMenu.map(({ name, icon, path }, indx) => {
+            return (
+              <div
+                key={indx}
+                className={`flex flex-row gap-2 justify-center items-center px-5 ${
+                  subMenu.length - 1 !== indx ? "border-r" : " "
+                } `}
+              >
+                <div className={css.sub__icon}>{icon}</div>
+                <Link href={path}>
+                  <a className={``}>{name}</a>
+                </Link>
+              </div>
+            );
+          })}
         </nav>
       </section>
 
@@ -87,14 +157,18 @@ const Navigation = () => {
           </form>
           <div
             className={css.shopping__cart}
-            data-checkout={cart?.length || 0}
+            data-checkout={carts?.length || 0}
             onClick={() => setShowCart(!showCart)}
           >
             <AiOutlineShoppingCart />
           </div>
         </div>
         {showCart && (
-          <DropDownCart setShowCart={setShowCart} showCart={showCart} />
+          <DropDownCart
+            setShowCart={setShowCart}
+            showCart={showCart}
+            carts={carts}
+          />
         )}
       </section>
     </>

@@ -31,9 +31,7 @@ const ProductDetails = ({ data }) => {
   const router = useRouter();
   const [{}, dispatch] = useStateValue();
   const [activeStatus, setActiveStatus] = useState(false);
-  const [imageUrl, setImageUrl] = useState(
-    `${data?.imageSrc[0]?.url}` || product1
-  );
+  const [imageUrl, setImageUrl] = useState(`${data?.imageSrc[0]}` || product1);
 
   const PrevArrow = ({ onClick }) => {
     return (
@@ -137,13 +135,7 @@ const ProductDetails = ({ data }) => {
           <div>
             <div className="border p-4">
               <div className="relative">
-                <DefaultImage
-                  src={
-                    `https://online-shop-api001.herokuapp.com/${imageUrl}` ||
-                    product1
-                  }
-                  alt="product-image"
-                />
+                <DefaultImage src={imageUrl || product1} alt="product-image" />
               </div>
 
               <div className="my-5 relative">
@@ -155,10 +147,7 @@ const ProductDetails = ({ data }) => {
                       className="relative w-24 h-24 cursor-pointer hover:opacity-80"
                     >
                       <Image
-                        src={
-                          `https://online-shop-api001.herokuapp.com/${val?.url}` ||
-                          product1
-                        }
+                        src={`${val}` || product1}
                         alt="carousel-images"
                         layout="fill"
                         objectFit="cover"

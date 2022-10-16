@@ -2,6 +2,7 @@ import Breadcrumbs from "components/Breadcrumbs";
 import MyAccount from "components/MyAccount";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import axios from "controllers/axios";
 
 export default function Myaccount() {
   const router = useRouter();
@@ -17,3 +18,8 @@ export default function Myaccount() {
     </>
   );
 }
+
+export const getServerSideProps = async () => {
+  
+  return { props: {} };
+};

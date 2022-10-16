@@ -37,13 +37,21 @@ export async function getStaticPaths() {
 }
 export const getStaticProps = async (context) => {
   const { id } = context.params;
+  const url = process.env.URL;
   const res = await axios.get("/getproduct/" + id);
   let newData = [];
 
   if (res.data?.length !== 0) {
     newData = res.data;
     const images = await axios.get("/getproductimages/" + id);
-    newData[0].imageSrc = images.data;
+    if (images.data.length !== 0) {
+      const imagesSrc = images.data?.map(
+        (val) => (val.url = url + "/" + val.url)
+      );
+      newData[0].imageSrc = imagesSrc;
+    } else {
+      newData[0].imageSrc = [];
+    }
   }
 
   return { props: { product: newData } };

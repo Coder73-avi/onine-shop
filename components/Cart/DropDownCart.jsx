@@ -1,6 +1,7 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import css from "./css/dropdowncart.module.css";
 import Image from "next/image";
+import axios from "controllers/axios";
 
 import { MdArrowForwardIos } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
@@ -12,45 +13,40 @@ import { getCartTotal } from "controllers/Reducer/reducer";
 import Link from "next/link";
 import DefaultImage from "components/DefaultImage";
 
-const DropDownCart = ({ setShowCart }) => {
+const DropDownCart = ({ setShowCart, carts }) => {
   const dropCartRef = useRef();
-  const [{ cart }, dispatch] = useStateValue();
-console.log(cart)
+  const [{}, dispatch] = useStateValue();
   useEffect(() => {
     const toggleCart = (e) => {
       if (!dropCartRef?.current?.contains(e.target)) setShowCart(false);
     };
-
     document.addEventListener("mousedown", toggleCart);
     return () => document.removeEventListener("mousedown", toggleCart);
   }, [setShowCart]);
 
   return (
     <div className={`${css.DropDownCart}`} ref={dropCartRef}>
-      {cart.map((val, indx) => (
-        <div className="grid grid-cols-6 gap-3 justify-center my-4" key={indx}>
+      {carts?.map((val, indx) => (
+        <div
+          className={`grid grid-cols-5 gap-3 justify-center my-4 relative ${
+            carts?.length > indx + 1 && "border-b"
+          }`}
+          key={indx}
+        >
           <div className="col-span-2">
-            <div className="relative rounded-sm overflow-hidden">
-              <Image
-                src={val?.imgSrc || bed}
-                alt="checkout-image"
-                layout="responsive"
-                height={20}
-                width={20}
-                objectFit="contain"
-                loading="lazy"
-              />
+            <div className="relative rounded-sm overflow-hidden w-[100px]">
+              <DefaultImage src={val?.imageSrc || bed} alt="checkout-image" />
             </div>
           </div>
           <div className="col-span-3">
-            <h1 className="text-sm font-medium">{val?.title}</h1>
+            <h1 className="text-sm font-medium">{val?.product?.title}</h1>
             <h4 className="text-gray-500 text-xs">S, Blue</h4>
             <h4 className="text-gray-500 flex flex-row gap-0 items-center text-xs">
-              {val?.qty || 1} <IoClose /> Rs {val?.price}
+              {val?.product?.qty || 1} <IoClose /> Rs {val?.product?.price}
             </h4>
           </div>
           <div
-            className="col-span-1 flex flex-row justify-end"
+            className="absolute right-0 bottom-0 flex flex-row justify-end"
             onClick={() => {
               dispatch({ type: "REMOVE__ITEMS__FROM__CART", removeIndx: indx });
               toast.success("Removed from cart!", {
@@ -64,14 +60,15 @@ console.log(cart)
               });
             }}
           >
-            <IoClose className={css.closeBtn} />
+            {/* <IoClose className={css.closeBtn} /> */}
+            <i className="text-red-500 text-xs cursor-pointer">Remove</i>
           </div>
         </div>
       ))}
       <hr />
       <div className="flex flex-row justify-between items-center text-bold py-4">
         <h2>Total: </h2>
-        <h2>Rs {getCartTotal(cart)}</h2>
+        <h2>Rs {getCartTotal(carts)}</h2>
       </div>
 
       <Link href="/checkout">

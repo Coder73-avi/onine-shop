@@ -11,3 +11,22 @@
   padding: 0.5rem 0.8rem;
   margin-top: 1rem;
 }
+
+.edit__address:hover {
+  opacity: 0.8;
+}
+
+.addNewBtn {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background-color: rgb(2, 94, 94);
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  transition-duration: 0.2s;
+}
+
+.addNewBtn:hover {
+  opacity: 0.7;
+}

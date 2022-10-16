@@ -48,9 +48,7 @@ const Shop = ({ products }) => {
               ) => (
                 <div className="mb-8" key={indx}>
                   <ShopCard
-                    imageSrc={
-                      `${process.env.URL}/${imageSrc[0]?.url}` || product1
-                    }
+                    imageSrc={`${imageSrc[0]}` || product1}
                     id={id}
                     title={title}
                     price={price}
@@ -69,12 +67,20 @@ const Shop = ({ products }) => {
 export default Shop;
 
 export async function getStaticProps() {
+  const url = process.env.URL;
   const res = await axios.get("/getproducts");
   const data = res.data;
   const newArr = [];
   for (let i = 0; i < data.length; i++) {
     const images = await axios.get("/getproductimages/" + data[i].id);
-    data[i].imageSrc = images.data;
+    if (images.data.length !== 0) {
+      const imagesSrc = images.data?.map(
+        (val) => (val.url = url + "/" + val.url)
+      );
+      data[i].imageSrc = imagesSrc;
+    } else {
+      data[i].imageSrc = [];
+    }
     newArr.push(data[i]);
   }
   return { revalidate: 84000, props: { products: newArr } };

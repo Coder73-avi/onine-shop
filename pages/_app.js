@@ -12,15 +12,20 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { ToastContainer } from "react-toastify";
 
 import Navigation from "components/Navigation";
-import { StateProvider } from "controllers/Reducer/stateProvider";
+import {
+  StateProvider,
+  useStateValue,
+} from "controllers/Reducer/stateProvider";
 import reducer, { initialState } from "controllers/Reducer/reducer";
 import NextNProgress from "nextjs-progressbar";
 
 function MyApp({ Component, pageProps }) {
+  // require("dotenv").config();
   useEffect(() => {
     Aos.init();
     Aos.refresh();
   }, []);
+
   return (
     <>
       <StateProvider initialState={initialState} reducer={reducer}>

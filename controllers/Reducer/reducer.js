@@ -1,11 +1,13 @@
 export const initialState = {
   isAuth: false,
   cart: [{ id: 1110, price: "3000", qty: 1, title: "Vestibulum suscipit" }],
+  checkout: [],
+  user: null,
 };
 
 export const getCartTotal = (cart) => {
   return cart?.reduce(
-    (amount, item) => parseInt(item.price * item.qty) + amount,
+    (amount, item) => parseInt(item?.product?.price * item.qty) + amount,
     0
   );
 };
@@ -36,6 +38,12 @@ export default function reducer(state, action) {
 
     case "EMPTYCART":
       return { ...state, cart: [] };
+
+    case "AUTH__USER":
+      return { ...state, user: action.user };
+
+    case "CHECKOUT":
+      return { ...state, checkout: action.checkout };
     default:
       return state;
   }

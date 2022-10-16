@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import axios from "controllers/axios";
 import css from "./css/style.module.css";
 import { AiOutlineDashboard, AiOutlineCloudDownload } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
@@ -12,8 +13,10 @@ import PaymentMethod from "./PaymentMethod";
 import Address from "./Address";
 import AccountDetails from "./AccountDetails";
 import Dashboard from "./Dashboard";
+// import { useStateValue } from "controllers/Reducer/stateProvider";
 
 const MyAccount = ({ router }) => {
+  // const [{ user }, dispatch] = useStateValue();
   const myaccount = [
     { name: "Dashboard", path: "/myaccount", icon: <AiOutlineDashboard /> },
     {
@@ -37,7 +40,6 @@ const MyAccount = ({ router }) => {
       path: "/myaccount?name=account-details",
       icon: <FaUserAlt />,
     },
-    { name: "Log out", path: "/myaccount?name=log-out", icon: <BiLogOut /> },
   ];
   const [path, setPath] = useState("");
 
@@ -48,6 +50,16 @@ const MyAccount = ({ router }) => {
       setPath("");
     }
   }, [router.query]);
+
+  const logOut = async () => {
+    try {
+      await axios.get("/logout");
+      alert("Logout successfully");
+      router.push("/login");
+    } catch (error) {
+      // console.error(error);
+    }
+  };
 
   return (
     <>
@@ -76,6 +88,15 @@ const MyAccount = ({ router }) => {
                 </Link>
               );
             })}
+            <Link href={"#"}>
+              <a className={`text-gray-800 ${css.nav__name}`} onClick={logOut}>
+                <span className={css.icon}>
+                  <BiLogOut />
+                </span>
+
+                <span>Log Out</span>
+              </a>
+            </Link>
           </nav>
         </div>
 
