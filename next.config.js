@@ -5,10 +5,10 @@ const nextConfig = {
   images: {
     domains: ["localhost", "online-shop-api001.herokuapp.com"],
   },
-  env: {
-    URL: "http://localhost:4001",
-    
-  },
+  // env: {
+  //   URL: "http://localhost:4001",
+
+  // },
 };
 
 module.exports = nextConfig;
