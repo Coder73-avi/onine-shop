@@ -7,7 +7,7 @@ const nextConfig = {
   },
   env: {
     // URL: "http://localhost:4001",
-    URL: "https://api.raeelaproduction.com",
+    URL: "http://api.raeelaproduction.com",
   },
 };
 
