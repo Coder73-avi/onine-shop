@@ -21,7 +21,7 @@ const Navigation = () => {
   const router = useRouter();
   const [carts, setCarts] = useState([]);
   const [showCart, setShowCart] = useState(false);
-  const [{ cart, user, checkout }, dispatch] = useStateValue();
+  const [{ user, checkout }, dispatch] = useStateValue();
 
   const subMenu = [
     { name: "My Account", icon: <FaUser />, path: "/myaccount" },
@@ -79,7 +79,6 @@ const Navigation = () => {
         const res = await axios.get("/getcheckouts/" + user?.id);
         const checkouts = res.data?.map((val) => {
           axios.get("/getproduct/" + val.product__id).then((res) => {
-            console.log(res.data[0]);
             val.product = res.data[0];
             axios.get("/getproductimages/" + res.data[0]?.id).then((image) => {
               val.imageSrc = process.env.URL + "/" + image.data[0].url;
@@ -89,8 +88,6 @@ const Navigation = () => {
 
           return val;
         });
-
-        console.log(checkouts);
         setCarts(checkouts);
 
         dispatch({
@@ -109,8 +106,6 @@ const Navigation = () => {
   useEffect(() => {
     getCheckoutData();
   }, [getCheckoutData]);
-
-  console.log(checkout);
 
   return (
     <>

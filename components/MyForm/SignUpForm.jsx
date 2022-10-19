@@ -69,7 +69,7 @@ const SignUpForm = () => {
         router.push("/myaccount");
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 

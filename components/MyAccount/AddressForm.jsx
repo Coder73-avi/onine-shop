@@ -1,11 +1,15 @@
 import Inputbox from "components/FormElement/Inputbox";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "controllers/axios";
 
 import { BsHandbagFill } from "react-icons/bs";
 import { AiTwotoneHome } from "react-icons/ai";
+import { useStateValue } from "controllers/Reducer/stateProvider";
+import { useRouter } from "next/router";
 
-const AddressForm = () => {
+const AddressForm = ({ setLoading }) => {
+  const [{ user }, dispatch] = useStateValue();
+  const router = useRouter();
   const [inputData, setInputData] = useState({
     fullname: "",
     region: "",
@@ -49,9 +53,52 @@ const AddressForm = () => {
     }
   };
 
+  // update
+
+  const getAddressData = useCallback(async () => {
+    try {
+      setLoading(true);
+      if (user == null) return;
+      const { id } = router.query;
+      const res = await axios.get("/billingaddress/" + id);
+      if (res.status == 200) {
+        setInputData(res.data[0]);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, [router.query, setLoading, user]);
+
+  useEffect(() => {
+    getAddressData();
+  }, [getAddressData, setLoading]);
+
+  const updateBillingAddress = async (e) => {
+    try {
+      e.preventDefault();
+
+      const req = await axios.patch(
+        "/updatebillingaddress/" + router.query?.id,
+        inputData
+      );
+      if (req.status == 200) {
+        alert("Update Successfully");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
-      <form onSubmit={submitBillingAddress}>
+      <form
+        onSubmit={
+          router?.query?.form == "update"
+            ? updateBillingAddress
+            : submitBillingAddress
+        }
+      >
         <div className="grid md:grid-cols-2 gap-8">
           <Inputbox
             title="Full name"
@@ -147,6 +194,7 @@ const AddressForm = () => {
           <div className="flex flex-row items-center gap-5">
             <button
               type="button"
+              onClick={() => router.push("/myaccount?name=address")}
               className={`flex flex-row justify-center items-center gap-4 py-3 px-6 text-sm font-medium min-w-[180px] rounded-sm border bg-gray-100 text-gray-600 hover:bg-gray-3 00`}
             >
               CANCEL
@@ -155,7 +203,7 @@ const AddressForm = () => {
               type="submit"
               className={`flex flex-row justify-center items-center gap-4 py-3 px-6 text-sm font-medium min-w-[180px] rounded-sm bg-teal-600 text-white hover:opacity-90`}
             >
-              SAVE
+              {router?.query?.form == "update" ? "UPDATE" : "SAVE"}
             </button>
           </div>
         </div>

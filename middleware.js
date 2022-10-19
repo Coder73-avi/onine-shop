@@ -13,8 +13,13 @@ export async function middleware(req) {
       return NextResponse.redirect(new URL("/login", req.nextUrl));
     }
   }
+  if (req.nextUrl.pathname.startsWith("/checkout")) {
+    if (token == undefined || token == null || token == "") {
+      return NextResponse.redirect(new URL("/login", req.nextUrl));
+    }
+  }
 }
 
 export const config = {
-  matcher: ["/myaccount/:path*", "/login/:path*"],
+  matcher: ["/myaccount/:path*", "/login/:path*", "/checkout/:path*"],
 };

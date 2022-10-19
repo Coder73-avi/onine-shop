@@ -12,6 +12,12 @@
   margin-top: 1rem;
 }
 
+.edit__address:disabled {
+  opacity: 0.5;
+}
+.edit__address:disabled:hover {
+  opacity: 0.5;
+}
 .edit__address:hover {
   opacity: 0.8;
 }
