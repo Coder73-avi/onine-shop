@@ -17,9 +17,10 @@ const CheckOut = () => {
   const checkOutList = useCallback(async () => {
     try {
       if (user !== null) {
+        console.log(carts.length);
+
         const getAddress = await axios.get("/getactivebillingaddress");
 
-        if (carts.length == 0) return router.push("/shop");
         if (getAddress.status !== 200)
           return alert("something wrong with server");
 
@@ -35,10 +36,10 @@ const CheckOut = () => {
   }, [user, cartChange]);
 
   useEffect(() => {
+    if (carts.length == 0) router.push("/shop");
     if (user !== null) checkOutList();
   }, [checkOutList, user]);
 
-  console.log(cartChange);
   return (
     <section className="w-[90%] mx-auto my-4">
       <h1 className="font-bold uppercase text-xl py-2">PROCCED TO CHECKOUT</h1>

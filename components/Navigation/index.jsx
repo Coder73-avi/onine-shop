@@ -59,6 +59,7 @@ const Navigation = () => {
       alert("Log out successfully");
       dispatch({ type: "UPDATE__CART" });
       dispatch({ type: "AUTH__USER", user: null });
+      dispatch({ type: "ADD__TO__CART", carts: [] });
       router.push("/login");
     } catch (error) {
       // console.error(error);
@@ -80,6 +81,7 @@ const Navigation = () => {
     } catch (error) {
       // console.error(error);
       dispatch({ type: "AUTH__USER", user: null });
+      return dispatch({ type: "ADD__TO__CART", carts: [] });
     }
   }, [dispatch]);
 

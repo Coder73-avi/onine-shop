@@ -14,7 +14,6 @@ import Address from "./Address";
 import AccountDetails from "./AccountDetails";
 import Dashboard from "./Dashboard";
 import { useStateValue } from "controllers/Reducer/stateProvider";
-import DefaultImage from "components/DefaultImage";
 
 const MyAccount = ({ router }) => {
   const [{}, dispatch] = useStateValue();
@@ -58,6 +57,7 @@ const MyAccount = ({ router }) => {
       alert("Log out successfully");
       dispatch({ type: "UPDATE__CART" });
       dispatch({ type: "AUTH__USER", user: null });
+      dispatch({ type: "ADD__TO__CART", carts: [] });
 
       router.push("/login");
     } catch (error) {
@@ -67,12 +67,6 @@ const MyAccount = ({ router }) => {
 
   return (
     <>
-      <div className="h-44 relative">
-        <DefaultImage
-          src="https://api.raeelaproduction.com/products/product-images1662968117480.png"
-          alt="image"
-        />
-      </div>
       <div className="my-5 grid grid-cols-4 gap-10">
         <div className="col-span-1 border ">
           <nav className={css.myaccount__nav}>

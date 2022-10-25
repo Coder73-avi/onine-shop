@@ -13,6 +13,7 @@ const Dashboard = () => {
       alert("Log out successfully");
       dispatch({ type: "UPDATE__CART" });
       dispatch({ type: "AUTH__USER", user: null });
+      dispatch({ type: "ADD__TO__CART", carts: [] });
 
       router.push("/login");
     } catch (error) {
