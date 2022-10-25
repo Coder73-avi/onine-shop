@@ -6,7 +6,7 @@
   font-family: Arial !important;
   font-weight: 300;
 }
-.sub__nav > div:hover {
+.sub__nav > a:hover {
   color: var(--color-secondary);
 }
 

@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { getCartTotal } from "controllers/Reducer/reducer";
 import Link from "next/link";
 import DefaultImage from "components/DefaultImage";
+import { removeItemFromCart } from "controllers/cartControl";
 
 const DropDownCart = ({ setShowCart, carts }) => {
   const dropCartRef = useRef();
@@ -40,24 +41,23 @@ const DropDownCart = ({ setShowCart, carts }) => {
           </div>
           <div className="col-span-3">
             <h1 className="text-sm font-medium">{val?.product?.title}</h1>
-            <h4 className="text-gray-500 text-xs">S, Blue</h4>
             <h4 className="text-gray-500 flex flex-row gap-0 items-center text-xs">
-              {val?.product?.qty || 1} <IoClose /> Rs {val?.product?.price}
+              {val?.qty || 1} <IoClose /> Rs {val?.product?.price} ={" "}
+              <span className="underline italic ml-3 text-gray-600">
+                {" Rs. "}
+                {parseInt(val?.qty) * parseInt(val?.product?.price)}
+              </span>
             </h4>
+            {/* <h4 className="text-gray-500 text-xs">
+              Sub total = {parseInt(val?.qty) * parseInt(val?.product?.price)}
+            </h4> */}
           </div>
           <div
             className="absolute right-0 bottom-0 flex flex-row justify-end"
-            onClick={() => {
-              dispatch({ type: "REMOVE__ITEMS__FROM__CART", removeIndx: indx });
-              toast.success("Removed from cart!", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
+            onClick={async () => {
+              await removeItemFromCart(val?.id);
+              dispatch({ type: "UPDATE__CART" });
+              setShowCart(false);
             }}
           >
             {/* <IoClose className={css.closeBtn} /> */}

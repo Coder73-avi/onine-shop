@@ -1,8 +1,6 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import css from "./style.module.css";
-
-import product1 from "images/products/1.webp";
+import css from "./css/style.module.css";
 
 import { BsFillCartCheckFill } from "react-icons/bs";
 import {
@@ -18,18 +16,20 @@ import DefaultImage from "components/DefaultImage";
 import Slider from "react-slick";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
+import product1 from "images/products/1.webp";
 import image4 from "images/newproduct/4.webp";
 import image5 from "images/newproduct/5.webp";
 import image6 from "images/newproduct/6.webp";
 import { Card } from "components/HomePage/NewProductList";
 import MoreDetails from "./MoreDetails";
+import { addToCart } from "controllers/cartControl";
 
 const ProductDetails = ({ data }) => {
+  const router = useRouter();
   const livingroom = [image4, image5, image6, image4];
 
   const [numOrder, setNumOrder] = useState(1);
-  const router = useRouter();
-  const [{}, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   const [activeStatus, setActiveStatus] = useState(false);
   const [imageUrl, setImageUrl] = useState(`${data?.imageSrc[0]}` || product1);
 
@@ -85,14 +85,19 @@ const ProductDetails = ({ data }) => {
     },
   ];
 
-  const AddToCart = () => {
-    const { id, title, price, imgSrc, newProduct, saleStatus } = data;
-
-    dispatch({
-      type: "ADDTOCART",
-      cart: { id, title, price, imgSrc, qty: numOrder, saleStatus, newProduct },
-    });
-    // router.push(`/shoppingcart`);
+  const AddToCart = async () => {
+    try {
+      if (user == null) {
+        return router.push("/login");
+      }
+      await addToCart({ product__id: data?.id, qty: numOrder });
+      return dispatch({
+        type: "UPDATE__CART",
+      });
+    } catch (error) {
+      router.push("/login");
+      console.error(error);
+    }
   };
 
   const AddToWishList = () => {
@@ -241,7 +246,13 @@ const ProductDetails = ({ data }) => {
                 <button className={css.addToCard} onClick={AddToCart}>
                   <BsFillCartCheckFill /> Add To Card
                 </button>
-                <button className={css.addToCard} onClick={AddToCart}>
+                <button
+                  className={css.addToCard}
+                  onClick={() => {
+                    AddToCart();
+                    return router.push("/checkout");
+                  }}
+                >
                   Buy Now
                 </button>
               </div>

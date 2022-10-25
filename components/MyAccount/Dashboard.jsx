@@ -6,14 +6,17 @@ import { useRouter } from "next/router";
 const Dashboard = () => {
   const [{ user }, dispatch] = useStateValue();
   const router = useRouter();
-  
+
   const logOut = async () => {
     try {
       await axios.get("/logout");
-      alert("Logout successfully");
+      alert("Log out successfully");
+      dispatch({ type: "UPDATE__CART" });
+      dispatch({ type: "AUTH__USER", user: null });
+
       router.push("/login");
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
   return (

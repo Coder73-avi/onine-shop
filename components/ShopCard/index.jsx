@@ -9,25 +9,28 @@ import { useRouter } from "next/router";
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import { toast } from "react-toastify";
 import DefaultImage from "components/DefaultImage";
+import { addToCart } from "controllers/cartControl";
 
 const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
   const router = useRouter();
-  const [{}, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   const [activeStatus, setActiveStatus] = useState(false);
-  const AddToCart = () => {
-    dispatch({
-      type: "ADDTOCART",
-      cart: { id, imgSrc: imageSrc, title, price, qty: 1 },
-    });
-    toast.info("Add To Cart", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+  const [quickView, setQuickView] = useState(false);
+
+  const AddToCart = async () => {
+    try {
+      if (user == null) {
+        return router.push("/login");
+      }
+
+      await addToCart({ product__id: id, qty: 1 });
+      return dispatch({
+        type: "UPDATE__CART",
+      });
+    } catch (error) {
+      router.push("/login");
+      console.error(error);
+    }
   };
 
   const AddToWishList = () => {

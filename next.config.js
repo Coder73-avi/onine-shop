@@ -6,8 +6,8 @@ const nextConfig = {
     domains: ["localhost", "online-shop-api001.herokuapp.com"],
   },
   env: {
-    // URL: "http://localhost:4001",
-    URL: "http://api.raeelaproduction.com",
+    URL: "http://localhost:4001",
+    // URL: "http://api.raeelaproduction.com",
   },
 };
 

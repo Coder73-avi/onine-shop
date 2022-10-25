@@ -13,10 +13,10 @@ import PaymentMethod from "./PaymentMethod";
 import Address from "./Address";
 import AccountDetails from "./AccountDetails";
 import Dashboard from "./Dashboard";
-// import { useStateValue } from "controllers/Reducer/stateProvider";
+import { useStateValue } from "controllers/Reducer/stateProvider";
 
 const MyAccount = ({ router }) => {
-  // const [{ user }, dispatch] = useStateValue();
+  const [{}, dispatch] = useStateValue();
   const myaccount = [
     { name: "Dashboard", path: "/myaccount", icon: <AiOutlineDashboard /> },
     {
@@ -54,7 +54,10 @@ const MyAccount = ({ router }) => {
   const logOut = async () => {
     try {
       await axios.get("/logout");
-      alert("Logout successfully");
+      alert("Log out successfully");
+      dispatch({ type: "UPDATE__CART" });
+      dispatch({ type: "AUTH__USER", user: null });
+
       router.push("/login");
     } catch (error) {
       // console.error(error);

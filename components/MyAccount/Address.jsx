@@ -79,7 +79,7 @@ const Address = () => {
 
 export default Address;
 
-const AddressCard = ({
+export const AddressCard = ({
   id,
   setRanNum,
   fullname,
@@ -92,9 +92,8 @@ const AddressCard = ({
   phonenumber,
   active,
 }) => {
-  const activeAddress = async (e) => {
+  const activeAddress = async () => {
     try {
-      e.preventDefault();
       const update = await axios.patch("/activebillingaddress/" + id);
       if (update.status == 200) {
         setRanNum(Math.random());
@@ -113,7 +112,7 @@ const AddressCard = ({
         {`${region} ${city} ${street}, ${area}` ||
           `Suite 900 San Francisco, CA 94103`}
       </div>
-      <div className="text-gray-500">
+      <div className="text-gray-500 ">
         Mobile: {phonenumber || `(123) 456-7890`}
       </div>
       <div className="flex flex-row justify-end items-center my-3">

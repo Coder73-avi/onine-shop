@@ -16,22 +16,25 @@ import Image from "next/image";
 import DropDownCart from "components/Cart/DropDownCart";
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import { useRouter } from "next/router";
+import { BsCartCheck } from "react-icons/bs";
 
 const Navigation = () => {
   const router = useRouter();
-  const [carts, setCarts] = useState([]);
   const [showCart, setShowCart] = useState(false);
-  const [{ user, checkout }, dispatch] = useStateValue();
+  const [{ user, cartChange, carts }, dispatch] = useStateValue();
 
   const subMenu = [
     { name: "My Account", icon: <FaUser />, path: "/myaccount" },
+    {
+      name: "My Orders",
+      path: "/myaccount?name=my-orders",
+      icon: <BsCartCheck />,
+    },
     {
       name: "My wishlist",
       icon: <AiFillHeart />,
       path: "/wishlist",
     },
-    { name: "Sign In", icon: <AiOutlineUnlock />, path: "/login" },
-    { name: "Log Out", icon: <AiOutlineUnlock />, path: "/login" },
     { name: "Check out", icon: <FaRegShareSquare />, path: "/checkout" },
   ];
   const mainMenu = [
@@ -49,6 +52,18 @@ const Navigation = () => {
     { name: "About Us", icon: "", path: "/" },
     { name: "Contact Us", icon: "", path: "/" },
   ];
+
+  const logOut = async () => {
+    try {
+      await axios.get("/logout");
+      alert("Log out successfully");
+      dispatch({ type: "UPDATE__CART" });
+      dispatch({ type: "AUTH__USER", user: null });
+      router.push("/login");
+    } catch (error) {
+      // console.error(error);
+    }
+  };
 
   // checking user is LogIn or Not
 
@@ -75,7 +90,6 @@ const Navigation = () => {
   const getCheckoutData = useCallback(async () => {
     try {
       if (user !== null) {
-        // let checkouts = [{ id: 1, name: "product-1" }];
         const res = await axios.get("/getcheckouts/" + user?.id);
         const checkouts = res.data?.map((val) => {
           axios.get("/getproduct/" + val.product__id).then((res) => {
@@ -88,20 +102,12 @@ const Navigation = () => {
 
           return val;
         });
-        setCarts(checkouts);
-
-        dispatch({
-          type: "CHECKOUT",
-          checkout: [...checkout, ...checkouts],
-        });
+        return dispatch({ type: "ADD__TO__CART", carts: checkouts });
       }
     } catch (error) {
-      dispatch({
-        type: "CHECKOUT",
-        checkout: [],
-      });
+      return dispatch({ type: "ADD__TO__CART", carts: [] });
     }
-  }, [dispatch, user]);
+  }, [user, cartChange]);
 
   useEffect(() => {
     getCheckoutData();
@@ -116,19 +122,33 @@ const Navigation = () => {
         <nav className={css.sub__nav}>
           {subMenu.map(({ name, icon, path }, indx) => {
             return (
-              <div
-                key={indx}
-                className={`flex flex-row gap-2 justify-center items-center px-5 ${
-                  subMenu.length - 1 !== indx ? "border-r" : " "
-                } `}
-              >
-                <div className={css.sub__icon}>{icon}</div>
-                <Link href={path}>
-                  <a className={``}>{name}</a>
-                </Link>
-              </div>
+              <Link href={path} key={indx}>
+                <a className={``}>
+                  <div
+                    className={`flex flex-row gap-2 justify-center items-center px-5 ${
+                      subMenu.length - 1 !== indx ? "border-r" : " "
+                    } `}
+                  >
+                    <div className={css.sub__icon}>{icon}</div>
+                    {name}
+                  </div>
+                </a>
+              </Link>
             );
           })}
+          <Link href={user !== null ? "#" : "/login"}>
+            <a className={``}>
+              <div
+                className={`flex flex-row gap-2 justify-center items-center px-5 `}
+                onClick={user !== null ? logOut : () => {}}
+              >
+                <div className={css.sub__icon}>
+                  <AiOutlineUnlock />
+                </div>
+                {user !== null ? `Log Out` : "Sign In"}
+              </div>
+            </a>
+          </Link>
         </nav>
       </section>
 

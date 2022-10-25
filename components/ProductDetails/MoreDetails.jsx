@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import css from "./moredetails.module.css";
+import css from "./css/moredetails.module.css";
 
 const MoreDetails = () => {
   const [navState, setNavState] = useState("more-info");
