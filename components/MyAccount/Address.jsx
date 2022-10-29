@@ -27,6 +27,7 @@ const Address = () => {
       }
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   }, [user, router.query, ranNum]);
   useEffect(() => {
@@ -47,6 +48,14 @@ const Address = () => {
       </div>
       <hr className="my-2" />
       {loading && <div>Loading...</div>}
+      {!loading && addressData?.length == 0 && (
+        <div className="text-sm text-gray-600">
+          Billing addres is not found. You must add new Address.{" "}
+          <Link href={"/myaccount?name=address&&form=new"}>
+            <a className="text-blue-700 hover:underline">Add new</a>
+          </Link>
+        </div>
+      )}
       <section>
         {router.query?.form == undefined ? (
           <div className="grid md:grid-cols-2 gap-6 items-center my-6 mx-4">

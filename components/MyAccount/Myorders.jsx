@@ -30,6 +30,7 @@ const Myorders = () => {
       }
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   }, [user?.id]);
 
@@ -41,9 +42,11 @@ const Myorders = () => {
     <>
       <h1 className="text-lg font-extrabold my-2 text-gray-800">My Orders</h1>
       <hr className="mb-4" />
-
+      {loading && <div>Loading...</div>}
+      {!loading && orders?.length == 0 && (
+        <div className="text-sm text-gray-600">Orders is not found !!!</div>
+      )}
       <section className=" p-4 flex flex-col justify-center gap-6">
-        {loading && <div>Loading...</div>}
         {orders?.map((val, indx) => {
           const date = new Date(val.date);
           return (
