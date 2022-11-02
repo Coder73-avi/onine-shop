@@ -1,0 +1,25 @@
+.pagination__div {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 1rem;
+}
+
+.pagination__btn {
+  border: 1px solid #ccc;
+  padding: 0.4rem 0.9rem;
+  font-size: 14px;
+  border-radius: 0.3rem;
+}
+
+.pagination__btn:hover,
+.active {
+  background-color: teal;
+  color: white;
+}
+.pagination__btn:disabled {
+  background-color: transparent;
+  color: black;
+  opacity: 0.4;
+}

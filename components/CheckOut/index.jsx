@@ -7,6 +7,7 @@ import OrderSummary from "./OrderSummary";
 import OrderDetails from "./OrderDetails";
 import axios from "controllers/axios";
 import { useRouter } from "next/router";
+import Loading from "components/Loading";
 
 const CheckOut = () => {
   const router = useRouter();
@@ -52,7 +53,7 @@ const CheckOut = () => {
         </Link>
       </div>
       {loading ? (
-        <div>Loading...</div>
+        <Loading />
       ) : (
         <div className="grid md:grid-cols-5 gap-16">
           <div className="col-span-3">

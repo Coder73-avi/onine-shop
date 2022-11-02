@@ -1,3 +1,4 @@
+import Loading from "components/Loading";
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import React, { useEffect, useState } from "react";
 
@@ -15,11 +16,7 @@ const AccountDetails = () => {
         My Account Details
       </h1>
       <hr className="mb-4" />
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <AccountDetailsForm setLoading={setLoading} />
-      )}
+      {loading ? <Loading /> : <AccountDetailsForm setLoading={setLoading} />}
     </>
   );
 };

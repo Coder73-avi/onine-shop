@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import css from "./style.module.css";
 
@@ -10,6 +10,8 @@ import { useStateValue } from "controllers/Reducer/stateProvider";
 import { toast } from "react-toastify";
 import DefaultImage from "components/DefaultImage";
 import { addToCart } from "controllers/cartControl";
+import { addToWishList } from "controllers/wishListControl";
+import axios from "controllers/axios";
 
 const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
   const router = useRouter();
@@ -33,43 +35,41 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
     }
   };
 
-  const AddToWishList = () => {
-    const oldData = JSON.parse(window.localStorage?.getItem("wiselist"));
-    const check = oldData?.some((val) => val.id == id);
-    console.log(check);
+  const AddToWishList = async () => {
+    try {
+      if (user == null) {
+        return router.push("/login");
+      }
 
-    if (check) {
-      const filterData = oldData.filter((val) => val.id !== id);
-      setActiveStatus(false);
-      return window.localStorage.setItem(
-        "wiselist",
-        JSON.stringify(filterData)
-      );
+      await addToWishList({ product__id: id });
+      return dispatch({
+        type: "UPDATE__CART",
+      });
+    } catch (error) {
+      router.push("/login");
+      console.error(error);
     }
-    setActiveStatus(true);
-    const newData = [
-      ...(oldData || []),
-      {
-        id,
-        imageSrc,
-        title,
-        price,
-      },
-    ];
-    return window.localStorage.setItem("wiselist", JSON.stringify(newData));
   };
 
-  useEffect(() => {
-    const wiseList = JSON.parse(window.localStorage.getItem("wiselist"));
-    const found = wiseList?.some((val) => val.id == id);
-    if (found) setActiveStatus(true);
+  const checkWishListIsActive = useCallback(async () => {
+    try {
+      const req = await axios.get("/getwishlists");
+      if (req.status == 200) {
+        const wishlistData = req.data;
+        const found = wishlistData?.some((val) => val.product__id == id);
+        if (found) setActiveStatus(found);
+      }
+    } catch (error) {
+      // console.error(error);
+    }
   }, [id]);
 
+  useEffect(() => {
+    checkWishListIsActive();
+  }, [checkWishListIsActive]);
+
   return (
-    <div
-      className={css.shopCard}
-      // onClick={() => router.push(`/productdetails/${id}`)}
-    >
+    <div className={css.shopCard}>
       <div className="relative ">
         {newProduct && <div className={css.newBtn}>New</div>}
         {saleStatus && (
@@ -83,7 +83,7 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
         <Link href={`/productdetails/${id}`}>
           <div className={css.cardDetails}>
             <h2 className="text-lg hover:underline cursor-pointer font-bold">
-              {title}
+              {title.slice(0, 20)} {title.length > 20 && " . . ."}
             </h2>
             <h3 className="text-lg font-bold ">Rs. {price}</h3>
           </div>

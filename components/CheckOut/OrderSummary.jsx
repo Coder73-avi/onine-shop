@@ -54,7 +54,9 @@ const OrderSummary = ({ carts, dispatch }) => {
         </div>
         <div className="flex flex-row items-center justify-between  text-gray-700 ">
           <div className="capitalized text-sm font-bold">Total Payment</div>
-          <div className="text-sm italic underline text-teal-600">Rs. 4080</div>
+          <div className="text-sm italic underline text-teal-600">
+            Rs. {parseInt(getCartTotal(carts) + 160 - 80)}
+          </div>
         </div>
         <div className="flex flex-row itmes-center justify-end text-xs text-gray-600">
           All Tax Included

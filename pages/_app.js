@@ -12,14 +12,15 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { ToastContainer } from "react-toastify";
 
 import Navigation from "components/Navigation";
-import {
-  StateProvider,
-  useStateValue,
-} from "controllers/Reducer/stateProvider";
+import { StateProvider } from "controllers/Reducer/stateProvider";
 import reducer, { initialState } from "controllers/Reducer/reducer";
 import NextNProgress from "nextjs-progressbar";
+import Footer from "components/Footer";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+  console.log(router.pathname);
   // require("dotenv").config();
   useEffect(() => {
     Aos.init();
@@ -42,6 +43,8 @@ function MyApp({ Component, pageProps }) {
         <NextNProgress options={{ showSpinner: false }} color="#087960" />
         <Navigation />
         <Component {...pageProps} />
+
+        {router.pathname !== "/myaccount" ? <Footer /> : null}
       </StateProvider>
     </>
   );

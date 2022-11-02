@@ -1,33 +1,3 @@
-.title {
-  font-size: 1.5rem;
-  color: var(--color-secondary);
-  /* background-color: rgba(124, 124, 124, 0.219); */
-  font-family: Ubuntu;
-  margin-bottom: 0.9rem;
-}
-
-.design__by__hobbies {
-  /* height: 500px; */
-  background-image: url("../../../images/hobbies.avif");
-  background-position: center;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-  padding: 5rem;
-}
-
-.hobbies__div {
-  width: 45%;
-  background-color: white;
-  color: black;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: rgba(50, 79, 93, 0.452) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.514) 0px 30px 60px -30px;
-}
-
 .hobbies__name {
   position: absolute;
   left: 0rem;

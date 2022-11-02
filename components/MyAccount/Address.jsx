@@ -9,6 +9,7 @@ import { useStateValue } from "controllers/Reducer/stateProvider";
 
 import { BsHandbagFill } from "react-icons/bs";
 import { AiTwotoneHome } from "react-icons/ai";
+import Loading from "components/Loading";
 
 const Address = () => {
   const router = useRouter();
@@ -47,7 +48,7 @@ const Address = () => {
         </Link>
       </div>
       <hr className="my-2" />
-      {loading && <div>Loading...</div>}
+      {loading && <Loading />}
       {!loading && addressData?.length == 0 && (
         <div className="text-sm text-gray-600">
           Billing addres is not found. You must add new Address.{" "}

@@ -8,8 +8,9 @@ import axios from "controllers/axios";
 // import axios from "axios";
 
 import product1 from "images/home/another.jpg";
+import Pagination from "components/Pagination";
 
-const Shop = ({ products }) => {
+const Shop = ({ products, noOfPage, categorys }) => {
   const router = useRouter();
   const [categoryData, setCategoryData] = React.useState("");
 
@@ -17,7 +18,9 @@ const Shop = ({ products }) => {
     if (router.query.hasOwnProperty("category")) {
       setCategoryData(router.query.category);
     }
-  }, [router.query]);
+
+    if (noOfPage == 0) router.push("/shop");
+  }, [noOfPage, router, router.query]);
 
   return (
     <>
@@ -28,10 +31,10 @@ const Shop = ({ products }) => {
         <Breadcrumbs location={[{ name: "Shop", path: "/shop" }]} />
 
         {/* <DefaultImage src={productsList[0].imgSrc} alt="images" /> */}
-        <CategoryList />
+        <CategoryList categorys={categorys} />
         <div className="w-[90%] mx-auto mt-4 mb-10 md:columns-3 lg:columns-3 gap-4 ">
           {products
-            .filter((val) => {
+            ?.filter((val) => {
               if (categoryData == "" || categoryData == "all") {
                 return val;
               } else if (
@@ -41,7 +44,7 @@ const Shop = ({ products }) => {
                 return val;
               }
             })
-            .map(
+            ?.map(
               (
                 { id, title, price, imageSrc, newProduct, saleStatus },
                 indx
@@ -59,6 +62,8 @@ const Shop = ({ products }) => {
               )
             )}
         </div>
+
+        <Pagination noOfPage={noOfPage} />
       </main>
     </>
   );
@@ -66,22 +71,53 @@ const Shop = ({ products }) => {
 
 export default Shop;
 
-export async function getStaticProps() {
-  const url = process.env.URL;
-  const res = await axios.get("/getproducts");
-  const data = res.data;
-  const newArr = [];
-  for (let i = 0; i < data.length; i++) {
-    const images = await axios.get("/getproductimages/" + data[i].id);
-    if (images.data.length !== 0) {
-      const imagesSrc = images.data?.map(
-        (val) => (val.url = url + "/" + val.url)
-      );
-      data[i].imageSrc = imagesSrc;
+export async function getServerSideProps(context) {
+  try {
+    const url = process.env.URL;
+    let res;
+
+    if (context.query.hasOwnProperty("page")) {
+      res = await axios.get("/getproducts/" + context.query.page);
     } else {
-      data[i].imageSrc = [];
+      res = await axios.get("/getproducts");
     }
-    newArr.push(data[i]);
+
+    const { getData, paginationNum } = res.data;
+    const newArr = [];
+
+    for (let i = 0; i < getData.length; i++) {
+      const images = await axios.get("/getproductimages/" + getData[i].id);
+      if (images.data.length !== 0) {
+        const imagesSrc = images.data?.map(
+          (val) => (val.url = url + "/" + val.url)
+        );
+        getData[i].imageSrc = imagesSrc;
+      } else {
+        getData[i].imageSrc = [];
+      }
+      newArr.push(getData[i]);
+    }
+
+    const categoryReq = await axios.get("/categorys");
+    const categorys = categoryReq?.data?.map((val) => {
+      val.name = val.name;
+      // val.alt = val.imagesrc.replace("categorysbg/", " ");
+      val.imagesrc = url + "/" + val.imagesrc;
+      if (val.imagesrc == url + "/") val.imagesrc = "";
+      val.searchtag = val.searchtag;
+      return val;
+    });
+    // console.log(categorys);
+    return {
+      props: {
+        products: newArr,
+        noOfPage: paginationNum,
+        categorys,
+      },
+    };
+  } catch (err) {
+    return {
+      props: { product: [], noOfPage: 0, categorys: [] },
+    };
   }
-  return { revalidate: 84000, props: { products: newArr } };
 }

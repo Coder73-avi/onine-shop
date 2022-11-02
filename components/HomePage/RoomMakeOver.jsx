@@ -3,6 +3,7 @@ import css from "./css/roommakeover.module.css";
 import YouTube from "react-youtube";
 import Image from "next/image";
 
+import coverImage from "images/room-make-over.webp";
 import roommakeover from "images/home/roommakeover.avif";
 import DefaultImage from "components/DefaultImage";
 
@@ -18,24 +19,18 @@ const RoomMakeOver = () => {
   return (
     <>
       <section className="">
-        <div
-          className={`grid md:grid-cols-2 justify-center items-center ${css.roommakeover}`}
-        >
-          <div className={css.roommakeover__info} data-aos="zoom-in">
-            <h1 className={css.title}>Room Make Over</h1>
-            <article className="text-sm text-justify">
-              Interior design is the art and science of enhancing the interior
-              of a building to achieve a healthier and more aesthetically
-              pleasing environment for the people using the space. An interior
-              designer is someone who plans, researches, coordinates, and
-              manages such enhancement projects.
-            </article>
-            <button>Get Start</button>
+        <div className="relative w-full h-52 shadow overflow-hidden rounded-md">
+          <Image
+            src={coverImage}
+            alt="default-image"
+            layout="fill"
+            objectFit="cover"
+            objectPosition={"center"}
+          />
+          <div className="absolute z-50 text-white font-bold text-3xl flex flex-row justify-start items-center w-full h-full px-6">
+            Room Make Over
           </div>
         </div>
-
-        <div className="hidden md:block"></div>
-
         <div className="grid md:grid-cols-3 gap-8 my-14 justify-center items-center mx-auto">
           <div className="p-4 overflow-hidden rounded-2xl ">
             <YouTube videoId="2g811Eo7K8U" opts={opts} />

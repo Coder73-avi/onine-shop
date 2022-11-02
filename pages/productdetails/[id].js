@@ -27,7 +27,7 @@ export default Productdetails;
 
 export async function getStaticPaths() {
   const res = await axios.get("/getproducts");
-  const paths = res.data?.map((curElement) => {
+  const paths = res.data?.getData?.map((curElement) => {
     return { params: { id: curElement.id.toString() } };
   });
   return {

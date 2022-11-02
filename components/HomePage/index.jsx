@@ -10,8 +10,10 @@ import category from "images/home/category.jpg";
 import vase from "images/home/vase.jpg";
 import another from "images/home/another.jpg";
 import shop from "images/home/shop.jpg";
+import { useRouter } from "next/router";
 
 const HomePage = () => {
+  const router = useRouter();
   return (
     <>
       <section className="container mx-auto grid md:grid-cols-2 gap-6 my-4">
@@ -19,6 +21,7 @@ const HomePage = () => {
           <div className="col-span-1 flex flex-col gap-4">
             <div
               className={`h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
+              onClick={() => router.push("/category")}
             >
               <div className={css.home__text}>CATEGORY</div>
               <Image
@@ -30,6 +33,7 @@ const HomePage = () => {
             </div>
             <div
               className={`h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
+              onClick={() => router.push("/shop")}
             >
               <div className={css.home__text}>VASE</div>
               <Image src={vase} alt="images" layout="fill" objectFit="cover" />
@@ -39,6 +43,7 @@ const HomePage = () => {
           <div className="col-span-1">
             <div
               className={`h-full w-full relative rounded-2xl overflow-hidden ${css.image__div}`}
+              onClick={() => router.push("/ideas")}
             >
               <div className={css.home__text}>IDEAS</div>
               <Image src={ideas} alt="images" layout="fill" objectFit="cover" />
@@ -47,6 +52,7 @@ const HomePage = () => {
 
           <div className="col-span-1 flex flex-col gap-4">
             <div
+              onClick={() => router.push("/shop")}
               className={`h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
             >
               <div className={css.home__text}>SHOP</div>
@@ -54,6 +60,7 @@ const HomePage = () => {
             </div>
             <div
               className={`h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
+              onClick={() => router.push("/another")}
             >
               <div className={css.home__text}>ANOTHER</div>
               <Image
@@ -68,6 +75,7 @@ const HomePage = () => {
           <div className="col-span-3">
             <div
               className={`h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
+              onClick={() => router.push("/bed")}
             >
               <div className={` ${css.home__text}`}>
                 <span className="text-4xl">BED</span>

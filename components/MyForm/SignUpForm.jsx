@@ -55,7 +55,7 @@ const SignUpForm = () => {
           }
         }
 
-        alert("send Successfully");
+        alert("Signup Successfully");
         setUserData({
           firstname: "",
           lastname: "",

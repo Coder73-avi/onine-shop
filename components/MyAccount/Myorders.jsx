@@ -6,6 +6,7 @@ import css from "./css/myorder.module.css";
 import demoimage from "images/default-image-300x300.png";
 import axios from "controllers/axios";
 import { useStateValue } from "controllers/Reducer/stateProvider";
+import Loading from "components/Loading";
 
 const Myorders = () => {
   const [{ user }, dispatch] = useStateValue();
@@ -42,7 +43,7 @@ const Myorders = () => {
     <>
       <h1 className="text-lg font-extrabold my-2 text-gray-800">My Orders</h1>
       <hr className="mb-4" />
-      {loading && <div>Loading...</div>}
+      {loading && <Loading />}
       {!loading && orders?.length == 0 && (
         <div className="text-sm text-gray-600">Orders is not found !!!</div>
       )}

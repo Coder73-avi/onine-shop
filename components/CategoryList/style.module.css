@@ -10,8 +10,10 @@
 }
 
 .category {
+  min-width: 200px;
+  height: 60px;
+  position: relative;
   font-size: 14px;
-  border: 1px solid #135740b9;
   padding: 0.5rem 0.8rem;
   border-radius: 0.5rem;
   color: var(--color-secondary);
@@ -19,9 +21,16 @@
   -moz-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   -webkit-transition: all 0.3s linear;
+  overflow: hidden;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
+.category__image {
+  opacity: 0.8;
 }
 
-.category:hover {
+/* .category:hover {
   background-color: #135740b9;
   color: white;
-}
+} */
