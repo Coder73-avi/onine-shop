@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 const OrderDetails = () => {
   const router = useRouter();
   const [{ carts }, dispatch] = useStateValue();
+  const [orders, setOrders] = React.useState([]);
   return (
     <section className="my-4 border p-4 rounded-md">
       <div className="flex flex-col gap-3">

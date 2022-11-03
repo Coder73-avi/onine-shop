@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import css from "./style.module.css";
@@ -7,7 +6,6 @@ import { BsFillCartFill } from "react-icons/bs";
 import { AiFillStar, AiOutlineFullscreen } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { useStateValue } from "controllers/Reducer/stateProvider";
-import { toast } from "react-toastify";
 import DefaultImage from "components/DefaultImage";
 import { addToCart } from "controllers/cartControl";
 import { addToWishList } from "controllers/wishListControl";
@@ -41,13 +39,19 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
         return router.push("/login");
       }
 
+      const req = await axios.get("/getwishlists");
+      const found = req.data?.some((val) => val.product__id == id);
+
+      if (found) {
+        const remove = await axios.delete("/deletewishlist/" + id);
+        if (remove.status == 200) return setActiveStatus(false);
+      }
+
       await addToWishList({ product__id: id });
-      return dispatch({
-        type: "UPDATE__CART",
-      });
+      return setActiveStatus(true);
     } catch (error) {
       router.push("/login");
-      console.error(error);
+      // console.error(error);
     }
   };
 
@@ -94,15 +98,6 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
           alt="card-images"
           className={"rounded-lg overflow-hidden hover:opacity-80"}
         />
-        {/* <Image
-          onClick={() => router.push(`/productdetails?id=${id}`)}
-          className="cursor-pointer hover:opacity-80"
-          src={imageSrc}
-          alt="shop-card-image"
-          layout="responsive"
-          objectFit="responsive"
-          loading="lazy"
-        /> */}
 
         <div className={css.card__btn}>
           <button title="Add To Cart" onClick={AddToCart}>

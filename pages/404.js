@@ -1,5 +1,7 @@
 import Breadcrumbs from "components/Breadcrumbs";
 import DefaultImage from "components/DefaultImage";
+import Footer from "components/Footer";
+import NewProductList from "components/HomePage/NewProductList";
 import pagenotfound from "images/404.webp";
 import Link from "next/link";
 
@@ -18,6 +20,7 @@ export default function fourofour() {
           </button>
         </Link>
       </section>
+      <NewProductList />
     </>
   );
 }

@@ -1,8 +1,9 @@
 import Breadcrumbs from "components/Breadcrumbs";
 import ProductDetails from "components/ProductDetails";
 import Head from "next/head";
-import React, { useState } from "react";
+import React from "react";
 import axios from "controllers/axios";
+import NewProductList from "components/HomePage/NewProductList";
 
 const Productdetails = ({ product }) => {
   return (
@@ -18,6 +19,7 @@ const Productdetails = ({ product }) => {
           ]}
         />
         <ProductDetails data={product[0]} />
+        <NewProductList />
       </main>
     </>
   );

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import css from "./css/style.module.css";
 
 import { BsFillCartCheckFill } from "react-icons/bs";
@@ -10,11 +10,11 @@ import {
 } from "react-icons/ai";
 import { FaFacebookF } from "react-icons/fa";
 import { FaPinterestP } from "react-icons/fa";
+
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import { useRouter } from "next/router";
 import DefaultImage from "components/DefaultImage";
-import Slider from "react-slick";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import axios from "controllers/axios";
 
 import product1 from "images/products/1.webp";
 import image4 from "images/newproduct/4.webp";
@@ -23,6 +23,7 @@ import image6 from "images/newproduct/6.webp";
 import { Card } from "components/HomePage/NewProductList";
 import MoreDetails from "./MoreDetails";
 import { addToCart } from "controllers/cartControl";
+import { addToWishList } from "controllers/wishListControl";
 
 const ProductDetails = ({ data }) => {
   const router = useRouter();
@@ -32,35 +33,6 @@ const ProductDetails = ({ data }) => {
   const [{ user }, dispatch] = useStateValue();
   const [activeStatus, setActiveStatus] = useState(false);
   const [imageUrl, setImageUrl] = useState(`${data?.imageSrc[0]}` || product1);
-
-  const PrevArrow = ({ onClick }) => {
-    return (
-      <div className={css.arrows + " " + css.leftArrow} onClick={onClick}>
-        <IoIosArrowBack />
-      </div>
-    );
-  };
-
-  const NextArrow = ({ onClick }) => {
-    return (
-      <div className={css.arrows + " " + css.rightArrow} onClick={onClick}>
-        <IoIosArrowForward />
-      </div>
-    );
-  };
-
-  const settings = {
-    dots: false,
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    lazyLoading: true,
-    speed: 500,
-    cssEase: "linear",
-    arrows: true,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
-  };
 
   const shareBtn = [
     { name: "Share", icon: <FaFacebookF />, link: "", color: "#435f9f" },
@@ -100,38 +72,47 @@ const ProductDetails = ({ data }) => {
     }
   };
 
-  const AddToWishList = () => {
-    const oldData = JSON.parse(window.localStorage?.getItem("wiselist"));
-    const { id } = router.query;
-    const { imgSrc, title, price } = data;
-    const check = oldData?.some((val) => val.id == id);
-    if (check) {
-      const filterData = oldData?.filter((val) => val.id !== id);
-      setActiveStatus(false);
-      return window.localStorage.setItem(
-        "wiselist",
-        JSON.stringify(filterData)
-      );
-    }
+  const AddToWishList = async () => {
+    try {
+      if (user == null) {
+        return router.push("/login");
+      }
+      if (activeStatus) {
+        const remove = await axios.delete("/deletewishlist/" + data.id);
 
-    setActiveStatus(true);
-    const newData = [
-      ...(oldData || []),
-      {
-        id,
-        imageSrc: imgSrc,
-        title,
-        price,
-      },
-    ];
-    return window.localStorage.setItem("wiselist", JSON.stringify(newData));
+        if (remove.status == 200) {
+          setActiveStatus(false);
+        }
+        return;
+      }
+
+      await addToWishList({ product__id: data.id });
+      setActiveStatus(true);
+      return dispatch({
+        type: "UPDATE__CART",
+      });
+    } catch (error) {
+      // console.error(error);
+      router.push("/login");
+    }
   };
 
+  const checkWishListIsActive = useCallback(async () => {
+    try {
+      const req = await axios.get("/getwishlists");
+      if (req.status == 200) {
+        const wishlistData = req.data;
+        const found = wishlistData?.some((val) => val.product__id == data.id);
+        if (found) setActiveStatus(found);
+      }
+    } catch (error) {
+      // console.error(error);
+    }
+  }, [data.id]);
+
   useEffect(() => {
-    const wiseList = JSON.parse(window.localStorage.getItem("wiselist"));
-    const found = wiseList?.some((val) => val.id == data?.id);
-    if (found) setActiveStatus(true);
-  }, [data?.id]);
+    checkWishListIsActive();
+  }, [checkWishListIsActive]);
 
   return (
     <div className="container mx-auto p-6">
@@ -139,50 +120,27 @@ const ProductDetails = ({ data }) => {
         <div className="col-span-6 grid md:grid-cols-2 gap-8">
           <div>
             <div className="border p-4">
-              <div className="relative">
+              <div className="relative rounded-md overflow-hidden">
                 <DefaultImage src={imageUrl || product1} alt="product-image" />
               </div>
 
-              <div className="my-5 relative">
-                <Slider {...settings}>
-                  {data?.imageSrc.map((val, indx) => (
-                    <div
-                      key={indx}
-                      onClick={() => setImageUrl(val?.url)}
-                      className="relative w-24 h-24 cursor-pointer hover:opacity-80"
-                    >
-                      <Image
-                        src={`${val}` || product1}
-                        alt="carousel-images"
-                        layout="fill"
-                        objectFit="cover"
-                        objectPosition="center"
-                      />
-                    </div>
-                  ))}
-                </Slider>
+              <div className="my-5 grid grid-cols-3 lg:grid-cols-3 gap-4">
+                {data?.imageSrc.map((val, indx) => (
+                  <div
+                    key={indx}
+                    onClick={() => setImageUrl(val)}
+                    className="relative w-28 h-24 cursor-pointer hover:opacity-80 rounded-md overflow-hidden "
+                  >
+                    <Image
+                      src={`${val}` || product1}
+                      alt="carousel-images"
+                      layout="fill"
+                      objectFit="cover"
+                      objectPosition="center"
+                    />
+                  </div>
+                ))}
               </div>
-            </div>
-
-            <div className="mt-7">
-              {/* <Slider {...settings}>
-                {Array(6)
-                  .fill()
-                  .map((val, indx) => {
-                    return (
-                      <div key={indx} className="p-1">
-                        <div className="relative h-32">
-                          <Image
-                            src={product1}
-                            alt="product-image"
-                            layout="fill"
-                            objectFit="responsive"
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-              </Slider> */}
             </div>
           </div>
           <article className={`${css.product__details}`}>
@@ -287,12 +245,12 @@ const ProductDetails = ({ data }) => {
         </div>
       </div>
 
-      {/* more details */}
-
       <MoreDetails />
     </div>
   );
 };
+
+export default ProductDetails;
 
 export const ButtonHovering = ({ val }) => {
   const [Hovering, setHovering] = useState(false);
@@ -303,7 +261,7 @@ export const ButtonHovering = ({ val }) => {
       style={{
         color: Hovering ? "white" : val.color,
         backgroundColor: Hovering ? val.color : "transparent",
-        borderColor: Hovering ? val.color : "rgb(168, 167, 167)",
+        borderColor: val.color,
       }}
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
@@ -313,5 +271,3 @@ export const ButtonHovering = ({ val }) => {
     </button>
   );
 };
-
-export default ProductDetails;

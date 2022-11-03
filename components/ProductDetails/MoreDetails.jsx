@@ -44,14 +44,19 @@ export default MoreDetails;
 export const MoreInfo = () => {
   return (
     <div className={css.moreinfo}>
-      {`Fashion has been creating well-designed collections since 2010. The brand
-      offers feminine designs delivering stylish separates and statement dresses
-      which have since evolved into a full ready-to-wear collection in which
-      every item is a vital part of a woman's wardrobe. The result? Cool, easy,
-      chic looks with youthful elegance and unmistakable signature style. All
-      the beautiful pieces are made in Italy and manufactured with the greatest
-      attention. Now Fashion extends to a range of accessories including shoes,
-      hats, belts and more!`}
+      <div className="mb-3">
+        {`"Years ago, I bought the most stunning rattan daybed from the flea
+        market in Paris," Suzanne recalls. "It became the muse for my Southport
+        Collection." Her Southport Bed is meticulously hand woven of natural
+        rattan with airy "X" details.`}
+      </div>
+      <div>Suzanne Kasler Southport Rattan Bed features:</div>
+      <ul className="list-disc px-8 py-2">
+        <li>Wrapped rattan peel edges</li>
+        <li>Tightly woven panels</li>
+        <li>Mahogany wood frame</li>
+        <li>Assembly required</li>
+      </ul>
     </div>
   );
 };
@@ -81,7 +86,9 @@ export const DataSheet = () => {
 export const Review = () => {
   return (
     <div>
-      <button className={css.reviewBtn}>Be the first to write your review!</button>
+      <button className={css.reviewBtn}>
+        Be the first to write your review!
+      </button>
     </div>
   );
 };

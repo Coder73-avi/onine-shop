@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
 import css from "./style.module.css";
 import Link from "next/link";
 import axios from "controllers/axios";
@@ -39,7 +38,6 @@ const WhishList = () => {
           const imageSrc = process.env.URL + "/" + images.data[0].url;
           const alt = images.data[0].name;
 
-          console.log(title);
           newData.push({
             id,
             product__id,
@@ -65,8 +63,15 @@ const WhishList = () => {
 
   const RemoveFromWishList = async (id) => {
     try {
+      const remove = await axios.delete("/deletewishlist/" + id);
+      if (remove.status == 200) {
+        setWishlist(wishlist.filter((val) => val.product__id !== id));
+      }
+      console.log(remove);
+      return;
     } catch (error) {}
   };
+
   const AddToCart = async (id) => {
     try {
       await addToCart({ product__id: id, qty: 1 });
@@ -76,10 +81,6 @@ const WhishList = () => {
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const sendToDetails = (id) => {
-    return router.push("/productdetails/" + id);
   };
 
   return (
@@ -105,32 +106,31 @@ const WhishList = () => {
                 wishlist?.length - 2 > indx ? "border-b" : ""
               } `}
             >
+              <Link href={`/productdetails/${val.product__id}`}>
+                <a className="flex flex-row gap-3 hover:bg-opcity-50 flex-grow ">
+                  <div className="h-20 relative rounded-md overflow-hidden ">
+                    <DefaultImage
+                      src={val?.imageSrc || demoimage}
+                      alt="wiselist-image"
+                    />
+                  </div>
+                  <div className="flex flex-col items-start  gap-1 py-2">
+                    <div className="text-sm ">{val?.title || "None"}</div>
+                    <div className="font-bold  text-orange-600 ">
+                      Rs. {val?.price || "1000"}
+                    </div>
+                  </div>
+                </a>
+              </Link>
               <div
-                className="flex flex-row gap-3 hover:underline"
-                onClick={() => sendToDetails(val?.product__id)}
+                className="text-base cursor-pointer hover:text-red-600"
+                title="Remove"
+                onClick={() => RemoveFromWishList(val?.product__id)}
               >
-                <div className="h-20 relative rounded-md overflow-hidden ">
-                  <DefaultImage
-                    src={val?.imageSrc || demoimage}
-                    alt="wiselist-image"
-                  />
-                </div>
-                <div className="flex flex-col items-start justify-between gap-1 py-2">
-                  <div className="text-sm">{val?.title || "None"}</div>
-                  <div className="font-bold  text-teal-600">
-                    Rs. {val?.price || "1000"}
-                  </div>
-                  <div
-                    className="text-base cursor-pointer hover:text-teal-600"
-                    title="Remove"
-                    onClick={() => RemoveFromWishList(val?.id)}
-                  >
-                    <BsTrash />
-                  </div>
-                </div>
+                <BsTrash />
               </div>
               <div
-                className="bg-teal-700 rounded-lg text-xl text-white p-2 hover:opacity-70 cursor-pointer "
+                className="bg-orange-500 rounded-lg text-xl text-white p-2 hover:opacity-70 cursor-pointer "
                 title="Add To Cart"
                 onClick={() => AddToCart(val?.product__id)}
               >

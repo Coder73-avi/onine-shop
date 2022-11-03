@@ -24,9 +24,7 @@ const CategoryList = ({ categorys }) => {
       <div className={css.categoryDiv}>
         {categorys?.sort().map((val, indx) => (
           <Link
-            href={`/shop?category=${val?.name
-              ?.toLowerCase()
-              .replace(" ", "-")}`}
+            href={`/shop/${val?.name?.toLowerCase().replace(" ", "-")}`}
             key={indx}
           >
             <a className={css.category}>

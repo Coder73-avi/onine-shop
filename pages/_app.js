@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  console.log(router.pathname);
+  const pathArr = ["/myaccount", "/login"];
   // require("dotenv").config();
   useEffect(() => {
     Aos.init();
@@ -44,7 +44,7 @@ function MyApp({ Component, pageProps }) {
         <Navigation />
         <Component {...pageProps} />
 
-        {router.pathname !== "/myaccount" ? <Footer /> : null}
+        {!pathArr.includes(router.pathname) ? <Footer /> : null}
       </StateProvider>
     </>
   );

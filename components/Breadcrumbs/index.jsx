@@ -19,7 +19,9 @@ const Breadcrumbs = ({ location }) => {
         {location?.map((val, indx) => {
           return (
             <Link href={val?.path} key={indx}>
-              <a className={`hover:underline ${css.bredcrumbs__text}`}>
+              <a
+                className={`hover:underline ${css.bredcrumbs__text} capitalize`}
+              >
                 <IoIosArrowForward />
                 <span
                   className={indx === location.length - 1 ? css.active : ""}
