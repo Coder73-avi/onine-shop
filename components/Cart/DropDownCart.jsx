@@ -6,9 +6,8 @@ import axios from "controllers/axios";
 import { MdArrowForwardIos } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 
-import bed from "images/home/bed.jpg";
+import defaultImage from "images/default-image-300x300.png";
 import { useStateValue } from "controllers/Reducer/stateProvider";
-import { toast } from "react-toastify";
 import { getCartTotal } from "controllers/Reducer/reducer";
 import Link from "next/link";
 import DefaultImage from "components/DefaultImage";
@@ -38,7 +37,10 @@ const DropDownCart = ({ setShowCart, carts }) => {
           >
             <div className="col-span-2">
               <div className="relative rounded-sm overflow-hidden w-[100px]">
-                <DefaultImage src={val?.imageSrc || bed} alt="checkout-image" />
+                <DefaultImage
+                  src={val?.imageSrc || defaultImage}
+                  alt={val?.originalname || "checkout-image"}
+                />
               </div>
             </div>
             <div className="col-span-3">

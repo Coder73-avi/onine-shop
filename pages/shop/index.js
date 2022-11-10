@@ -5,9 +5,7 @@ import ShopCard from "components/ShopCard";
 import CategoryList from "components/CategoryList";
 import { useRouter } from "next/router";
 import axios from "controllers/axios";
-// import axios from "axios";
 
-import product1 from "images/home/another.jpg";
 import Pagination from "components/Pagination";
 
 const Shop = ({ products, noOfPage, categorys }) => {
@@ -16,7 +14,7 @@ const Shop = ({ products, noOfPage, categorys }) => {
 
   React.useEffect(() => {
     if (router.query.hasOwnProperty("category")) {
-      setCategoryData(router.query.category);
+      setCategoryData(router.query?.category);
     }
 
     if (noOfPage == 0) router.push("/shop");
@@ -30,7 +28,6 @@ const Shop = ({ products, noOfPage, categorys }) => {
       <main>
         <Breadcrumbs location={[{ name: "Shop", path: "/shop" }]} />
 
-        {/* <DefaultImage src={productsList[0].imgSrc} alt="images" /> */}
         <CategoryList categorys={categorys} />
         <div className="w-[90%] mx-auto mt-4 mb-10 md:columns-3 lg:columns-3 gap-4 ">
           {products
@@ -44,23 +41,18 @@ const Shop = ({ products, noOfPage, categorys }) => {
                 return val;
               }
             })
-            ?.map(
-              (
-                { id, title, price, imageSrc, newProduct, saleStatus },
-                indx
-              ) => (
-                <div className="mb-8" key={indx}>
-                  <ShopCard
-                    imageSrc={`${imageSrc[0]}` || product1}
-                    id={id}
-                    title={title}
-                    price={price}
-                    newProduct={newProduct}
-                    saleStatus={saleStatus}
-                  />
-                </div>
-              )
-            )}
+            ?.map((val, indx) => (
+              <div className="mb-8" key={indx}>
+                <ShopCard
+                  imageSrc={val?.imageSrc}
+                  id={val?.pid}
+                  title={val?.title}
+                  price={val?.price}
+                  // newProduct={newProduct}
+                  // saleStatus={saleStatus}
+                />
+              </div>
+            ))}
         </div>
 
         <Pagination noOfPage={noOfPage} />
@@ -73,46 +65,21 @@ export default Shop;
 
 export async function getServerSideProps(context) {
   try {
-    const url = process.env.URL;
     let res;
 
     if (context.query.hasOwnProperty("page")) {
-      res = await axios.get("/getproducts/" + context.query.page);
+      res = await axios.get("/getproducts/10/" + context.query?.page);
     } else {
-      res = await axios.get("/getproducts");
+      res = await axios.get("/getproducts/10");
     }
 
     const { getData, paginationNum } = res.data;
-    const newArr = [];
 
-    for (let i = 0; i < getData.length; i++) {
-      const images = await axios.get("/getproductimages/" + getData[i].id);
-      if (images.data.length !== 0) {
-        const imagesSrc = images.data?.map(
-          (val) => (val.url = url + "/" + val.url)
-        );
-        getData[i].imageSrc = imagesSrc;
-      } else {
-        getData[i].imageSrc = [];
-      }
-      newArr.push(getData[i]);
-    }
-
-    const categoryReq = await axios.get("/categorys");
-    const categorys = categoryReq?.data?.map((val) => {
-      val.name = val.name;
-      // val.alt = val.imagesrc.replace("categorysbg/", " ");
-      val.imagesrc = url + "/" + val.imagesrc;
-      if (val.imagesrc == url + "/") val.imagesrc = "";
-      val.searchtag = val.searchtag;
-      return val;
-    });
-    // console.log(categorys);
     return {
       props: {
-        products: newArr,
+        products: getData,
         noOfPage: paginationNum,
-        categorys,
+        categorys: [],
       },
     };
   } catch (err) {

@@ -3,29 +3,18 @@ import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
 import css from "./css/myorder.module.css";
 
-import demoimage from "images/default-image-300x300.png";
+import defaultImage from "images/default-image-300x300.png";
 import axios from "controllers/axios";
-import { useStateValue } from "controllers/Reducer/stateProvider";
 import Loading from "components/Loading";
 
 const Myorders = () => {
-  const [{ user }, dispatch] = useStateValue();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const getOrders = useCallback(async () => {
     try {
-      const id = user?.id;
-      const res = await axios.get(`/getorders/${id}`);
+      const res = await axios.get(`/getorders`);
       if (res.status == 200) {
-        for (let i = 0; i < res?.data.length; i++) {
-          const images = await axios.get(
-            `/getproductimages/${res.data[i].product__id}`
-          );
-          if (images.status == 200) {
-            res.data[i].imageSrc = process.env.URL + "/" + images.data[0].url;
-          }
-        }
         setOrders(res.data);
         setLoading(false);
       }
@@ -33,11 +22,11 @@ const Myorders = () => {
       console.error(error);
       setLoading(false);
     }
-  }, [user?.id]);
+  }, []);
 
   useEffect(() => {
-    if (user?.id) getOrders();
-  }, [getOrders, user?.id]);
+    getOrders();
+  }, [getOrders]);
 
   return (
     <>
@@ -54,13 +43,13 @@ const Myorders = () => {
             <div className={css.orderCard} key={indx}>
               <div className="text-gray-600 text-xs flex flex-row justify-between items-center">
                 <div>#Order Id : {val?.id}</div>
-                <div>{moment.unix(date).format("MMMM DD YYYY, hh:mm a")}</div>
+                <div>{moment.utc(date).format("MMMM DD YYYY, hh:mm a")}</div>
               </div>
               <div className="grid grid-cols-3 px-3 pt-4 pb-1 gap-8">
                 <div className="col-span-1 relative">
                   <DefaultImage
-                    src={val?.imageSrc || demoimage}
-                    alt="product-image"
+                    src={val?.imageSrc || defaultImage}
+                    alt={val?.originalname || "product-image"}
                   />
                 </div>
                 <div className="col-span-2 text-gray-800 pt-1 flex flex-col justify-between">

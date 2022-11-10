@@ -18,7 +18,7 @@ const CheckOut = () => {
   const checkOutList = useCallback(async () => {
     try {
       if (user !== null) {
-        console.log(carts.length);
+        // console.log(carts.length);
 
         const getAddress = await axios.get("/getactivebillingaddress");
 
@@ -62,7 +62,7 @@ const CheckOut = () => {
             <OrderDetails carts={carts} />
           </div>
           <div className="col-span-2">
-            <OrderSummary carts={carts} dispatch={dispatch} />
+            <OrderSummary carts={carts} dispatch={dispatch} address__id={address?.id} />
           </div>
         </div>
       )}

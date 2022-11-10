@@ -18,7 +18,7 @@ const Productdetails = ({ product }) => {
             { name: "Product Details", path: "/productdetails" },
           ]}
         />
-        <ProductDetails data={product[0]} />
+        <ProductDetails data={product} />
         <NewProductList />
       </main>
     </>
@@ -30,7 +30,7 @@ export default Productdetails;
 export async function getStaticPaths() {
   const res = await axios.get("/getproducts");
   const paths = res.data?.getData?.map((curElement) => {
-    return { params: { id: curElement.id.toString() } };
+    return { params: { pid: curElement.pid.toString() } };
   });
   return {
     paths,
@@ -38,23 +38,9 @@ export async function getStaticPaths() {
   };
 }
 export const getStaticProps = async (context) => {
-  const { id } = context.params;
-  const url = process.env.URL;
-  const res = await axios.get("/getproduct/" + id);
-  let newData = [];
+  const { pid } = context.params;
+  const res = await axios.get("/getproduct/" + pid);
+  // console.log(res.data);
 
-  if (res.data?.length !== 0) {
-    newData = res.data;
-    const images = await axios.get("/getproductimages/" + id);
-    if (images.data.length !== 0) {
-      const imagesSrc = images.data?.map(
-        (val) => (val.url = url + "/" + val.url)
-      );
-      newData[0].imageSrc = imagesSrc;
-    } else {
-      newData[0].imageSrc = [];
-    }
-  }
-
-  return { props: { product: newData } };
+  return { props: { revalid: 8400, product: res.data[0] } };
 };

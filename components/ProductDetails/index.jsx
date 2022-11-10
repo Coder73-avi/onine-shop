@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import DefaultImage from "components/DefaultImage";
 import axios from "controllers/axios";
 
-import product1 from "images/products/1.webp";
+import defaultImage from "images/default-image-300x300.png";
 import image4 from "images/newproduct/4.webp";
 import image5 from "images/newproduct/5.webp";
 import image6 from "images/newproduct/6.webp";
@@ -32,7 +32,7 @@ const ProductDetails = ({ data }) => {
   const [numOrder, setNumOrder] = useState(1);
   const [{ user }, dispatch] = useStateValue();
   const [activeStatus, setActiveStatus] = useState(false);
-  const [imageUrl, setImageUrl] = useState(`${data?.imageSrc[0]}` || product1);
+  const [imageUrl, setImageUrl] = useState(data?.imageSrc);
 
   const shareBtn = [
     { name: "Share", icon: <FaFacebookF />, link: "", color: "#435f9f" },
@@ -62,7 +62,7 @@ const ProductDetails = ({ data }) => {
       if (user == null) {
         return router.push("/login");
       }
-      await addToCart({ product__id: data?.id, qty: numOrder });
+      await addToCart({ product__id: data?.pid, qty: numOrder });
       return dispatch({
         type: "UPDATE__CART",
       });
@@ -121,18 +121,21 @@ const ProductDetails = ({ data }) => {
           <div>
             <div className="border p-4">
               <div className="relative rounded-md overflow-hidden">
-                <DefaultImage src={imageUrl || product1} alt="product-image" />
+                <DefaultImage
+                  src={imageUrl || defaultImage}
+                  alt="product-image"
+                />
               </div>
 
               <div className="my-5 grid grid-cols-3 lg:grid-cols-3 gap-4">
-                {data?.imageSrc.map((val, indx) => (
+                {data?.images?.map((val, indx) => (
                   <div
                     key={indx}
-                    onClick={() => setImageUrl(val)}
+                    onClick={() => setImageUrl(val.url)}
                     className="relative w-28 h-24 cursor-pointer hover:opacity-80 rounded-md overflow-hidden "
                   >
                     <Image
-                      src={`${val}` || product1}
+                      src={`${val.url}` || product1}
                       alt="carousel-images"
                       layout="fill"
                       objectFit="cover"
@@ -158,7 +161,7 @@ const ProductDetails = ({ data }) => {
             <hr />
             <div className="text-sm text-justify">
               <h2 className="mb-4 text-gray-600 font-bold">Details </h2>
-              <p>{data?.discription || "(None)"}</p>
+              <p>{data?.short__discription || "(None)"}</p>
             </div>
             <div className={css.stockCheck}>In Stock</div>
             <div className="flex flex-row items-center gap-6">

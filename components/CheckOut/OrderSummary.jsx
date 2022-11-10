@@ -3,18 +3,21 @@ import React from "react";
 import css from "./css/orderdetails.module.css";
 import axios from "controllers/axios";
 import { useRouter } from "next/router";
+import { uid } from "uid";
 
-const OrderSummary = ({ carts, dispatch }) => {
+const OrderSummary = ({ carts, dispatch, address__id }) => {
   const router = useRouter();
 
   const sendOrder = async () => {
     try {
+      const collection__id = uid(10);
       const newCart = carts?.map((val) => {
         return {
+          collection__id,
           product__id: val?.product__id,
-          user__id: val?.user__id,
           title: val?.product?.title,
           qty: val?.qty,
+          address__id,
           price: val?.product?.price,
           category: val?.product?.category,
           status: "processing",

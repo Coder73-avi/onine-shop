@@ -92,19 +92,11 @@ const Navigation = () => {
   const getCheckoutData = useCallback(async () => {
     try {
       if (user !== null) {
-        const res = await axios.get("/getcheckouts/" + user?.id);
-        const checkouts = res.data?.map((val) => {
-          axios.get("/getproduct/" + val.product__id).then((res) => {
-            val.product = res.data[0];
-            axios.get("/getproductimages/" + res.data[0]?.id).then((image) => {
-              val.imageSrc = process.env.URL + "/" + image.data[0].url;
-              val.imagePath = image.data[0].url;
-            });
-          });
-
-          return val;
-        });
-        return dispatch({ type: "ADD__TO__CART", carts: checkouts });
+        const res = await axios.get("/getcheckouts");
+        if (res.status == 200) {
+          // console.log(res.data);
+          return dispatch({ type: "ADD__TO__CART", carts: res.data });
+        }
       }
     } catch (error) {
       return dispatch({ type: "ADD__TO__CART", carts: [] });

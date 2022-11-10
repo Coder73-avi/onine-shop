@@ -11,6 +11,8 @@ import { addToCart } from "controllers/cartControl";
 import { addToWishList } from "controllers/wishListControl";
 import axios from "controllers/axios";
 
+import defaultImage from "images/default-image-300x300.png";
+
 const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
   const router = useRouter();
   const [{ user }, dispatch] = useStateValue();
@@ -75,15 +77,15 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
   return (
     <div className={css.shopCard}>
       <div className="relative ">
-        {newProduct && <div className={css.newBtn}>New</div>}
-        {saleStatus && (
+        {newProduct ? <div className={css.newBtn}>New</div> : null}
+        {saleStatus ? (
           <div
             className={css.saleBtn}
             style={{ right: `${newProduct ? "2.7rem " : "0"}` }}
           >
             Sale !
           </div>
-        )}
+        ) : null}
         <Link href={`/productdetails/${id}`}>
           <div className={css.cardDetails}>
             <h2 className="text-lg hover:underline cursor-pointer font-bold">
@@ -94,7 +96,7 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
         </Link>
 
         <DefaultImage
-          src={imageSrc}
+          src={imageSrc || defaultImage}
           alt="card-images"
           className={"rounded-lg overflow-hidden hover:opacity-80"}
         />
