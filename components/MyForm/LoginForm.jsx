@@ -40,7 +40,7 @@ const LoginForm = () => {
             dispatch({ type: "AUTH__USER", user: null });
           }
         }
-        router.push("/myaccount");
+        return window.location.reload(false);
       }
     } catch (error) {
       console.error(error.response?.data);
