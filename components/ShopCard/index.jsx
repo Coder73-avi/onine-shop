@@ -13,7 +13,7 @@ import axios from "controllers/axios";
 
 import defaultImage from "images/default-image-300x300.png";
 
-const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
+const ShopCard = ({ id, imageSrc, title, price, onSale, isNew }) => {
   const router = useRouter();
   const [{ user }, dispatch] = useStateValue();
   const [activeStatus, setActiveStatus] = useState(false);
@@ -75,31 +75,33 @@ const ShopCard = ({ id, imageSrc, title, price, saleStatus, newProduct }) => {
   }, [checkWishListIsActive]);
 
   return (
-    <div className={css.shopCard}>
+    <div className={`shadow-2xl  hover:cursor-pointer ${css.shopCard}`}>
       <div className="relative ">
-        {newProduct ? <div className={css.newBtn}>New</div> : null}
-        {saleStatus ? (
+        {isNew ? <div className={css.newBtn}>New</div> : null}
+        {onSale == "1" ? (
           <div
             className={css.saleBtn}
-            style={{ right: `${newProduct ? "2.7rem " : "0"}` }}
+            style={{ right: `${isNew ? "2.7rem " : "0"}` }}
           >
             Sale !
           </div>
         ) : null}
         <Link href={`/productdetails/${id}`}>
-          <div className={css.cardDetails}>
+          <a>
+            {/* <div className={css.cardDetails}>
             <h2 className="text-lg hover:underline cursor-pointer font-bold">
               {title.slice(0, 20)} {title.length > 20 && " . . ."}
             </h2>
             <h3 className="text-lg font-bold ">Rs. {price}</h3>
-          </div>
-        </Link>
+          </div> */}
 
-        <DefaultImage
-          src={imageSrc || defaultImage}
-          alt="card-images"
-          className={"rounded-lg overflow-hidden hover:opacity-80"}
-        />
+            <DefaultImage
+              src={imageSrc || defaultImage}
+              alt="card-images"
+              className={"rounded-lg overflow-hidden hover:opacity-80"}
+            />
+          </a>
+        </Link>
 
         <div className={css.card__btn}>
           <button title="Add To Cart" onClick={AddToCart}>

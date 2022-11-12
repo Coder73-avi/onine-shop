@@ -1,0 +1,11 @@
+.card__rating {
+  display: flex;
+  flex-direction: row;
+  gap: 0.1rem;
+  margin-top: 0.2rem;
+  color: rgba(231, 228, 228, 0.774);
+}
+
+.active {
+  color: var(--color-danger);
+}

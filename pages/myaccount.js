@@ -18,8 +18,3 @@ export default function Myaccount() {
     </>
   );
 }
-
-export const getServerSideProps = async () => {
-  
-  return { props: {} };
-};

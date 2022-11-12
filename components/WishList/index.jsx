@@ -23,32 +23,7 @@ const WhishList = () => {
     try {
       const reqWishlist = await axios.get("/getwishlists");
       if (reqWishlist.status == 200) {
-        const newData = [];
-        const wishlistData = reqWishlist.data;
-
-        for (let i = 0; i < wishlistData.length; i++) {
-          const id = wishlistData[i].id;
-          const product__id = wishlistData[i].product__id;
-          const product = await axios.get("/getproduct/" + product__id);
-          const images = await axios.get("/getproductimages/" + product__id);
-
-          const title = product.data[0].title;
-          const price = product.data[0].price;
-          const category = product.data[0].category;
-          const imageSrc = process.env.URL + "/" + images.data[0].url;
-          const alt = images.data[0].name;
-
-          newData.push({
-            id,
-            product__id,
-            title,
-            price,
-            category,
-            imageSrc,
-            alt,
-          });
-        }
-        setWishlist(newData);
+        setWishlist(reqWishlist.data);
         setLoading(false);
       }
     } catch (error) {

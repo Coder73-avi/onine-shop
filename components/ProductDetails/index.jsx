@@ -24,15 +24,29 @@ import { Card } from "components/HomePage/NewProductList";
 import MoreDetails from "./MoreDetails";
 import { addToCart } from "controllers/cartControl";
 import { addToWishList } from "controllers/wishListControl";
+import { formatingNumber } from "controllers/otherFunctions";
+import ProductRating from "components/ProductRating";
 
-const ProductDetails = ({ data }) => {
+const ProductDetails = ({ data, topSelling }) => {
   const router = useRouter();
   const livingroom = [image4, image5, image6, image4];
 
   const [numOrder, setNumOrder] = useState(1);
   const [{ user }, dispatch] = useStateValue();
   const [activeStatus, setActiveStatus] = useState(false);
-  const [imageUrl, setImageUrl] = useState(data?.imageSrc);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [productOptions, setProducutOptions] = useState([]);
+  const [productOption, setProducutOption] = useState("");
+
+  useEffect(() => {
+    setImageUrl(data?.imageSrc);
+  }, [data?.imageSrc]);
+
+  useEffect(() => {
+    const options = JSON.parse(data?.product__options);
+    setProducutOptions(options);
+    setProducutOption(options[0]);
+  }, [data?.product__options]);
 
   const shareBtn = [
     { name: "Share", icon: <FaFacebookF />, link: "", color: "#435f9f" },
@@ -62,7 +76,11 @@ const ProductDetails = ({ data }) => {
       if (user == null) {
         return router.push("/login");
       }
-      await addToCart({ product__id: data?.pid, qty: numOrder });
+      await addToCart({
+        product__id: data?.pid,
+        qty: numOrder,
+        product__option: productOption,
+      });
       return dispatch({
         type: "UPDATE__CART",
       });
@@ -86,7 +104,10 @@ const ProductDetails = ({ data }) => {
         return;
       }
 
-      await addToWishList({ product__id: data.id });
+      await addToWishList({
+        product__id: data.pid,
+        product__option: productOption,
+      });
       setActiveStatus(true);
       return dispatch({
         type: "UPDATE__CART",
@@ -121,9 +142,18 @@ const ProductDetails = ({ data }) => {
           <div>
             <div className="border p-4">
               <div className="relative rounded-md overflow-hidden">
+                {data?.is__new ? <div className={css.newBtn}>New</div> : null}
+                {data?.on__sale == "1" ? (
+                  <div
+                    className={css.saleBtn}
+                    style={{ right: `${data?.is__new ? "2.7rem " : "0"}` }}
+                  >
+                    Sale !
+                  </div>
+                ) : null}
                 <DefaultImage
                   src={imageUrl || defaultImage}
-                  alt="product-image"
+                  alt={data?.originalname || "product-image"}
                 />
               </div>
 
@@ -150,40 +180,37 @@ const ProductDetails = ({ data }) => {
             <h1 className="font-bold text-2xl">
               {data?.title || "loading..."}
             </h1>
-            <div className={css.price}>Rs. {data?.price} </div>
-            <div className={css.reference}>
-              <b>Reference : </b> demo_2
-            </div>
-            <div className={css.condition}>
-              <b>Condition : </b> {data?.newProduct && "New Product, "}
-              {data?.saleStatus && "On Sale"}
-            </div>
+            <ProductRating maxRating={4} />
+            <div className={css.price}>Rs. {formatingNumber(data?.price)} </div>
             <hr />
             <div className="text-sm text-justify">
               <h2 className="mb-4 text-gray-600 font-bold">Details </h2>
               <p>{data?.short__discription || "(None)"}</p>
             </div>
             <div className={css.stockCheck}>In Stock</div>
-            <div className="flex flex-row items-center gap-6">
-              <div className="flex flex-row gap-2 items-center text-sm">
-                <label htmlFor="size" className="text-gray-700">
-                  Size
-                </label>
-                <select name="size" id="size" className={css.selectOption}>
-                  <option value="S">S</option>
-                  <option value="L">L</option>
-                </select>
+            {productOptions.length !== 0 ? (
+              <div className="flex flex-row items-center gap-6">
+                <div className="flex flex-col gap-2 text-sm">
+                  <label htmlFor="size" className="text-gray-700">
+                    Product Options
+                  </label>
+
+                  <select
+                    name="size"
+                    id="size"
+                    className={css.selectOption}
+                    value={productOption}
+                    onChange={(e) => setProducutOption(e.target.value)}
+                  >
+                    {productOptions?.map((val, indx) => (
+                      <option value="Black" key={indx}>
+                        {val}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-              <div className="flex flex-row gap-2 items-center text-sm">
-                <label htmlFor="size" className="text-gray-700">
-                  Color
-                </label>
-                <select name="size" id="size" className={css.selectOption}>
-                  <option value="Black">Black</option>
-                  <option value="White">White</option>
-                </select>
-              </div>
-            </div>
+            ) : null}
 
             <div className={css.action}>
               <div className="border p-2 flex flex-row gap-4 text-gray-600 text-sm">
@@ -237,12 +264,14 @@ const ProductDetails = ({ data }) => {
         </div>
         <div className="col-span-2">
           <h2 className="font-bold ">Top Selling</h2>
-          {livingroom.map((val, indx) => (
+          {topSelling?.map((val, indx) => (
             <Card
               key={indx}
-              imgSrc={val}
-              title="Faded Short Sleeves T-shirt"
-              price="3000"
+              pid={val?.pid}
+              imgSrc={val?.imageSrc}
+              originalName={val?.originalname}
+              title={val?.title}
+              price={val?.price}
             />
           ))}
         </div>

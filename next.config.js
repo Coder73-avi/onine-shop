@@ -9,10 +9,10 @@ const nextConfig = {
       "api.raeelaproduction.com",
     ],
   },
-  env: {
-    // URL: "http://localhost:4001",
-    URL: "https://api.raeelaproduction.com",
-  },
+  // env: {
+  //   URL: "http://localhost:4001",
+  //   // URL: "https://api.raeelaproduction.com",
+  // },
 };
 
 module.exports = nextConfig;

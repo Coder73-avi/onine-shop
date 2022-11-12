@@ -5,7 +5,7 @@ import React from "react";
 import axios from "controllers/axios";
 import NewProductList from "components/HomePage/NewProductList";
 
-const Productdetails = ({ product }) => {
+const Productdetails = ({ product, topSelling }) => {
   return (
     <>
       <Head>
@@ -18,7 +18,7 @@ const Productdetails = ({ product }) => {
             { name: "Product Details", path: "/productdetails" },
           ]}
         />
-        <ProductDetails data={product} />
+        <ProductDetails data={product} topSelling={topSelling} />
         <NewProductList />
       </main>
     </>
@@ -38,9 +38,21 @@ export async function getStaticPaths() {
   };
 }
 export const getStaticProps = async (context) => {
-  const { pid } = context.params;
-  const res = await axios.get("/getproduct/" + pid);
-  // console.log(res.data);
+  try {
+    const { pid } = context.params;
+    const res = await axios.get("/getproduct/" + pid);
+    const topSelling = await axios.get("/topsellingproduct");
+    // console.log(res.data);
 
-  return { props: { revalid: 8400, product: res.data[0] } };
+    return {
+      props: {
+        revalid: 8400,
+        product: res.data[0],
+        topSelling: topSelling.data,
+      },
+    };
+  } catch (error) {
+    // console.log(error);
+    return { props: { product: [], topSelling: [] } };
+  }
 };

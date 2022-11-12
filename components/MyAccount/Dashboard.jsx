@@ -2,6 +2,7 @@ import { useStateValue } from "controllers/Reducer/stateProvider";
 import React from "react";
 import axios from "controllers/axios";
 import { useRouter } from "next/router";
+import { RemoveCookie } from "controllers/SetCookie";
 
 const Dashboard = () => {
   const [{ user }, dispatch] = useStateValue();
@@ -9,7 +10,8 @@ const Dashboard = () => {
 
   const logOut = async () => {
     try {
-      await axios.get("/logout");
+      // await axios.get("/logout");
+      RemoveCookie("auth");
       alert("Log out successfully");
       dispatch({ type: "UPDATE__CART" });
       dispatch({ type: "AUTH__USER", user: null });

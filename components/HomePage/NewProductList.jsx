@@ -8,8 +8,14 @@ import image4 from "images/newproduct/4.webp";
 import image5 from "images/newproduct/5.webp";
 import image6 from "images/newproduct/6.webp";
 
+import defaultImage from "images/default-image-300x300.png";
+
 import Image from "next/image";
 import { BsFillStarFill } from "react-icons/bs";
+import DefaultImage from "components/DefaultImage";
+import Link from "next/link";
+import { formatingNumber } from "controllers/otherFunctions";
+import ProductRating from "components/ProductRating";
 
 const NewProductList = () => {
   const bedroom = [image1, image2, image3];
@@ -62,28 +68,30 @@ const NewProductList = () => {
 
 export default NewProductList;
 
-export const Card = ({ imgSrc, title, price }) => {
+export const Card = ({
+  pid = "1",
+  imgSrc,
+  title,
+  price,
+  originalName = null,
+  maxRating = 3,
+}) => {
   return (
-    <div className={css.card}>
-      <div className="relative w-[30%]">
-        <Image
-          src={imgSrc || image1}
-          alt="card-image"
-          layout="responsive"
-          objectFit="responsive"
-        />
-      </div>
-      <div className={css.card__text}>
-        <h2 className={css.card__title}>{title}</h2>
-        <div className={css.card__rating}>
-          {Array(5)
-            .fill()
-            .map((val, indx) => (
-              <BsFillStarFill key={indx} />
-            ))}
+    <Link href={`/productdetails/${pid}`}>
+      <a className={css.card}>
+        <div className="relative w-[30%] rounded-md overflow-hidden">
+          <DefaultImage
+            src={imgSrc || defaultImage}
+            alt={originalName || "default-image"}
+            objectFit={"cover"}
+          />
         </div>
-        <div className={css.card__price}>Rs. {price} </div>
-      </div>
-    </div>
+        <div className={css.card__text}>
+          <h2 className={css.card__title}>{title.slice(0, 16) + " . . ."}</h2>
+          <ProductRating maxRating={maxRating} />
+          <div className={css.card__price}>Rs. {formatingNumber(price)} </div>
+        </div>
+      </a>
+    </Link>
   );
 };

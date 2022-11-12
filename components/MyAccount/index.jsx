@@ -4,7 +4,7 @@ import axios from "controllers/axios";
 import css from "./css/style.module.css";
 import { AiOutlineDashboard, AiOutlineCloudDownload } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
-import { MdPayment } from "react-icons/md";
+import { MdPayment, MdOutlineReviews } from "react-icons/md";
 import { ImLocation } from "react-icons/im";
 import { FaUserAlt } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
@@ -14,6 +14,8 @@ import Address from "./Address";
 import AccountDetails from "./AccountDetails";
 import Dashboard from "./Dashboard";
 import { useStateValue } from "controllers/Reducer/stateProvider";
+import { RemoveCookie } from "controllers/SetCookie";
+import MyReview from "./MyReview";
 
 const MyAccount = ({ router }) => {
   const [{}, dispatch] = useStateValue();
@@ -23,6 +25,11 @@ const MyAccount = ({ router }) => {
       name: "My Orders",
       path: "/myaccount?name=my-orders",
       icon: <BsCartCheck />,
+    },
+    {
+      name: "My Review",
+      path: "/myaccount?name=my-review",
+      icon: <MdOutlineReviews />,
     },
     {
       name: "Downloads",
@@ -53,7 +60,8 @@ const MyAccount = ({ router }) => {
 
   const logOut = async () => {
     try {
-      await axios.get("/logout");
+      // await axios.get("/logout");
+      RemoveCookie("auth");
       alert("Log out successfully");
       dispatch({ type: "UPDATE__CART" });
       dispatch({ type: "AUTH__USER", user: null });
@@ -108,6 +116,7 @@ const MyAccount = ({ router }) => {
           <div className="border p-4">
             {!router.query.hasOwnProperty("name") && <Dashboard />}
             {router.query?.name == "my-orders" && <Myorders />}
+            {router.query?.name == "my-review" && <MyReview />}
             {router.query?.name == "downloads" && <Myorders />}
             {router.query?.name == "payment-method" && <PaymentMethod />}
             {router.query?.name == "address" && <Address />}

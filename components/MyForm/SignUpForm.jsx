@@ -46,6 +46,8 @@ const SignUpForm = () => {
       e.preventDefault();
       const send = await axios.post("/signup", userData);
       if (send.status == 201) {
+        SetCookie("auth", res.data?.token);
+
         const getUser = await axios.get("/getuser");
         if (getUser.status == 200) {
           if (Array.isArray(getUser?.data)) {

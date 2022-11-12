@@ -21,6 +21,7 @@ const OrderSummary = ({ carts, dispatch, address__id }) => {
           price: val?.product?.price,
           category: val?.product?.category,
           status: "processing",
+          review: "0",
         };
       });
 

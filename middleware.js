@@ -1,18 +1,17 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
 
 export async function middleware(req) {
-  const token = req.cookies.get("token");
+  const auth = req.cookies.get("auth");
   const pathArr = ["", "/myaccount", "/checkout", "/wishlist"];
 
   if (req.nextUrl.pathname.startsWith("/login")) {
-    if (token !== undefined && token !== null && token !== "") {
+    if (auth !== undefined && auth !== null && auth !== "") {
       return NextResponse.redirect(new URL("/myaccount", req.nextUrl));
     }
   }
 
   if (pathArr.includes(req.nextUrl.pathname)) {
-    if (token == undefined || token == null || token == "") {
+    if (auth == undefined || auth == null || auth == "") {
       return NextResponse.redirect(new URL("/login", req.nextUrl));
     }
   }

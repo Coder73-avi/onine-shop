@@ -17,6 +17,8 @@ import DropDownCart from "components/Cart/DropDownCart";
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import { useRouter } from "next/router";
 import { BsCartCheck } from "react-icons/bs";
+import SetCookie, { GetCookie, RemoveCookie } from "controllers/SetCookie";
+import Cookie from "js-cookie";
 
 const Navigation = () => {
   const router = useRouter();
@@ -55,7 +57,8 @@ const Navigation = () => {
 
   const logOut = async () => {
     try {
-      await axios.get("/logout");
+      // await axios.get("/logout");
+      RemoveCookie("auth");
       alert("Log out successfully");
       dispatch({ type: "UPDATE__CART" });
       dispatch({ type: "AUTH__USER", user: null });
@@ -92,7 +95,11 @@ const Navigation = () => {
   const getCheckoutData = useCallback(async () => {
     try {
       if (user !== null) {
-        const res = await axios.get("/getcheckouts");
+        const res = await axios.get("/getcheckouts", {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
         if (res.status == 200) {
           // console.log(res.data);
           return dispatch({ type: "ADD__TO__CART", carts: res.data });

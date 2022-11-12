@@ -13,8 +13,18 @@
   gap: 1rem;
   margin: 0.8rem 0;
   cursor: pointer;
+  background-color: rgba(199, 199, 199, 0.192);
+  border-radius: 0.3rem;
+  transition-duration: 0.2s;
 }
 
+.card:hover {
+  opacity: 0.9;
+}
+
+.card__title {
+  font-weight: 600;
+}
 .card__text {
   padding: 0.5rem;
   font-size: 14px;
@@ -27,12 +37,16 @@
   flex-direction: row;
   gap: 0.1rem;
   margin-top: 0.2rem;
-  color: gray;
+  color: rgba(231, 228, 228, 0.774);
+}
+
+.active {
+  color: var(--color-danger);
 }
 
 .card__price {
   font-size: 16px;
   color: var(--color-danger);
   font-weight: 700;
-  margin-top: 1rem;
+  margin-top: 0.7rem;
 }

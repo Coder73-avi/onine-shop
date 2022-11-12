@@ -7,6 +7,7 @@ import { RiFacebookFill } from "react-icons/ri";
 import { AiOutlineGooglePlus } from "react-icons/ai";
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import { useRouter } from "next/router";
+import SetCookie from "controllers/SetCookie";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -25,6 +26,7 @@ const LoginForm = () => {
       const res = await axios.post("/login", obj);
       if (res.status == 200) {
         setErrorMsg("Login Successfully");
+        SetCookie("auth", res.data?.token);
 
         const getUser = await axios.get("/getuser");
         if (getUser.status == 200) {
@@ -88,7 +90,7 @@ const LoginForm = () => {
               </div>
               <p className="text-center text-sm">Forget your password?</p>
               <div className={css.btn__div}>
-                <button type="submit">Sign In</button>
+                <button type="submit">Login In</button>
               </div>
             </form>
           </div>
