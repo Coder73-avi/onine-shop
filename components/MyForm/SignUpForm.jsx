@@ -47,6 +47,8 @@ const SignUpForm = () => {
       const send = await axios.post("/signup", userData);
       if (send.status == 201) {
         SetCookie("auth", res.data?.token);
+        alert("Signup Successfully");
+        router.push("/myaccount");
 
         const getUser = await axios.get("/getuser");
         if (getUser.status == 200) {
@@ -57,7 +59,6 @@ const SignUpForm = () => {
           }
         }
 
-        alert("Signup Successfully");
         setUserData({
           firstname: "",
           lastname: "",
@@ -68,7 +69,6 @@ const SignUpForm = () => {
           password: "",
           cpassword: "",
         });
-        router.push("/myaccount");
       }
     } catch (error) {
       // console.error(error);

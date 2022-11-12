@@ -12,12 +12,11 @@ const Dashboard = () => {
     try {
       // await axios.get("/logout");
       RemoveCookie("auth");
-      alert("Log out successfully");
+      // alert("Log out successfully");
       dispatch({ type: "UPDATE__CART" });
       dispatch({ type: "AUTH__USER", user: null });
       dispatch({ type: "ADD__TO__CART", carts: [] });
-
-      router.push("/login");
+      return router.push("/login");
     } catch (error) {
       // console.error(error);
     }

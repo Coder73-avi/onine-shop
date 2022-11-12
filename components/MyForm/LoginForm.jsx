@@ -7,7 +7,7 @@ import { RiFacebookFill } from "react-icons/ri";
 import { AiOutlineGooglePlus } from "react-icons/ai";
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import { useRouter } from "next/router";
-import SetCookie from "controllers/SetCookie";
+import SetCookie, { GetCookie } from "controllers/SetCookie";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -28,7 +28,11 @@ const LoginForm = () => {
         setErrorMsg("Login Successfully");
         SetCookie("auth", res.data?.token);
 
-        const getUser = await axios.get("/getuser");
+        const auth = GetCookie("auth");
+        const getUser = await axios.get("/getuser", {
+          headers: { Authorization: auth },
+        });
+
         if (getUser.status == 200) {
           if (Array.isArray(getUser?.data)) {
             dispatch({ type: "AUTH__USER", user: getUser.data[0] });
