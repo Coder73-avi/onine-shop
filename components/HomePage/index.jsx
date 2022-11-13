@@ -19,70 +19,89 @@ const HomePage = () => {
       <section className="w-[90%] lg:container mx-auto grid lg:grid-cols-2 gap-6 my-4">
         <div className="col-span-1 grid md:grid-cols-3 gap-4">
           <div className="col-span-1 flex flex-col gap-4">
-            <div
-              className={`h-44 md:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
-              onClick={() => router.push("/category")}
-            >
-              <div className={css.home__text}>CATEGORY</div>
-              <Image
-                src={category}
-                alt="images"
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
-            <div
-              className={`h-44 md:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
-              onClick={() => router.push("/shop")}
-            >
-              <div className={css.home__text}>VASE</div>
-              <Image src={vase} alt="images" layout="fill" objectFit="cover" />
-            </div>
+            <Link href="/category">
+              <a
+                className={`h-44 md:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
+              >
+                <div className={css.home__text}>CATEGORY</div>
+                <Image
+                  src={category}
+                  alt="images"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </a>
+            </Link>
+            <Link href="/shop">
+              <a
+                className={`h-44 md:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
+              >
+                <div className={css.home__text}>VASE</div>
+                <Image
+                  src={vase}
+                  alt="images"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </a>
+            </Link>
           </div>
-
-          <div className="col-span-1">
-            <div
-              className={`h-full w-full relative rounded-2xl overflow-hidden ${css.image__div}`}
-              onClick={() => router.push("/ideas")}
-            >
-              <div className={css.home__text}>IDEAS</div>
-              <Image src={ideas} alt="images" layout="fill" objectFit="cover" />
-            </div>
-          </div>
+          <Link href="/ideas">
+            <a className="col-span-1">
+              <div
+                className={`h-full w-full relative rounded-2xl overflow-hidden ${css.image__div}`}
+              >
+                <div className={css.home__text}>IDEAS</div>
+                <Image
+                  src={ideas}
+                  alt="images"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
+            </a>
+          </Link>
 
           <div className="col-span-1 flex flex-col gap-4">
-            <div
-              onClick={() => router.push("/shop")}
-              className={`h-44 md:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
-            >
-              <div className={css.home__text}>SHOP</div>
-              <Image src={shop} alt="images" layout="fill" objectFit="cover" />
-            </div>
-            <div
-              className={`h-44 md:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
-              onClick={() => router.push("/another")}
-            >
-              <div className={css.home__text}>ANOTHER</div>
-              <Image
-                src={another}
-                alt="images"
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
+            <Link href="/shop">
+              <a
+                className={`h-44 md:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
+              >
+                <div className={css.home__text}>SHOP</div>
+                <Image
+                  src={shop}
+                  alt="images"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </a>
+            </Link>
+            <Link href="/another">
+              <a
+                className={`h-44 md:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
+              >
+                <div className={css.home__text}>ANOTHER</div>
+                <Image
+                  src={another}
+                  alt="images"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </a>
+            </Link>
           </div>
-
-          <div className="col-span-3">
-            <div
-              className={`h-32 md:h-40 lg:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
-              onClick={() => router.push("/bed")}
-            >
-              <div className={` ${css.home__text}`}>
-                <span className="text-2xl lg:text-4xl">BED</span>
+          <Link href="/bed">
+            <a className="col-span-3">
+              <div
+                className={`h-32 md:h-40 lg:h-48 relative rounded-2xl overflow-hidden ${css.image__div}`}
+              >
+                <div className={` ${css.home__text}`}>
+                  <span className="text-2xl lg:text-3xl">BED</span>
+                </div>
+                <Image src={bed} alt="images" layout="fill" objectFit="cover" />
               </div>
-              <Image src={bed} alt="images" layout="fill" objectFit="cover" />
-            </div>
-          </div>
+            </a>
+          </Link>
         </div>
 
         <div className="col-span-1">
