@@ -38,3 +38,9 @@
     width: 100%;
   }
 }
+
+@media (max-width: 430px) {
+  .order__status__btns {
+    flex-wrap: wrap;
+  }
+}

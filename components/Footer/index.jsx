@@ -62,7 +62,7 @@ const Footer = () => {
             </Link>
           </div>
         </div>
-        <div className="md:col-span-2">
+        <div className="md:col-span-2 lg:col-span-1">
           <div className={css.footer__title}>Follow Us</div>
           <div className="flex flex-row items-center gap-3 mb-3">
             <div className={css.socialIcon}>

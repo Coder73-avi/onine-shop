@@ -16,7 +16,7 @@ const HomePage = () => {
   const router = useRouter();
   return (
     <>
-      <section className="md:w-[90%] lg:container mx-auto grid lg:grid-cols-2 gap-6 my-4">
+      <section className="w-[90%] lg:container mx-auto grid lg:grid-cols-2 gap-6 my-4">
         <div className="col-span-1 grid md:grid-cols-3 gap-4">
           <div className="col-span-1 flex flex-col gap-4">
             <div
@@ -78,7 +78,7 @@ const HomePage = () => {
               onClick={() => router.push("/bed")}
             >
               <div className={` ${css.home__text}`}>
-                <span className="text-4xl">BED</span>
+                <span className="text-2xl lg:text-4xl">BED</span>
               </div>
               <Image src={bed} alt="images" layout="fill" objectFit="cover" />
             </div>
