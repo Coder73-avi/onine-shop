@@ -40,12 +40,12 @@ const DesignYourRoomByHobbies = () => {
         </div>
       </section>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 p-4  mx-auto ">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-10 p-4  mx-auto ">
         {designbyHobbies.map((val, indx) => (
           <Link href={`/shop?category=${val.name.toLowerCase()}`} key={indx}>
             <div
               className={
-                "relative h-[250px] md:h-[450px] w-full rounded-2xl overflow-hidden cursor-pointer "
+                "relative h-[280px] md:h-[450px] w-full rounded-2xl overflow-hidden cursor-pointer "
               }
             >
               <div className={css.hobbies__name}>{val.name}</div>

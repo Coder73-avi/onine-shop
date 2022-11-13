@@ -31,12 +31,12 @@ const RoomMakeOver = () => {
             Room Make Over
           </div>
         </div>
-        <div className="grid lg:grid-cols-3  gap-8 md:px-4 lg:p-0 my-4 lg:justify-center items-center mx-auto">
+        <div className="grid lg:grid-cols-3 gap-8 md:px-4 lg:p-0 my-4 lg:justify-center items-center mx-auto">
           <div className="p-4 overflow-hidden rounded-2xl col-span-3 lg:col-span-1">
             <YouTube videoId="2g811Eo7K8U" opts={opts} />
           </div>
 
-          <div className="col-span-3 lg:col-span-1 grid md:grid-cols-2 gap-4">
+          <div className="col-span-3 lg:col-span-1 grid grid-cols-2 gap-4">
             {Array(4)
               .fill()
               .map((val, indx) => (

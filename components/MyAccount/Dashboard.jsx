@@ -2,8 +2,6 @@ import { useStateValue } from "controllers/Reducer/stateProvider";
 import React from "react";
 import axios from "controllers/axios";
 import { useRouter } from "next/router";
-import { RemoveCookie } from "controllers/SetCookie";
-import logOut from "controllers/logOut";
 
 const Dashboard = () => {
   const [{ user }, dispatch] = useStateValue();
@@ -20,14 +18,8 @@ const Dashboard = () => {
         <b className="capitalize">
           {user?.firstname || "Alex"} {user?.lastname || "Tuntuni"}
         </b>{" "}
-        (If Not <b className="capitalize">{user?.firstname || "Alex"}</b> !{" "}
-        <span
-          onClick={logOut}
-          className="text-blue-500 font-bold cursor-pointer"
-        >
-          Logout
-        </span>
-        ) <br />
+        
+         <br />
         From your account dashboard. you can easily check & view your recent
         orders, manage your shipping and billing addresses and edit your
         password and account details.

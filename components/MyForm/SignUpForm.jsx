@@ -4,6 +4,7 @@ import css from "./css/login.module.css";
 import axios from "controllers/axios";
 import { useRouter } from "next/router";
 import { useStateValue } from "controllers/Reducer/stateProvider";
+import SetCookie from "controllers/SetCookie";
 
 const SignUpForm = () => {
   const [{}, dispatch] = useStateValue();
@@ -46,12 +47,14 @@ const SignUpForm = () => {
       e.preventDefault();
       const send = await axios.post("/signup", userData);
       if (send.status == 201) {
-        SetCookie("auth", res.data?.token);
+        SetCookie("auth", send.data?.token);
         alert("Signup Successfully");
-        return window.location.href(false);
+        window.location.reload(false);
+        return router.push("/myaccount");
       }
     } catch (error) {
-      // console.error(error);
+      alert(error?.response?.data?.message);
+      return console.error(error);
     }
   };
 
@@ -59,7 +62,7 @@ const SignUpForm = () => {
     <>
       <section className={css.signup__section}>
         <div className="grid md:grid-cols-2">
-          <div className={`order-2 ${css.info__btn}`}>
+          <div className={`order-2 md:order-1 ${css.info__btn}`}>
             <h2 className="text-3xl font-extrabold">Login </h2>
             <p className="text-sm italic">{`Sign in here if you have account`}</p>
             <Link href="/login">
@@ -67,7 +70,7 @@ const SignUpForm = () => {
             </Link>
           </div>
 
-          <div className={`order-1 ${css.form}`}>
+          <div className={`order-1 md:order-2 ${css.form}`}>
             <h1 className="text-center font-extrabold mb-4 text-3xl text-teal-700">
               Sign Up{" "}
             </h1>

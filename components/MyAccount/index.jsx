@@ -7,14 +7,12 @@ import { BsCartCheck } from "react-icons/bs";
 import { MdPayment, MdOutlineReviews } from "react-icons/md";
 import { ImLocation } from "react-icons/im";
 import { FaUserAlt } from "react-icons/fa";
-import { BiLogOut } from "react-icons/bi";
 import Myorders from "./Myorders";
 import PaymentMethod from "./PaymentMethod";
 import Address from "./Address";
 import AccountDetails from "./AccountDetails";
 import Dashboard from "./Dashboard";
 import MyReview from "./MyReview";
-import logOut from "controllers/logOut";
 
 const MyAccount = ({ router }) => {
   const myaccount = [
@@ -83,16 +81,7 @@ const MyAccount = ({ router }) => {
                 </Link>
               );
             })}
-            <button
-              className={`text-gray-800 ${css.nav__name}`}
-              onClick={logOut}
-            >
-              <span className={css.icon}>
-                <BiLogOut />
-              </span>
-
-              <span>Log Out</span>
-            </button>
+           
           </nav>
         </div>
 

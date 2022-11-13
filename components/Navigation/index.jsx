@@ -17,7 +17,7 @@ import DropDownCart from "components/Cart/DropDownCart";
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import { useRouter } from "next/router";
 import { BsCartCheck } from "react-icons/bs";
-import { RemoveCookie } from "controllers/SetCookie";
+import { GetCookie, RemoveCookie } from "controllers/SetCookie";
 
 const Navigation = () => {
   const router = useRouter();
@@ -83,9 +83,15 @@ const Navigation = () => {
     }
   }, [dispatch]);
 
+  const auth = GetCookie("auth");
   useEffect(() => {
-    checkingUserAuth();
-  }, [checkingUserAuth]);
+    if (auth) checkingUserAuth();
+    if (!auth) {
+      dispatch({ type: "AUTH__USER", user: null });
+      dispatch({ type: "EMPTYCART" });
+      router.push("/");
+    }
+  }, [auth, checkingUserAuth]);
 
   const getCheckoutData = useCallback(async () => {
     try {

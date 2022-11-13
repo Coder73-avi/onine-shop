@@ -27,8 +27,8 @@ const LoginForm = () => {
       if (res.status == 200) {
         setErrorMsg("Login Successfully");
         SetCookie("auth", res.data?.token);
-
-        return window.location.reload(false);
+        window.location.reload(false);
+        return router.push("/myaccount");
       }
     } catch (error) {
       console.error(error.response?.data);
