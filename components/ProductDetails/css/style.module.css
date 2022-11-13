@@ -154,3 +154,10 @@
 .share__btn > svg {
   font-size: 16px;
 }
+
+@media (max-width: 430px) {
+  .action {
+    flex-wrap: wrap;
+    justify-content: start;
+  }
+}

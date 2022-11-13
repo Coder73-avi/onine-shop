@@ -136,10 +136,10 @@ const ProductDetails = ({ data, topSelling }) => {
   }, [checkWishListIsActive]);
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="grid md:grid-cols-8 gap-10">
-        <div className="col-span-6 grid md:grid-cols-2 gap-8">
-          <div>
+    <div className="container p-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-8 gap-10">
+        <div className="md:col-span-2 lg:col-span-6 grid grid-cols-5 lg:grid-cols-2 gap-8">
+          <div className="col-span-5 md:col-span-2 lg:col-span-1">
             <div className="border p-4">
               <div className="relative rounded-md overflow-hidden">
                 {data?.is__new ? <div className={css.newBtn}>New</div> : null}
@@ -176,7 +176,9 @@ const ProductDetails = ({ data, topSelling }) => {
               </div>
             </div>
           </div>
-          <article className={`${css.product__details}`}>
+          <article
+            className={`col-span-5 md:col-span-3 lg:col-span-1 ${css.product__details}`}
+          >
             <h1 className="font-bold text-2xl">
               {data?.title || "loading..."}
             </h1>
@@ -230,7 +232,7 @@ const ProductDetails = ({ data, topSelling }) => {
                   +
                 </button>
               </div>
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row gap-4 ">
                 <button className={css.addToCard} onClick={AddToCart}>
                   <BsFillCartCheckFill /> Add To Card
                 </button>
@@ -255,14 +257,14 @@ const ProductDetails = ({ data, topSelling }) => {
               </div>
             </div>
 
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row flex-wrap md:flex-nowrap gap-4">
               {shareBtn.map((val, indx) => (
                 <ButtonHovering key={indx} val={val} />
               ))}
             </div>
           </article>
         </div>
-        <div className="col-span-2">
+        <div className="lg:col-span-2 hidden lg:block">
           <h2 className="font-bold ">Top Selling</h2>
           {topSelling?.map((val, indx) => (
             <Card

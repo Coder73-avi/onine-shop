@@ -48,27 +48,7 @@ const SignUpForm = () => {
       if (send.status == 201) {
         SetCookie("auth", res.data?.token);
         alert("Signup Successfully");
-        router.push("/myaccount");
-
-        const getUser = await axios.get("/getuser");
-        if (getUser.status == 200) {
-          if (Array.isArray(getUser?.data)) {
-            dispatch({ type: "AUTH__USER", user: getUser.data[0] });
-          } else {
-            dispatch({ type: "AUTH__USER", user: null });
-          }
-        }
-
-        setUserData({
-          firstname: "",
-          lastname: "",
-          phonenumber: "",
-          dateofbirth: "",
-          gender: "",
-          email: "",
-          password: "",
-          cpassword: "",
-        });
+        return window.location.href(false);
       }
     } catch (error) {
       // console.error(error);
@@ -78,16 +58,16 @@ const SignUpForm = () => {
   return (
     <>
       <section className={css.signup__section}>
-        <div className="grid grid-cols-2">
-          <div className={css.info__btn}>
-            <h2 className="text-3xl font-extrabold">Sign Up</h2>
+        <div className="grid md:grid-cols-2">
+          <div className={`order-2 ${css.info__btn}`}>
+            <h2 className="text-3xl font-extrabold">Login </h2>
             <p className="text-sm italic">{`Sign in here if you have account`}</p>
             <Link href="/login">
-              <button>Sign In</button>
+              <button>Log In</button>
             </Link>
           </div>
 
-          <div className={css.form}>
+          <div className={`order-1 ${css.form}`}>
             <h1 className="text-center font-extrabold mb-4 text-3xl text-teal-700">
               Sign Up{" "}
             </h1>

@@ -9,7 +9,7 @@ export const initialState = {
 
 export const getCartTotal = (cart) => {
   return cart?.reduce(
-    (amount, item) => parseInt(item?.product?.price * item.qty) + amount,
+    (amount, item) => parseInt(item?.price * item?.qty) + amount,
     0
   );
 };

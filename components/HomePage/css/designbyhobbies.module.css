@@ -36,3 +36,9 @@
 .hobbies__div > button:hover {
   background-color: rgb(3, 70, 70);
 }
+
+@media (max-width: 768px) {
+  .hobbies__name {
+    font-size: 1.5rem;
+  }
+}

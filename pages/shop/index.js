@@ -29,7 +29,7 @@ const Shop = ({ products, noOfPage, categorys }) => {
         <Breadcrumbs location={[{ name: "Shop", path: "/shop" }]} />
 
         <CategoryList categorys={categorys} />
-        <div className="w-[90%] mx-auto mt-4 mb-10 md:columns-2 lg:columns-3 gap-4 ">
+        <div className="w-[90%] mx-auto mt-4 mb-10 columns-2 lg:columns-3 gap-4 ">
           {products
             ?.filter((val) => {
               if (categoryData == "" || categoryData == "all") {

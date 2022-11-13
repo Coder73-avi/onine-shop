@@ -13,12 +13,10 @@ import PaymentMethod from "./PaymentMethod";
 import Address from "./Address";
 import AccountDetails from "./AccountDetails";
 import Dashboard from "./Dashboard";
-import { useStateValue } from "controllers/Reducer/stateProvider";
-import { RemoveCookie } from "controllers/SetCookie";
 import MyReview from "./MyReview";
+import logOut from "controllers/logOut";
 
 const MyAccount = ({ router }) => {
-  const [{}, dispatch] = useStateValue();
   const myaccount = [
     { name: "Dashboard", path: "/myaccount", icon: <AiOutlineDashboard /> },
     {
@@ -58,25 +56,10 @@ const MyAccount = ({ router }) => {
     }
   }, [router.query]);
 
-  const logOut = async () => {
-    try {
-      // await axios.get("/logout");
-      RemoveCookie("auth");
-      alert("Log out successfully");
-      dispatch({ type: "UPDATE__CART" });
-      dispatch({ type: "AUTH__USER", user: null });
-      dispatch({ type: "ADD__TO__CART", carts: [] });
-
-      router.push("/login");
-    } catch (error) {
-      // console.error(error);
-    }
-  };
-
   return (
     <>
-      <div className="my-5 grid grid-cols-4 gap-10">
-        <div className="col-span-1 border ">
+      <div className="my-5 grid grid-cols-4 gap-5 lg:gap-10">
+        <div className="col-span-4 md:col-span-1 border ">
           <nav className={css.myaccount__nav}>
             {myaccount.map((val, indx) => {
               let active = false;
@@ -100,19 +83,20 @@ const MyAccount = ({ router }) => {
                 </Link>
               );
             })}
-            <Link href={"#"}>
-              <a className={`text-gray-800 ${css.nav__name}`} onClick={logOut}>
-                <span className={css.icon}>
-                  <BiLogOut />
-                </span>
+            <button
+              className={`text-gray-800 ${css.nav__name}`}
+              onClick={logOut}
+            >
+              <span className={css.icon}>
+                <BiLogOut />
+              </span>
 
-                <span>Log Out</span>
-              </a>
-            </Link>
+              <span>Log Out</span>
+            </button>
           </nav>
         </div>
 
-        <div className="col-span-3 ">
+        <div className="col-span-4 md:col-span-3">
           <div className="border p-4">
             {!router.query.hasOwnProperty("name") && <Dashboard />}
             {router.query?.name == "my-orders" && <Myorders />}

@@ -28,18 +28,6 @@ const LoginForm = () => {
         setErrorMsg("Login Successfully");
         SetCookie("auth", res.data?.token);
 
-        const auth = GetCookie("auth");
-        const getUser = await axios.get("/getuser", {
-          headers: { Authorization: auth },
-        });
-
-        if (getUser.status == 200) {
-          if (Array.isArray(getUser?.data)) {
-            dispatch({ type: "AUTH__USER", user: getUser.data[0] });
-          } else {
-            dispatch({ type: "AUTH__USER", user: null });
-          }
-        }
         return window.location.reload(false);
       }
     } catch (error) {
@@ -51,7 +39,7 @@ const LoginForm = () => {
   return (
     <>
       <section className={css.login__section}>
-        <div className="grid grid-cols-2">
+        <div className="grid md:grid-cols-2">
           <div className={css.form}>
             <h1 className="text-center font-extrabold mb-4 text-3xl text-teal-700">
               Login

@@ -19,7 +19,7 @@ const RoomMakeOver = () => {
   return (
     <>
       <section className="">
-        <div className="relative w-full h-52 shadow overflow-hidden rounded-md">
+        <div className="relative w-full md:h-36 lg:h-52 shadow overflow-hidden rounded-md">
           <Image
             src={coverImage}
             alt="default-image"
@@ -27,22 +27,22 @@ const RoomMakeOver = () => {
             objectFit="cover"
             objectPosition={"center"}
           />
-          <div className="absolute z-50 text-white font-bold text-3xl flex flex-row justify-start items-center w-full h-full px-6">
+          <div className="absolute z-50 text-white font-bold text-lg lg:text-3xl flex flex-row justify-start items-center w-full h-full px-6">
             Room Make Over
           </div>
         </div>
-        <div className="grid md:grid-cols-3 gap-8 my-14 justify-center items-center mx-auto">
-          <div className="p-4 overflow-hidden rounded-2xl ">
+        <div className="grid lg:grid-cols-3  gap-8 md:px-4 lg:p-0 my-4 lg:justify-center items-center mx-auto">
+          <div className="p-4 overflow-hidden rounded-2xl col-span-3 lg:col-span-1">
             <YouTube videoId="2g811Eo7K8U" opts={opts} />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="col-span-3 lg:col-span-1 grid md:grid-cols-2 gap-4">
             {Array(4)
               .fill()
               .map((val, indx) => (
                 <div
                   key={indx}
-                  className="relative rounded-xl overflow-hidden h-28"
+                  className="relative rounded-xl overflow-hidden "
                 >
                   <DefaultImage
                     src={roommakeover}
@@ -52,10 +52,9 @@ const RoomMakeOver = () => {
                 </div>
               ))}
           </div>
-          <div>
+          <div className="col-span-3 lg:col-span-1">
             <div
-              className="relative rounded-xl overflow-hidden"
-              data-aos="fade-up"
+              className="relative rounded-xl overflow-hidden "
             >
               <DefaultImage src={roommakeover} alt="room make over" />
             </div>

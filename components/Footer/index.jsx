@@ -13,7 +13,7 @@ import { AiOutlineTwitter, AiOutlineInstagram } from "react-icons/ai";
 const Footer = () => {
   return (
     <footer className={css.footer}>
-      <article className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <article className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 ">
         <div>
           <div className={css.footer__title}>Company</div>
           <div className={css.list}>
@@ -62,7 +62,7 @@ const Footer = () => {
             </Link>
           </div>
         </div>
-        <div>
+        <div className="md:col-span-2">
           <div className={css.footer__title}>Follow Us</div>
           <div className="flex flex-row items-center gap-3 mb-3">
             <div className={css.socialIcon}>

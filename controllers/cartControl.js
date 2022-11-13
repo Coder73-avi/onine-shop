@@ -11,11 +11,16 @@ export const addToCart = async (newObj) => {
   }
 };
 
-export const removeItemFromCart = async (id) => {
+export const removeItemFromCart = async (id, qty = 1) => {
   try {
-    const remove = await axios.delete("/deletecheckout/" + id);
+    let remove;
+    if (qty == 1) remove = await axios.delete("/deletecheckout/" + id);
+
+    if (qty !== 1)
+      remove = await axios.patch("/updatecheckout/" + id, { qty: qty - 1 });
+
     if (remove.status == 200) {
-      return console.log("Delete successfully");
+      return console.log("Removed Successfully");
     }
   } catch (error) {
     return console.error(error);

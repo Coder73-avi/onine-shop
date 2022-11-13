@@ -98,3 +98,28 @@
   gap: 1.5rem;
   color: white;
 }
+
+@media (max-width: 768px) {
+  .login__section,
+  .signup__section {
+    padding: 1.2rem 0;
+  }
+  .login__section > div {
+    width: 100%;
+  }
+  .signup__section > div {
+    width: 100%;
+  }
+
+  .login__section > div,
+  .signup__section > div {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  .info__btn {
+    padding: 1rem 0.4rem;
+  }
+}

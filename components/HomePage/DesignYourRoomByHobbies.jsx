@@ -24,7 +24,9 @@ const DesignYourRoomByHobbies = () => {
   return (
     <>
       <section
-        className={"relative h-52 w-full overflow-hidden rounded-md mb-4"}
+        className={
+          "relative h-36 lg:h-52 w-full overflow-hidden rounded-md mb-4"
+        }
       >
         <Image
           src={coverImage}
@@ -33,19 +35,18 @@ const DesignYourRoomByHobbies = () => {
           objectFit="cover"
           objectPosition={"center"}
         />
-        <div className="absolute z-50 text-white font-bold text-3xl flex flex-row justify-start items-center w-full h-full px-6">
+        <div className="absolute z-50 text-white font-bold text-lg lg:text-3xl flex flex-row justify-start items-center w-full h-full px-6">
           Design Your Room By Hoobies
         </div>
       </section>
 
-      <div className="grid md:grid-cols-4 gap-10 p-4  mx-auto ">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 p-4  mx-auto ">
         {designbyHobbies.map((val, indx) => (
           <Link href={`/shop?category=${val.name.toLowerCase()}`} key={indx}>
             <div
               className={
-                "relative h-full w-full rounded-2xl overflow-hidden cursor-pointer "
+                "relative h-[250px] md:h-[450px] w-full rounded-2xl overflow-hidden cursor-pointer "
               }
-              data-aos="zoom-in"
             >
               <div className={css.hobbies__name}>{val.name}</div>
               <DefaultImage src={val.image} alt="design-image" />

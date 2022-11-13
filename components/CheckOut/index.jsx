@@ -42,27 +42,29 @@ const CheckOut = () => {
   }, [checkOutList, user]);
 
   return (
-    <section className="w-[90%] mx-auto my-4">
+    <section className="w-[97%] lg:w-[90%] mx-auto my-4">
       <h1 className="font-bold uppercase text-xl py-2">PROCCED TO CHECKOUT</h1>
       <hr className="mb-4" />
 
       <div className={css.alertInfo}>
-        Have a coupon?
-        <Link href={"/login"}>
-          <a> Click here to enter your code</a>
-        </Link>
+        Check your Product before place to order
       </div>
       {loading ? (
         <Loading />
       ) : (
-        <div className="grid md:grid-cols-5 gap-16">
-          <div className="col-span-3">
-            {/* <BillingForm /> */}
+        <div className="grid md:grid-cols-5 gap-10">
+          <div className="col-span-5">
             <BillingAddress address={address} />
+          </div>
+          <div className="col-span-5 md:col-span-3">
             <OrderDetails carts={carts} />
           </div>
-          <div className="col-span-2">
-            <OrderSummary carts={carts} dispatch={dispatch} address__id={address?.id} />
+          <div className="col-span-5 md:col-span-2">
+            <OrderSummary
+              carts={carts}
+              dispatch={dispatch}
+              address__id={address?.id}
+            />
           </div>
         </div>
       )}

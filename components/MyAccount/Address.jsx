@@ -59,7 +59,7 @@ const Address = () => {
       )}
       <section>
         {router.query?.form == undefined ? (
-          <div className="grid md:grid-cols-2 gap-6 items-center my-6 mx-4">
+          <div className="grid lg:grid-cols-2 gap-6 items-center my-6 mx-4">
             {addressData?.map((val, indx) => {
               return (
                 <AddressCard

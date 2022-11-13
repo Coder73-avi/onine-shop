@@ -12,7 +12,7 @@ export default function Login() {
         <title>Login</title>
       </Head>
       <Breadcrumbs location={[{ name: "Login", path: "/login" }]} />
-      <main className="w-[90%] mx-auto">
+      <main className="w-[97%] lg:w-[90%] mx-auto">
         {router.query?.type == "signup" ? <SignUpForm /> : <LoginForm />}
       </main>
     </>

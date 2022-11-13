@@ -12,6 +12,7 @@ import { getCartTotal } from "controllers/Reducer/reducer";
 import Link from "next/link";
 import DefaultImage from "components/DefaultImage";
 import { removeItemFromCart } from "controllers/cartControl";
+import { formatingNumber } from "controllers/otherFunctions";
 
 const DropDownCart = ({ setShowCart, carts }) => {
   const dropCartRef = useRef();
@@ -27,7 +28,8 @@ const DropDownCart = ({ setShowCart, carts }) => {
   return (
     <div className={`${css.DropDownCart}`} ref={dropCartRef}>
       {carts?.map((val, indx) => {
-        const title = val?.product?.title.slice(0, 20);
+        const title = val?.title.slice(0, 20);
+        const subtotal = parseInt(val?.qty) * parseInt(val?.price);
         return (
           <div
             className={`grid grid-cols-5 gap-3 justify-center my-4 relative ${
@@ -48,10 +50,10 @@ const DropDownCart = ({ setShowCart, carts }) => {
                 {title} {title.length > 20 && " . . ."}
               </h1>
               <h4 className="text-gray-500 flex flex-row gap-0 items-center text-xs">
-                {val?.qty || 1} <IoClose /> Rs {val?.product?.price} ={" "}
+                {val?.qty || 1} <IoClose /> Rs {formatingNumber(val?.price)} ={" "}
                 <span className="underline italic ml-3 text-gray-600">
                   {" Rs. "}
-                  {parseInt(val?.qty) * parseInt(val?.product?.price)}
+                  {formatingNumber(subtotal)}
                 </span>
               </h4>
               {/* <h4 className="text-gray-500 text-xs">
@@ -61,9 +63,9 @@ const DropDownCart = ({ setShowCart, carts }) => {
             <div
               className="absolute right-0 bottom-0 flex flex-row justify-end"
               onClick={async () => {
-                await removeItemFromCart(val?.id);
+                await removeItemFromCart(val?.id, val?.qty);
                 dispatch({ type: "UPDATE__CART" });
-                setShowCart(false);
+                return setShowCart(false);
               }}
             >
               {/* <IoClose className={css.closeBtn} /> */}

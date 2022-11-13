@@ -3,24 +3,12 @@ import React from "react";
 import axios from "controllers/axios";
 import { useRouter } from "next/router";
 import { RemoveCookie } from "controllers/SetCookie";
+import logOut from "controllers/logOut";
 
 const Dashboard = () => {
   const [{ user }, dispatch] = useStateValue();
   const router = useRouter();
 
-  const logOut = async () => {
-    try {
-      // await axios.get("/logout");
-      RemoveCookie("auth");
-      // alert("Log out successfully");
-      dispatch({ type: "UPDATE__CART" });
-      dispatch({ type: "AUTH__USER", user: null });
-      dispatch({ type: "ADD__TO__CART", carts: [] });
-      return router.push("/login");
-    } catch (error) {
-      // console.error(error);
-    }
-  };
   return (
     <>
       <h1 className="text-lg font-extrabold uppercase my-2 text-gray-800">

@@ -89,3 +89,21 @@
   color: white;
   background-color: var(--color-secondary);
 }
+
+@media (max-width: 768px) {
+  .searchBox {
+    display: none;
+  }
+  .shopping__cart {
+    font-size: 14px;
+  }
+  .shopping__cart::after {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 430px) {
+  .main__nav {
+    display: none;
+  }
+}

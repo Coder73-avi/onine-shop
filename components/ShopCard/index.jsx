@@ -25,7 +25,7 @@ const ShopCard = ({ id, imageSrc, title, price, onSale, isNew }) => {
         return router.push("/login");
       }
 
-      await addToCart({ product__id: id, qty: 1 });
+      await addToCart({ product__id: id, qty: 1, product__option: "" });
       return dispatch({
         type: "UPDATE__CART",
       });
@@ -76,13 +76,10 @@ const ShopCard = ({ id, imageSrc, title, price, onSale, isNew }) => {
 
   return (
     <div className={`shadow-2xl  hover:cursor-pointer ${css.shopCard}`}>
-      <div className="relative ">
+      <div className="relative overflow-hidden">
         {isNew ? <div className={css.newBtn}>New</div> : null}
         {onSale == "1" ? (
-          <div
-            className={css.saleBtn}
-            style={{ right: `${isNew ? "2.7rem " : "0"}` }}
-          >
+          <div className={`${css.saleBtn} ${isNew ? css.new : null}`}>
             Sale !
           </div>
         ) : null}
@@ -98,7 +95,7 @@ const ShopCard = ({ id, imageSrc, title, price, onSale, isNew }) => {
             <DefaultImage
               src={imageSrc || defaultImage}
               alt="card-images"
-              className={"rounded-lg overflow-hidden hover:opacity-80"}
+              className={"rounded-md overflow-hidden hover:opacity-80"}
             />
           </a>
         </Link>

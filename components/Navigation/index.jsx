@@ -17,8 +17,7 @@ import DropDownCart from "components/Cart/DropDownCart";
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import { useRouter } from "next/router";
 import { BsCartCheck } from "react-icons/bs";
-import SetCookie, { GetCookie, RemoveCookie } from "controllers/SetCookie";
-import Cookie from "js-cookie";
+import { RemoveCookie } from "controllers/SetCookie";
 
 const Navigation = () => {
   const router = useRouter();
@@ -55,20 +54,16 @@ const Navigation = () => {
     { name: "Contact Us", icon: "", path: "/" },
   ];
 
+  // logout
   const logOut = async () => {
     try {
-      // await axios.get("/logout");
       RemoveCookie("auth");
       alert("Log out successfully");
-      dispatch({ type: "UPDATE__CART" });
-      dispatch({ type: "AUTH__USER", user: null });
-      dispatch({ type: "ADD__TO__CART", carts: [] });
-      router.push("/login");
+      return window.location.href(false);
     } catch (error) {
-      // console.error(error);
+      return console.error(error);
     }
   };
-
   // checking user is LogIn or Not
 
   const checkingUserAuth = useCallback(async () => {
@@ -95,17 +90,14 @@ const Navigation = () => {
   const getCheckoutData = useCallback(async () => {
     try {
       if (user !== null) {
-        const res = await axios.get("/getcheckouts", {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
+        const res = await axios.get("/getcheckouts");
         if (res.status == 200) {
           // console.log(res.data);
           return dispatch({ type: "ADD__TO__CART", carts: res.data });
         }
       }
     } catch (error) {
+      console.error(error);
       return dispatch({ type: "ADD__TO__CART", carts: [] });
     }
   }, [user, cartChange]);
@@ -117,9 +109,11 @@ const Navigation = () => {
   return (
     <>
       <section
-        className={` sticky py-3 px-6 border-b flex flex-row justify-between items-center`}
+        className={` sticky py-3 px-6 border-b hidden md:flex flex-row md:justify-end lg:justify-between items-center`}
       >
-        <div className={`text-xs text-gray-400`}>Default Welcome Msg!</div>
+        <div className={`text-xs text-gray-400 hidden lg:block`}>
+          Default Welcome Msg!
+        </div>
         <nav className={css.sub__nav}>
           {subMenu.map(({ name, icon, path }, indx) => {
             return (
@@ -167,7 +161,7 @@ const Navigation = () => {
         </nav>
 
         <div className={css.side__icons}>
-          <form className={css.searchBox}>
+          <form className={` ${css.searchBox}`}>
             <input type="search" placeholder="Search products" />
             <BiSearch className="text-lg" />
           </form>

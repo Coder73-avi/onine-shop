@@ -12,7 +12,7 @@ export default function Myaccount() {
         <title>My Account</title>
       </Head>
       <Breadcrumbs location={[{ name: "My Account", path: "/myaccount" }]} />
-      <main className="w-[85%] mx-auto">
+      <main className="w-[98%] lg:w-[85%] mx-auto">
         <MyAccount router={router} />
       </main>
     </>
