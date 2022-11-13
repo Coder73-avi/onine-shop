@@ -40,7 +40,7 @@ const WhishList = () => {
     try {
       const remove = await axios.delete("/deletewishlist/" + id);
       if (remove.status == 200) {
-        setWishlist(wishlist.filter((val) => val.product__id !== id));
+        setWishlist(wishlist.filter((val) => val.pid !== id));
       }
       console.log(remove);
       return;
@@ -100,14 +100,14 @@ const WhishList = () => {
               <div
                 className="text-base cursor-pointer hover:text-red-600"
                 title="Remove"
-                onClick={() => RemoveFromWishList(val?.product__id)}
+                onClick={() => RemoveFromWishList(val?.pid)}
               >
                 <BsTrash />
               </div>
               <div
                 className="bg-orange-500 rounded-lg text-xl text-white p-2 hover:opacity-70 cursor-pointer "
                 title="Add To Cart"
-                onClick={() => AddToCart(val?.product__id)}
+                onClick={() => AddToCart(val?.pid)}
               >
                 <TbShoppingCartPlus />
               </div>

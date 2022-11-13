@@ -33,7 +33,9 @@ const RoomMakeOver = () => {
         </div>
         <div className="grid lg:grid-cols-3 gap-8 md:px-4 lg:p-0 my-4 lg:justify-center items-center mx-auto">
           <div className="p-4 overflow-hidden rounded-2xl col-span-3 lg:col-span-1">
-            <YouTube videoId="2g811Eo7K8U" opts={opts} />
+            <video controls autoPlay={true} loop muted>
+              <source src={"./videos/furniture-1.mp4"} type="video/mp4" />
+            </video>
           </div>
 
           <div className="col-span-3 lg:col-span-1 grid grid-cols-2 gap-4">
@@ -44,19 +46,23 @@ const RoomMakeOver = () => {
                   key={indx}
                   className="relative rounded-xl overflow-hidden "
                 >
-                  <DefaultImage
+                  {/* <DefaultImage
                     src={roommakeover}
                     alt="room make over"
                     className={`shadow-xl`}
-                  />
+                  /> */}
+                  <video autoPlay={true} loop muted>
+                    <source src={"./videos/furniture-2.mp4"} type="video/mp4" />
+                  </video>
                 </div>
               ))}
           </div>
           <div className="col-span-3 lg:col-span-1">
-            <div
-              className="relative rounded-xl overflow-hidden "
-            >
-              <DefaultImage src={roommakeover} alt="room make over" />
+            <div className="relative rounded-xl overflow-hidden ">
+              {/* <DefaultImage src={roommakeover} alt="room make over" /> */}
+              <video controls autoPlay={true} loop muted>
+                <source src={"./videos/furniture-3.mp4"} type="video/mp4" />
+              </video>
             </div>
           </div>
         </div>

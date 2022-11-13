@@ -19,7 +19,7 @@ const HomePage = () => {
       <section className="w-[90%] lg:container mx-auto grid lg:grid-cols-2 gap-6 my-4">
         <div className="col-span-1 grid md:grid-cols-3 gap-4">
           <div className="col-span-1 flex flex-col gap-4">
-            <Link href="/category">
+            <Link href="/categorys">
               <a
                 className={`h-44 md:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
               >

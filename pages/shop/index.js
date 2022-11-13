@@ -10,13 +10,8 @@ import Pagination from "components/Pagination";
 
 const Shop = ({ products, noOfPage, categorys }) => {
   const router = useRouter();
-  const [categoryData, setCategoryData] = React.useState("");
 
   React.useEffect(() => {
-    if (router.query.hasOwnProperty("category")) {
-      setCategoryData(router.query?.category);
-    }
-
     if (noOfPage == 0) router.push("/shop");
   }, [noOfPage, router, router.query]);
 
@@ -30,29 +25,18 @@ const Shop = ({ products, noOfPage, categorys }) => {
 
         <CategoryList categorys={categorys} />
         <div className="w-[90%] mx-auto mt-4 mb-10 columns-2 lg:columns-3 gap-4 ">
-          {products
-            ?.filter((val) => {
-              if (categoryData == "" || categoryData == "all") {
-                return val;
-              } else if (
-                categoryData.toLowerCase() ==
-                val.category.toLowerCase().replace(" ", "-")
-              ) {
-                return val;
-              }
-            })
-            ?.map((val, indx) => (
-              <div className="mb-8" key={indx}>
-                <ShopCard
-                  imageSrc={val?.imageSrc}
-                  id={val?.pid}
-                  title={val?.title}
-                  price={val?.price}
-                  onSale={val?.on__sale}
-                  isNew={val.is__new}
-                />
-              </div>
-            ))}
+          {products?.map((val, indx) => (
+            <div className="mb-8" key={indx}>
+              <ShopCard
+                imageSrc={val?.imageSrc}
+                id={val?.pid}
+                title={val?.title}
+                price={val?.price}
+                onSale={val?.on__sale}
+                isNew={val.is__new}
+              />
+            </div>
+          ))}
         </div>
 
         <Pagination noOfPage={noOfPage} />

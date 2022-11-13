@@ -12,7 +12,7 @@ export default function ideas({ imageList }) {
       </Head>
       <Breadcrumbs location={[{ name: "Ideas", path: "/ideas" }]} />
       <main>
-        {imageList.length == 0 ? (
+        {imageList?.length == 0 ? (
           <div className="text-sm text-gray-600 my-3 mx-4 p-4 border rounded-md">
             0 Images found !!!
           </div>
