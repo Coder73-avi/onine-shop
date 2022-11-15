@@ -19,7 +19,7 @@ const RoomMakeOver = () => {
   return (
     <>
       <section className="">
-        <div className="relative w-full h-20 md:h-36 lg:h-52 shadow overflow-hidden ">
+        <div className="relative w-full h-24 md:h-36 lg:h-52 shadow overflow-hidden ">
           <Image
             src={coverImage}
             alt="default-image"
@@ -27,7 +27,7 @@ const RoomMakeOver = () => {
             objectFit="cover"
             objectPosition={"center"}
           />
-          <div className="absolute z-50 text-white font-bold text-md lg:text-3xl flex flex-row justify-start xl:justify-center items-center w-full h-full  px-6 ">
+          <div className="absolute z-50 text-white font-bold text-md md:text-xl lg:text-3xl flex flex-row justify-start xl:justify-center items-center w-full h-full  px-6 ">
             Room Make Over
           </div>
         </div>
@@ -38,7 +38,7 @@ const RoomMakeOver = () => {
             </video>
           </div>
 
-          <div className="col-span-3 lg:col-span-1 grid grid-cols-2 gap-4">
+          <div className="col-span-3 lg:col-span-1 grid grid-cols-2 gap-4 px-3 md:p-0">
             {Array(4)
               .fill()
               .map((val, indx) => (
@@ -57,8 +57,8 @@ const RoomMakeOver = () => {
                 </div>
               ))}
           </div>
-          <div className="col-span-3 lg:col-span-1">
-            <div className="relative rounded-xl overflow-hidden ">
+          <div className="col-span-3 lg:col-span-1 px-3 md:p-0">
+            <div className="relative  overflow-hidden ">
               {/* <DefaultImage src={roommakeover} alt="room make over" /> */}
               <video controls autoPlay={true} loop muted>
                 <source src={"./videos/furniture-3.mp4"} type="video/mp4" />

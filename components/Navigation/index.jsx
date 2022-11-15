@@ -1,15 +1,19 @@
 import Link from "next/link";
 import React, { useCallback, useState, useEffect } from "react";
 import css from "./style.module.css";
-import { FaUser } from "react-icons/fa";
+import { FaRegLightbulb, FaUser } from "react-icons/fa";
 import {
   AiFillHeart,
   AiOutlineUnlock,
   AiOutlineShoppingCart,
   AiOutlineMenu,
+  AiOutlineHome,
+  AiOutlineUser,
+  AiOutlineHeart,
 } from "react-icons/ai";
 import { FaRegShareSquare } from "react-icons/fa";
 import { BiSearch } from "react-icons/bi";
+import { MdAddShoppingCart } from "react-icons/md";
 
 import axios from "controllers/axios";
 import logo from "images/logo.png";
@@ -118,8 +122,8 @@ const Navigation = () => {
 
   return (
     <>
-      <section className={` sticky py-3 px-6 border-b bg-white`}>
-        <div className="hidden md:flex flex-row md:justify-end lg:justify-between items-center custom-container ">
+      <section className={`hidden md:block sticky py-3 px-6 border-b bg-white`}>
+        <div className=" flex flex-row md:justify-end lg:justify-between items-center custom-container ">
           <div className={`text-xs text-gray-400 hidden lg:block`}>
             Default Welcome Msg!
           </div>
@@ -191,8 +195,8 @@ const Navigation = () => {
               <AiOutlineShoppingCart />
             </div>
             <div
-              className={`block lg:hidden text-2xl hover:text-teal-700`}
-              onClick={() => setResponsiveNav(true)}
+              className={css.threeLine__bar}
+              onClick={() => setResponsiveNav(!responsiveNav)}
             >
               <AiOutlineMenu />
             </div>
@@ -248,40 +252,76 @@ const SearchBox = () => {
 };
 
 const ResponsiveMenu = ({ user, logOut, setResponsiveNav, responsiveNav }) => {
+  const resMainMenu = [
+    { name: "Home", icon: <AiOutlineHome />, path: "/" },
+    {
+      name: "Shop",
+      icon: <AiOutlineShoppingCart />,
+      path: "/shop",
+    },
+    {
+      name: "Renting",
+      icon: <MdAddShoppingCart />,
+      path: "/renting",
+    },
+    { name: "About Us", icon: <FaRegLightbulb />, path: "/about" },
+
+    { name: "My Account", icon: <AiOutlineUser />, path: "/myaccount" },
+    {
+      name: "My Orders",
+      icon: <BsCartCheck />,
+      path: "/myaccount?name=my-orders",
+    },
+    {
+      name: "My Wiselist",
+      icon: <AiOutlineHeart />,
+      path: "/wishlist",
+    },
+    {
+      name: "My Checkouts",
+      icon: <FaRegShareSquare />,
+      path: "/checkout",
+    },
+  ];
   return (
     <div
       className={css.responsive__div}
-      style={{ right: responsiveNav ? "0%" : "-50%" }}
+      style={{ right: responsiveNav ? "0%" : "-60%" }}
     >
-      <nav className={css.responsive__nav}>
+      <div className="py-4 relative">
         <div
-          className="absolute top-5 right-5 text-3xl"
+          className="text-2xl text-white hover:text-red-600 absolute top-5 right-5 cursor-pointer z-50"
           onClick={() => setResponsiveNav(false)}
         >
           <IoClose />
         </div>
-        {mainMenu.map(({ name, path }, indx) => (
-          <Link href={path} key={indx}>
-            <a className={`${css.responsive__link} `}>{name}</a>
-          </Link>
-        ))}
-
-        <Link href={user !== null ? "#" : "/login"}>
-          <a className={`${css.responsive__link} `}>
-            <div
-              className={`flex flex-row gap-2 justify-center items-center px-5 `}
-              onClick={user !== null ? logOut : () => {}}
-            >
-              {/* <div className={css.sub__icon}>
-                <AiOutlineUnlock />
-              </div> */}
-              {user !== null ? `Log Out` : "Sign In"}
-            </div>
-          </a>
-        </Link>
-      </nav>
-
-      <nav className={css.mini__nav}></nav>
+        <div className="relative h-20">
+          <Image
+            src={logo}
+            alt="company-logo"
+            layout="fill"
+            objectFit="contain"
+          />
+        </div>
+        <nav className={css.responsive__nav}>
+          {/* <div
+            className="absolute top-5 right-5 text-3xl"
+            onClick={() => setResponsiveNav(false)}
+          >
+            <IoClose />
+          </div> */}
+          {resMainMenu.map(({ name, icon, path }, indx) => (
+            <Link href={path} key={indx}>
+              <a className={` `} onClick={() => setResponsiveNav(false)}>
+                <div className={css.responsive__link}>
+                  <span>{icon}</span>
+                  {name}
+                </div>
+              </a>
+            </Link>
+          ))}
+        </nav>
+      </div>
     </div>
   );
 };

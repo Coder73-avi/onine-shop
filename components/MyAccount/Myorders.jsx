@@ -68,7 +68,9 @@ const Myorders = () => {
           setChangeStatus={setChangeStatus}
         />
       ) : null}
-      <h1 className="text-lg font-extrabold my-2 text-gray-800">My Orders</h1>
+      <h1 className="p-2 md:p-0 text-lg font-extrabold my-2 text-gray-800">
+        My Orders
+      </h1>
       <hr className="mb-4" />
       {loading && <Loading />}
       {!loading && orders?.length == 0 ? (
@@ -86,7 +88,7 @@ const Myorders = () => {
           ))}
         </div>
       )}
-      <section className=" p-4 flex flex-col justify-center gap-6">
+      <section className="p-4 flex flex-col justify-center gap-6">
         {orders
           ?.filter((item) => {
             if (filterStatus == "") {

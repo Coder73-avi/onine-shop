@@ -12,6 +12,7 @@ import Loading from "components/Loading";
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import { addToCart } from "controllers/cartControl";
 import { useRouter } from "next/router";
+import { formatingNumber } from "controllers/otherFunctions";
 
 const WhishList = () => {
   const router = useRouter();
@@ -42,7 +43,7 @@ const WhishList = () => {
       if (remove.status == 200) {
         setWishlist(wishlist.filter((val) => val.pid !== id));
       }
-      console.log(remove);
+      // console.log(remove);
       return;
     } catch (error) {}
   };
@@ -92,7 +93,7 @@ const WhishList = () => {
                   <div className="flex flex-col items-start  gap-1 py-2">
                     <div className="text-sm ">{val?.title || "None"}</div>
                     <div className="font-bold  text-orange-600 ">
-                      Rs. {val?.price || "1000"}
+                      Rs. {formatingNumber(val?.price || 1000)}
                     </div>
                   </div>
                 </a>

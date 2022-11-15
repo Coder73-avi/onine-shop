@@ -25,7 +25,7 @@ const DesignYourRoomByHobbies = () => {
     <>
       <section
         className={
-          "relative h-20 md:h-36 lg:h-52 w-full overflow-hidden rounded-md mb-4"
+          "relative h-24 md:h-36 lg:h-52 w-full overflow-hidden mb-4"
         }
       >
         <Image
@@ -35,7 +35,7 @@ const DesignYourRoomByHobbies = () => {
           objectFit="cover"
           objectPosition={"center"}
         />
-        <div className="absolute z-50 text-white font-bold text-md lg:text-3xl flex flex-row justify-start xl:justify-center items-center w-full h-full px-6">
+        <div className="absolute z-50 text-white font-bold text-md md:text-xl lg:text-3xl flex flex-row justify-start xl:justify-center items-center w-full h-full px-6">
           Design Your Room By Hoobies
         </div>
       </section>

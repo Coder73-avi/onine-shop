@@ -8,9 +8,8 @@ import { formatingNumber } from "controllers/otherFunctions";
 const MyOrderCard = ({ val, addReview = false, review = false }) => {
   return (
     <div
-      className={`cursor-pointer border rounded-sm  px-4 py-2 w-[95%] ${
-        review ? " " : "md:w-[60%]"
-      } hover:bg-gray-200 duration-200`}
+      className={`cursor-pointer border rounded-sm  px-4 py-2 w-[95%]
+         lg:w-[60%] hover:bg-gray-200 duration-200`}
     >
       <div className="text-gray-600 text-xs flex flex-row justify-between items-center">
         <div>#Order Id : {val?.id}</div>

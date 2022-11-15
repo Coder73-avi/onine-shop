@@ -85,7 +85,7 @@ const MyAccount = ({ router }) => {
         </div>
 
         <div className="col-span-4 md:col-span-3 ">
-          <div className="border p-4 min-h-full">
+          <div className="border md:p-4 min-h-full">
             {!router.query.hasOwnProperty("name") && <Dashboard />}
             {router.query?.name == "my-orders" && <Myorders />}
             {router.query?.name == "my-review" && <MyReview />}
