@@ -1,7 +1,9 @@
+import ProductRating from "components/ProductRating";
+import moment from "moment";
 import React, { useState } from "react";
 import css from "./css/moredetails.module.css";
 
-const MoreDetails = () => {
+const MoreDetails = ({ reviews }) => {
   const [navState, setNavState] = useState("more-info");
   return (
     <>
@@ -33,7 +35,7 @@ const MoreDetails = () => {
       <div className="border p-8 my-5">
         {navState == "more-info" && <MoreInfo />}
         {navState == "data-sheet" && <DataSheet />}
-        {navState == "review" && <Review />}
+        {navState == "review" && <Review reviews={reviews} />}
       </div>
     </>
   );
@@ -83,12 +85,24 @@ export const DataSheet = () => {
     </div>
   );
 };
-export const Review = () => {
+export const Review = ({ reviews }) => {
   return (
     <div>
-      <button className={css.reviewBtn}>
-        Be the first to write your review!
-      </button>
+      {reviews.length == 0 ? (
+        <div className="text-sm px-2 py-3 text-gray-700">0 reviews founds</div>
+      ) : null}
+      {reviews?.map((val, indx) => (
+        <div key={indx} className={css.reviews}>
+          <div>
+            <div className=" md:text-lg lg:text-2xl">
+              <ProductRating maxRating={parseInt(val?.rating || 2)} />
+            </div>
+            <h2 className="italic">By {val?.fullname}</h2>
+            <article className="py-4 text-md italic">{val?.text || ""}</article>
+          </div>
+          <div>{moment.utc(new Date(val?.date)).fromNow()}</div>
+        </div>
+      ))}
     </div>
   );
 };

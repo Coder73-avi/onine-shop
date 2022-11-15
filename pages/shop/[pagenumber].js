@@ -1,27 +1,23 @@
-import React from "react";
-import Head from "next/head";
 import Breadcrumbs from "components/Breadcrumbs";
-import ShopCard from "components/ShopCard";
 import CategoryList from "components/CategoryList";
+import Pagination from "components/Pagination";
+import ShopCard from "components/ShopCard";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import axios from "controllers/axios";
 
-import Pagination from "components/Pagination";
-
-const Shop = ({ products, noOfPage, categorys }) => {
+export default function Pagenumber({ products, noOfPage, categorys }) {
   const router = useRouter();
-
-  React.useEffect(() => {
-    if (noOfPage == 0) router.push("/shop");
-  }, [noOfPage, router, router.query]);
-
+  const pageNumber = router.query.pagenumber;
   return (
     <>
       <Head>
         <title>Shop</title>
       </Head>
       <main>
-        <Breadcrumbs location={[{ name: "Shop", path: "/shop" }]} />
+        <Breadcrumbs
+          location={[{ name: "Shop", path: "/shop/" + pageNumber }]}
+        />
 
         <CategoryList categorys={categorys} />
         <div
@@ -43,18 +39,32 @@ const Shop = ({ products, noOfPage, categorys }) => {
           ))}
         </div>
 
-        <Pagination noOfPage={noOfPage} link={"/shop/"} />
+        <Pagination noOfPage={noOfPage} link="/shop/" />
       </main>
     </>
   );
-};
+}
 
-export default Shop;
+export async function getStaticPaths() {
+  const res = await axios.get("/getproducts/20");
+  const noOfPages = res.data?.paginationNum;
+  const paths = Array(noOfPages)
+    .fill()
+    .map((curElement, indx) => {
+      const page = indx + 1;
 
-export async function getStaticProps() {
+      return { params: { pagenumber: page.toString() } };
+    });
+  return {
+    paths,
+    fallback: false, // can also be true or 'blocking'
+  };
+}
+
+export async function getStaticProps(context) {
   try {
-    const res = await axios.get("/getproducts/20/1");
-
+    const { pagenumber } = context.params;
+    const res = await axios.get("/getproducts/20/" + pagenumber);
     const { getData, paginationNum } = res.data;
 
     return {
@@ -64,7 +74,7 @@ export async function getStaticProps() {
         categorys: [],
       },
     };
-  } catch (err) {
+  } catch (error) {
     return {
       props: { product: [], noOfPage: 0, categorys: [] },
     };

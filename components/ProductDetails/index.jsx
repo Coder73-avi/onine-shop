@@ -27,7 +27,7 @@ import { addToWishList } from "controllers/wishListControl";
 import { formatingNumber } from "controllers/otherFunctions";
 import ProductRating from "components/ProductRating";
 
-const ProductDetails = ({ data, topSelling }) => {
+const ProductDetails = ({ data, topSelling, reviews }) => {
   const router = useRouter();
   const livingroom = [image4, image5, image6, image4];
 
@@ -43,9 +43,11 @@ const ProductDetails = ({ data, topSelling }) => {
   }, [data?.imageSrc]);
 
   useEffect(() => {
-    const options = JSON.parse(data?.product__options);
-    setProducutOptions(options);
-    setProducutOption(options[0]);
+    if (data?.product__options) {
+      const options = JSON?.parse(data?.product__options) || [];
+      setProducutOptions(options);
+      setProducutOption(options[0] || null);
+    }
   }, [data?.product__options]);
 
   const shareBtn = [
@@ -157,7 +159,7 @@ const ProductDetails = ({ data, topSelling }) => {
                 />
               </div>
 
-              <div className="my-5 grid grid-cols-3 lg:grid-cols-3 gap-4">
+              <div className="my-5 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {data?.images?.map((val, indx) => (
                   <div
                     key={indx}
@@ -279,7 +281,7 @@ const ProductDetails = ({ data, topSelling }) => {
         </div>
       </div>
 
-      <MoreDetails />
+      <MoreDetails reviews={reviews} />
     </div>
   );
 };

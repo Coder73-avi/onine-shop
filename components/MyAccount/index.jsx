@@ -56,10 +56,10 @@ const MyAccount = ({ router }) => {
 
   return (
     <>
-      <div className="my-5 grid grid-cols-4 gap-5 lg:gap-10">
-        <div className="col-span-4 md:col-span-1 border ">
-          <nav className={css.myaccount__nav}>
-            {myaccount.map((val, indx) => {
+      <div className="my-5 grid grid-cols-4 gap-5 lg:gap-10 custom-container">
+        <div className="col-span-4 md:col-span-1 border">
+          <nav className={css.myaccount__nav + " "}>
+            {myaccount?.map((val, indx) => {
               let active = false;
               const url = val.name.toLowerCase().replace(" ", "-");
               if (url == path) active = true;
@@ -81,12 +81,11 @@ const MyAccount = ({ router }) => {
                 </Link>
               );
             })}
-           
           </nav>
         </div>
 
-        <div className="col-span-4 md:col-span-3">
-          <div className="border p-4">
+        <div className="col-span-4 md:col-span-3 ">
+          <div className="border p-4 min-h-full">
             {!router.query.hasOwnProperty("name") && <Dashboard />}
             {router.query?.name == "my-orders" && <Myorders />}
             {router.query?.name == "my-review" && <MyReview />}

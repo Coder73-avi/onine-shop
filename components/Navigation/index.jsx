@@ -114,78 +114,80 @@ const Navigation = () => {
 
   return (
     <>
-      <section
-        className={` sticky py-3 px-6 border-b hidden md:flex flex-row md:justify-end lg:justify-between items-center`}
-      >
-        <div className={`text-xs text-gray-400 hidden lg:block`}>
-          Default Welcome Msg!
-        </div>
-        <nav className={css.sub__nav}>
-          {subMenu.map(({ name, icon, path }, indx) => {
-            return (
-              <Link href={path} key={indx}>
-                <a className={``}>
-                  <div
-                    className={`flex flex-row gap-2 justify-center items-center px-5 ${
-                      subMenu.length - 1 !== indx ? "border-r" : " "
-                    } `}
-                  >
-                    <div className={css.sub__icon}>{icon}</div>
-                    {name}
+      <section className={` sticky py-3 px-6 border-b bg-white`}>
+        <div className="hidden md:flex flex-row md:justify-end lg:justify-between items-center custom-container ">
+          <div className={`text-xs text-gray-400 hidden lg:block`}>
+            Default Welcome Msg!
+          </div>
+          <nav className={css.sub__nav + ""}>
+            {subMenu.map(({ name, icon, path }, indx) => {
+              return (
+                <Link href={path} key={indx}>
+                  <a className={``}>
+                    <div
+                      className={`flex flex-row gap-2 justify-center items-center px-5 ${
+                        subMenu.length - 1 !== indx ? "border-r" : " "
+                      } `}
+                    >
+                      <div className={css.sub__icon}>{icon}</div>
+                      {name}
+                    </div>
+                  </a>
+                </Link>
+              );
+            })}
+            <Link href={user !== null ? "#" : "/login"}>
+              <a className={``}>
+                <div
+                  className={`flex flex-row gap-2 justify-center items-center px-5 `}
+                  onClick={user !== null ? logOut : () => {}}
+                >
+                  <div className={css.sub__icon}>
+                    <AiOutlineUnlock />
                   </div>
-                </a>
-              </Link>
-            );
-          })}
-          <Link href={user !== null ? "#" : "/login"}>
-            <a className={``}>
-              <div
-                className={`flex flex-row gap-2 justify-center items-center px-5 `}
-                onClick={user !== null ? logOut : () => {}}
-              >
-                <div className={css.sub__icon}>
-                  <AiOutlineUnlock />
+                  {user !== null ? `Log Out` : "Sign In"}
                 </div>
-                {user !== null ? `Log Out` : "Sign In"}
-              </div>
-            </a>
-          </Link>
-        </nav>
+              </a>
+            </Link>
+          </nav>
+        </div>
       </section>
 
-      <section className={css.main__nav__section}>
-        <div className={`${css.main__logo} relative h-14 w-36`}>
-          <Image src={logo} alt="logo" layout="fill" objectFit="contain" />
-        </div>
-
-        <nav className={css.main__nav}>
-          {mainMenu.map(({ name, path }, indx) => (
-            <Link href={path} key={indx}>
-              <a className={`${css.main__nav__link} font-semibold`}>{name}</a>
-            </Link>
-          ))}
-        </nav>
-
-        <div className={css.side__icons}>
-          <form className={` ${css.searchBox}`}>
-            <input type="search" placeholder="Search products" />
-            <BiSearch className="text-lg" />
-          </form>
-          <div
-            className={css.shopping__cart}
-            data-checkout={carts?.length || 0}
-            onClick={() => setShowCart(!showCart)}
-          >
-            <AiOutlineShoppingCart />
+      <section className={css.main__nav__section + " bg-white"}>
+        <div className="flex flex-row justify-between custom-container">
+          <div className={`${css.main__logo} relative h-14 w-36`}>
+            <Image src={logo} alt="logo" layout="fill" objectFit="contain" />
           </div>
+
+          <nav className={css.main__nav}>
+            {mainMenu.map(({ name, path }, indx) => (
+              <Link href={path} key={indx}>
+                <a className={`${css.main__nav__link} font-semibold`}>{name}</a>
+              </Link>
+            ))}
+          </nav>
+
+          <div className={css.side__icons}>
+            <form className={` ${css.searchBox}`}>
+              <input type="search" placeholder="Search products" />
+              <BiSearch className="text-lg" />
+            </form>
+            <div
+              className={css.shopping__cart}
+              data-checkout={carts?.length || 0}
+              onClick={() => setShowCart(!showCart)}
+            >
+              <AiOutlineShoppingCart />
+            </div>
+          </div>
+          {showCart && (
+            <DropDownCart
+              setShowCart={setShowCart}
+              showCart={showCart}
+              carts={carts}
+            />
+          )}
         </div>
-        {showCart && (
-          <DropDownCart
-            setShowCart={setShowCart}
-            showCart={showCart}
-            carts={carts}
-          />
-        )}
       </section>
     </>
   );

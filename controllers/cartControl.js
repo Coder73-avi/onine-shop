@@ -21,6 +21,7 @@ export const removeItemFromCart = async (id, qty = 1) => {
 
     if (remove.status == 200) {
       return console.log("Removed Successfully");
+      return;
     }
   } catch (error) {
     return console.error(error);

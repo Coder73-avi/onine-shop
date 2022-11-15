@@ -14,7 +14,7 @@ const AddToCart = () => {
   });
 };
 
-const AddToWishList = ({id}) => {
+const AddToWishList = ({ id }) => {
   const oldData = JSON.parse(window.localStorage?.getItem("wiselist"));
   const check = oldData?.some((val) => val.id == id);
   console.log(check);

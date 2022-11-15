@@ -21,6 +21,10 @@
   -o-transition: all 0.3s linear;
 }
 
+.nav__name:last-child {
+  border-bottom: none;
+}
+
 .active,
 .nav__name:hover {
   background-color: var(--color-secondary);

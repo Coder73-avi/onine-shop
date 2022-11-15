@@ -10,8 +10,6 @@ import image6 from "images/newproduct/6.webp";
 
 import defaultImage from "images/default-image-300x300.png";
 
-import Image from "next/image";
-import { BsFillStarFill } from "react-icons/bs";
 import DefaultImage from "components/DefaultImage";
 import Link from "next/link";
 import { formatingNumber } from "controllers/otherFunctions";
@@ -22,7 +20,7 @@ const NewProductList = () => {
   const livingroom = [image4, image5, image6];
   return (
     <>
-      <div className="w-[90%] mx-auto my-8">
+      <div className="w-[90%] xl:container mx-auto my-8">
         <div className="grid md:grid-cols-3 gap-4">
           <div>
             <h2 className={css.title}>bedroom</h2>

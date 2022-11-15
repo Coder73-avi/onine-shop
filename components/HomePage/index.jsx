@@ -21,7 +21,7 @@ const HomePage = () => {
           <div className="col-span-1 flex flex-col gap-4">
             <Link href="/categorys">
               <a
-                className={`h-44 md:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
+                className={`h-44 md:h-64 relative rounded-2xl overflow-hidden ${css.image__div}`}
               >
                 <div className={css.home__text}>CATEGORY</div>
                 <Image
@@ -34,7 +34,7 @@ const HomePage = () => {
             </Link>
             <Link href="/shop">
               <a
-                className={`h-44 md:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
+                className={`h-44 md:h-64 relative rounded-2xl overflow-hidden ${css.image__div}`}
               >
                 <div className={css.home__text}>VASE</div>
                 <Image
@@ -65,7 +65,7 @@ const HomePage = () => {
           <div className="col-span-1 flex flex-col gap-4">
             <Link href="/shop">
               <a
-                className={`h-44 md:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
+                className={`h-44 md:h-64 relative rounded-2xl overflow-hidden ${css.image__div}`}
               >
                 <div className={css.home__text}>SHOP</div>
                 <Image
@@ -78,7 +78,7 @@ const HomePage = () => {
             </Link>
             <Link href="/another">
               <a
-                className={`h-44 md:h-52 relative rounded-2xl overflow-hidden ${css.image__div}`}
+                className={`h-44 md:h-64 relative rounded-2xl overflow-hidden ${css.image__div}`}
               >
                 <div className={css.home__text}>ANOTHER</div>
                 <Image

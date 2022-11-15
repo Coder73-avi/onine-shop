@@ -19,7 +19,7 @@ const RoomMakeOver = () => {
   return (
     <>
       <section className="">
-        <div className="relative w-full md:h-36 lg:h-52 shadow overflow-hidden rounded-md">
+        <div className="relative w-full h-20 md:h-36 lg:h-52 shadow overflow-hidden ">
           <Image
             src={coverImage}
             alt="default-image"
@@ -27,7 +27,7 @@ const RoomMakeOver = () => {
             objectFit="cover"
             objectPosition={"center"}
           />
-          <div className="absolute z-50 text-white font-bold text-lg lg:text-3xl flex flex-row justify-start items-center w-full h-full px-6">
+          <div className="absolute z-50 text-white font-bold text-md lg:text-3xl flex flex-row justify-start xl:justify-center items-center w-full h-full  px-6 ">
             Room Make Over
           </div>
         </div>

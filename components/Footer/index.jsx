@@ -13,7 +13,7 @@ import { AiOutlineTwitter, AiOutlineInstagram } from "react-icons/ai";
 const Footer = () => {
   return (
     <footer className={css.footer}>
-      <article className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 ">
+      <article className="xl:container xl:mx-auto grid md:grid-cols-3 lg:grid-cols-4 gap-4 ">
         <div>
           <div className={css.footer__title}>Company</div>
           <div className={css.list}>

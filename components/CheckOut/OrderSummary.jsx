@@ -11,6 +11,7 @@ const OrderSummary = ({ carts, dispatch, address__id }) => {
 
   const sendOrder = async () => {
     try {
+      if (carts.length == 0) return router.push("/shop");
       const collection__id = uid(10);
       const newCart = carts?.map((val) => {
         return {
@@ -33,7 +34,7 @@ const OrderSummary = ({ carts, dispatch, address__id }) => {
       }
     } catch (error) {
       alert("Sorry Order is not made.");
-      return console.error(error);
+      // return console.error(error);
     }
   };
 

@@ -12,13 +12,9 @@
 
 .main__nav__section {
   position: sticky;
-  top: -0.02rem;
+  top: -0.3rem;
   z-index: 100;
-  display: flex;
   background-color: white;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
   padding: 0.5rem 1.4rem;
   font-family: Ubuntu;
 }

@@ -3,8 +3,8 @@ import css from "./css/dropdowncart.module.css";
 import Image from "next/image";
 import axios from "controllers/axios";
 
-import { MdArrowForwardIos } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
+import { AiFillShopping } from "react-icons/ai";
 
 import defaultImage from "images/default-image-300x300.png";
 import { useStateValue } from "controllers/Reducer/stateProvider";
@@ -17,6 +17,7 @@ import { formatingNumber } from "controllers/otherFunctions";
 const DropDownCart = ({ setShowCart, carts }) => {
   const dropCartRef = useRef();
   const [{}, dispatch] = useStateValue();
+
   useEffect(() => {
     const toggleCart = (e) => {
       if (!dropCartRef?.current?.contains(e.target)) setShowCart(false);
@@ -38,7 +39,7 @@ const DropDownCart = ({ setShowCart, carts }) => {
             key={indx}
           >
             <div className="col-span-2">
-              <div className="relative rounded-sm overflow-hidden w-[100px]">
+              <div className="relative rounded-sm overflow-hidden w-[80px] md:w-[100px] ">
                 <DefaultImage
                   src={val?.imageSrc || defaultImage}
                   alt={val?.originalname || "checkout-image"}
@@ -46,12 +47,12 @@ const DropDownCart = ({ setShowCart, carts }) => {
               </div>
             </div>
             <div className="col-span-3">
-              <h1 className="text-sm font-medium">
+              <h1 className="text-sm font-bold text-gray-800">
                 {title} {title.length > 20 && " . . ."}
               </h1>
               <h4 className="text-gray-500 flex flex-row gap-0 items-center text-xs">
                 {val?.qty || 1} <IoClose /> Rs {formatingNumber(val?.price)} ={" "}
-                <span className="underline italic ml-3 text-gray-600">
+                <span className="underline italic ml-3 text-gray-700">
                   {" Rs. "}
                   {formatingNumber(subtotal)}
                 </span>
@@ -74,20 +75,27 @@ const DropDownCart = ({ setShowCart, carts }) => {
           </div>
         );
       })}
-      <hr />
-      <div className="flex flex-row justify-between items-center text-bold py-4">
-        <h2>Total: </h2>
-        <h2>Rs {getCartTotal(carts)}</h2>
-      </div>
 
-      <Link href="/checkout">
-        <button className={css.checkoutBtn} onClick={() => setShowCart(false)}>
-          Check Out
-          <span>
-            <MdArrowForwardIos />
-          </span>
-        </button>
-      </Link>
+      <div className={css.subTotal__btn}>
+        <div className="flex flex-row justify-between items-center font-bold py-4">
+          <h2 className="uppercase ">Total: </h2>
+          <h2 className="text-teal-700">
+            Rs {formatingNumber(getCartTotal(carts))}
+          </h2>
+        </div>
+
+        <Link href="/checkout">
+          <button
+            className={css.checkoutBtn}
+            onClick={() => setShowCart(false)}
+          >
+            <span className="text-lg">
+              <AiFillShopping />
+            </span>
+            Check Out
+          </button>
+        </Link>
+      </div>
     </div>
   );
 };

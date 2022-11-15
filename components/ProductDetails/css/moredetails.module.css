@@ -45,14 +45,30 @@
   text-align: justify;
 }
 
-.reviewBtn {
+.reviews {
   padding: 0.7rem 0.9rem;
-  background-color: rgba(0, 0, 0, 0.925);
+  background-color: rgba(126, 126, 126, 0.925);
   color: white;
   font-family: Popplins;
   font-size: 14px;
+  width: 70%;
+  border-radius: 0.4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.reviewBtn:hover {
+.reviews:hover {
   background-color: var(--color-secondary);
+}
+
+@media (max-width: 768px) {
+  .reviews {
+    width: 100%;
+  }
+}
+@media (max-width: 430px) {
+  .reviews {
+    font-size: 12px;
+  }
 }
