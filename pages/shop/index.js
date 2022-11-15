@@ -59,6 +59,7 @@ export async function getStaticProps() {
 
     return {
       props: {
+        revalid: 8400,
         products: getData,
         noOfPage: paginationNum,
         categorys: [],

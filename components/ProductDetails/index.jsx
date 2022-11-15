@@ -27,7 +27,7 @@ import { addToWishList } from "controllers/wishListControl";
 import { formatingNumber } from "controllers/otherFunctions";
 import ProductRating from "components/ProductRating";
 
-const ProductDetails = ({ data, topSelling, reviews }) => {
+const ProductDetails = ({ data, topSelling }) => {
   const router = useRouter();
   const livingroom = [image4, image5, image6, image4];
 
@@ -281,7 +281,7 @@ const ProductDetails = ({ data, topSelling, reviews }) => {
         </div>
       </div>
 
-      <MoreDetails reviews={reviews} />
+      <MoreDetails  />
     </div>
   );
 };

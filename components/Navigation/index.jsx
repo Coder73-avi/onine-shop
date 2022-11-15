@@ -6,6 +6,7 @@ import {
   AiFillHeart,
   AiOutlineUnlock,
   AiOutlineShoppingCart,
+  AiOutlineMenu,
 } from "react-icons/ai";
 import { FaRegShareSquare } from "react-icons/fa";
 import { BiSearch } from "react-icons/bi";
@@ -18,41 +19,44 @@ import { useStateValue } from "controllers/Reducer/stateProvider";
 import { useRouter } from "next/router";
 import { BsCartCheck } from "react-icons/bs";
 import { GetCookie, RemoveCookie } from "controllers/SetCookie";
+import { IoClose } from "react-icons/io5";
+
+const subMenu = [
+  { name: "My Account", icon: <FaUser />, path: "/myaccount" },
+  {
+    name: "My Orders",
+    path: "/myaccount?name=my-orders",
+    icon: <BsCartCheck />,
+  },
+  {
+    name: "My wishlist",
+    icon: <AiFillHeart />,
+    path: "/wishlist",
+  },
+  { name: "Check out", icon: <FaRegShareSquare />, path: "/checkout" },
+];
+
+const mainMenu = [
+  { name: "Home", icon: "", path: "/" },
+  {
+    name: "Shop",
+    icon: "",
+    path: "/shop",
+  },
+  {
+    name: "Renting",
+    icon: "",
+    path: "/shop",
+  },
+  { name: "About Us", icon: "", path: "/" },
+  { name: "Contact Us", icon: "", path: "/" },
+];
 
 const Navigation = () => {
   const router = useRouter();
   const [showCart, setShowCart] = useState(false);
   const [{ user, cartChange, carts }, dispatch] = useStateValue();
-
-  const subMenu = [
-    { name: "My Account", icon: <FaUser />, path: "/myaccount" },
-    {
-      name: "My Orders",
-      path: "/myaccount?name=my-orders",
-      icon: <BsCartCheck />,
-    },
-    {
-      name: "My wishlist",
-      icon: <AiFillHeart />,
-      path: "/wishlist",
-    },
-    { name: "Check out", icon: <FaRegShareSquare />, path: "/checkout" },
-  ];
-  const mainMenu = [
-    { name: "Home", icon: "", path: "/" },
-    {
-      name: "Shop",
-      icon: "",
-      path: "/shop",
-    },
-    {
-      name: "Renting",
-      icon: "",
-      path: "/shop",
-    },
-    { name: "About Us", icon: "", path: "/" },
-    { name: "Contact Us", icon: "", path: "/" },
-  ];
+  const [responsiveNav, setResponsiveNav] = useState(false);
 
   // logout
   const logOut = async () => {
@@ -153,12 +157,15 @@ const Navigation = () => {
         </div>
       </section>
 
-      <section className={css.main__nav__section + " bg-white"}>
-        <div className="flex flex-row justify-between custom-container">
-          <div className={`${css.main__logo} relative h-14 w-36`}>
-            <Image src={logo} alt="logo" layout="fill" objectFit="contain" />
-          </div>
-
+      <section className={css.main__nav__section + " bg-white border-b pb-2"}>
+        <div className="flex flex-row justify-between items-center gap-4 custom-container ">
+          <Link href="/">
+            <a
+              className={`${css.main__logo} relative h-10 w-20 md:h-14 md:w-36`}
+            >
+              <Image src={logo} alt="logo" layout="fill" objectFit="contain" />
+            </a>
+          </Link>
           <nav className={css.main__nav}>
             {mainMenu.map(({ name, path }, indx) => (
               <Link href={path} key={indx}>
@@ -166,12 +173,16 @@ const Navigation = () => {
               </Link>
             ))}
           </nav>
-
+          <ResponsiveMenu
+            user={user}
+            logOut={logOut}
+            setResponsiveNav={setResponsiveNav}
+            responsiveNav={responsiveNav}
+          />
           <div className={css.side__icons}>
-            <form className={` ${css.searchBox}`}>
-              <input type="search" placeholder="Search products" />
-              <BiSearch className="text-lg" />
-            </form>
+            <div className=" block">
+              <SearchBox />
+            </div>
             <div
               className={css.shopping__cart}
               data-checkout={carts?.length || 0}
@@ -179,7 +190,14 @@ const Navigation = () => {
             >
               <AiOutlineShoppingCart />
             </div>
+            <div
+              className={`block lg:hidden text-2xl hover:text-teal-700`}
+              onClick={() => setResponsiveNav(true)}
+            >
+              <AiOutlineMenu />
+            </div>
           </div>
+
           {showCart && (
             <DropDownCart
               setShowCart={setShowCart}
@@ -194,3 +212,76 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
+const SearchBox = () => {
+  const router = useRouter();
+  const [keywords, setKeywords] = useState("");
+
+  useEffect(() => {
+    const route = router.query;
+    if (route.hasOwnProperty("keywords")) {
+      setKeywords(route.keywords);
+    } else {
+      setKeywords("");
+    }
+  }, [router.query]);
+
+  const searchProduct = (e) => {
+    e.preventDefault();
+    if (keywords == "") return router.push("/shop");
+    return router.push("/search/" + keywords);
+  };
+  return (
+    <form className={` ${css.searchBox}`} onSubmit={searchProduct}>
+      <input
+        type="search"
+        placeholder="Search products"
+        onChange={(e) => setKeywords(e.target.value)}
+        value={keywords}
+        className={css.searchInput}
+      />
+      <button className="text-sm lg:text-lg hover:text-teal-600">
+        <BiSearch />
+      </button>
+    </form>
+  );
+};
+
+const ResponsiveMenu = ({ user, logOut, setResponsiveNav, responsiveNav }) => {
+  return (
+    <div
+      className={css.responsive__div}
+      style={{ right: responsiveNav ? "0%" : "-50%" }}
+    >
+      <nav className={css.responsive__nav}>
+        <div
+          className="absolute top-5 right-5 text-3xl"
+          onClick={() => setResponsiveNav(false)}
+        >
+          <IoClose />
+        </div>
+        {mainMenu.map(({ name, path }, indx) => (
+          <Link href={path} key={indx}>
+            <a className={`${css.responsive__link} `}>{name}</a>
+          </Link>
+        ))}
+
+        <Link href={user !== null ? "#" : "/login"}>
+          <a className={`${css.responsive__link} `}>
+            <div
+              className={`flex flex-row gap-2 justify-center items-center px-5 `}
+              onClick={user !== null ? logOut : () => {}}
+            >
+              {/* <div className={css.sub__icon}>
+                <AiOutlineUnlock />
+              </div> */}
+              {user !== null ? `Log Out` : "Sign In"}
+            </div>
+          </a>
+        </Link>
+      </nav>
+
+      <nav className={css.mini__nav}></nav>
+    </div>
+  );
+};

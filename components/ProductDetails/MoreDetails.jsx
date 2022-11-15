@@ -1,9 +1,12 @@
 import ProductRating from "components/ProductRating";
 import moment from "moment";
-import React, { useState } from "react";
+import { useRouter } from "next/router";
+import React, { useCallback, useEffect, useState } from "react";
 import css from "./css/moredetails.module.css";
+import axios from "controllers/axios";
+import Loading from "components/Loading";
 
-const MoreDetails = ({ reviews }) => {
+const MoreDetails = () => {
   const [navState, setNavState] = useState("more-info");
   return (
     <>
@@ -35,7 +38,7 @@ const MoreDetails = ({ reviews }) => {
       <div className="border p-8 my-5">
         {navState == "more-info" && <MoreInfo />}
         {navState == "data-sheet" && <DataSheet />}
-        {navState == "review" && <Review reviews={reviews} />}
+        {navState == "review" && <Review />}
       </div>
     </>
   );
@@ -85,10 +88,33 @@ export const DataSheet = () => {
     </div>
   );
 };
-export const Review = ({ reviews }) => {
+export const Review = () => {
+  const router = useRouter();
+  const [reviews, setReviews] = useState();
+  const [loading, setLoading] = useState(true);
+
+  const getReviews = useCallback(async () => {
+    try {
+      const { pid } = router.query;
+      const res = await axios.get("/getreviews/" + pid);
+      if (res.status == 200) {
+        setReviews(res.data);
+        return setLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+      return setLoading(false);
+    }
+  }, [router.query]);
+
+  useEffect(() => {
+    getReviews();
+  }, [getReviews]);
+
   return (
     <div>
-      {reviews.length == 0 ? (
+      {loading ? <Loading /> : null}
+      {!loading && reviews.length == 0 ? (
         <div className="text-sm px-2 py-3 text-gray-700">0 reviews founds</div>
       ) : null}
       {reviews?.map((val, indx) => (

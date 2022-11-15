@@ -5,7 +5,7 @@ import React from "react";
 import axios from "controllers/axios";
 import NewProductList from "components/HomePage/NewProductList";
 
-const Productdetails = ({ product, topSelling, reviews }) => {
+const Productdetails = ({ product, topSelling }) => {
   return (
     <>
       <Head>
@@ -21,7 +21,6 @@ const Productdetails = ({ product, topSelling, reviews }) => {
         <ProductDetails
           data={product}
           topSelling={topSelling}
-          reviews={reviews}
         />
         <NewProductList />
       </main>
@@ -60,6 +59,6 @@ export const getStaticProps = async (context) => {
     };
   } catch (error) {
     console.log(error);
-    return { props: { product: [], topSelling: [], reviews: [] } };
+    return { props: { product: [], topSelling: [] } };
   }
 };

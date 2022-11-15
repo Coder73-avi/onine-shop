@@ -61,8 +61,8 @@ const SignUpForm = () => {
   return (
     <>
       <section className={css.signup__section}>
-        <div className="grid md:grid-cols-2">
-          <div className={`order-2 md:order-1 ${css.info__btn}`}>
+        <div className="grid lg:grid-cols-2">
+          <div className={`order-2 lg:order-1 ${css.info__btn}`}>
             <h2 className="text-3xl font-extrabold">Login </h2>
             <p className="text-sm italic">{`Sign in here if you have account`}</p>
             <Link href="/login">
@@ -70,7 +70,7 @@ const SignUpForm = () => {
             </Link>
           </div>
 
-          <div className={`order-1 md:order-2 ${css.form}`}>
+          <div className={`order-1 lg:order-2 ${css.form}`}>
             <h1 className="text-center font-extrabold mb-4 text-3xl text-teal-700">
               Sign Up{" "}
             </h1>
