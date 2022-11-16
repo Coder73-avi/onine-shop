@@ -20,7 +20,7 @@
 .saleBtn {
   position: absolute;
   top: 1rem;
-  right: -.75rem;
+  right: -0.75rem;
   z-index: 60;
   background-color: var(--color-secondary);
   color: white;
@@ -88,6 +88,14 @@ button.active {
 }
 
 @media (max-width: 430px) {
+  .card__btn {
+    opacity: 1;
+    padding: 0.5rem;
+  }
+  .card__btn > button {
+    font-size: 14px;
+    padding: 0.3rem;
+  }
   .newBtn,
   .saleBtn {
     top: 0.7rem;

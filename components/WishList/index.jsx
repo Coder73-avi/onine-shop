@@ -73,7 +73,7 @@ const WhishList = () => {
           </Link>
         </div>
       )}
-      <div className="grid md:grid-cols-2 gap-12">
+      <div className="grid lg:grid-cols-2 gap-6 lg:gap-12">
         {wishlist?.map((val, indx) => {
           return (
             <div

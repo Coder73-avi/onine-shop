@@ -125,7 +125,7 @@ const ProductDetails = ({ data, topSelling }) => {
       const req = await axios.get("/getwishlists");
       if (req.status == 200) {
         const wishlistData = req.data;
-        const found = wishlistData?.some((val) => val.product__id == data.id);
+        const found = wishlistData?.some((val) => val.pid == data.pid);
         if (found) setActiveStatus(found);
       }
     } catch (error) {

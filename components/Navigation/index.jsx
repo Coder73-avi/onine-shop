@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import css from "./style.module.css";
 import { FaRegLightbulb, FaUser } from "react-icons/fa";
 import {
@@ -162,14 +162,27 @@ const Navigation = () => {
       </section>
 
       <section className={css.main__nav__section + " bg-white border-b pb-2"}>
-        <div className="flex flex-row justify-between items-center gap-4 custom-container ">
-          <Link href="/">
-            <a
-              className={`${css.main__logo} relative h-10 w-20 md:h-14 md:w-36`}
+        <div className="flex flex-row justify-between items-center gap-2 custom-container ">
+          <div className="flex flex-row gap-6 items-center">
+            <div
+              className={css.threeLine__bar}
+              onClick={() => setResponsiveNav(!responsiveNav)}
             >
-              <Image src={logo} alt="logo" layout="fill" objectFit="contain" />
-            </a>
-          </Link>
+              <AiOutlineMenu />
+            </div>
+            <Link href="/">
+              <a
+                className={`${css.main__logo} relative h-10 w-20 md:h-14 md:w-36`}
+              >
+                <Image
+                  src={logo}
+                  alt="logo"
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </a>
+            </Link>
+          </div>
           <nav className={css.main__nav}>
             {mainMenu.map(({ name, path }, indx) => (
               <Link href={path} key={indx}>
@@ -193,12 +206,6 @@ const Navigation = () => {
               onClick={() => setShowCart(!showCart)}
             >
               <AiOutlineShoppingCart />
-            </div>
-            <div
-              className={css.threeLine__bar}
-              onClick={() => setResponsiveNav(!responsiveNav)}
-            >
-              <AiOutlineMenu />
             </div>
           </div>
 
@@ -283,19 +290,31 @@ const ResponsiveMenu = ({ user, logOut, setResponsiveNav, responsiveNav }) => {
       path: "/checkout",
     },
   ];
+  const resNavRef = useRef();
+
+  useEffect(() => {
+    const handle = (e) => {
+      if (!resNavRef.current?.contains(e.target))
+        return setResponsiveNav(false);
+    };
+
+    addEventListener("mousedown", handle);
+    return () => removeEventListener("mousedown", handle);
+  }, []);
   return (
     <div
       className={css.responsive__div}
-      style={{ right: responsiveNav ? "0%" : "-60%" }}
+      style={{ left: responsiveNav ? "0%" : "-60%" }}
+      ref={resNavRef}
     >
-      <div className="py-4 relative">
+      <div className="py-6 relative">
         <div
-          className="text-2xl text-white hover:text-red-600 absolute top-5 right-5 cursor-pointer z-50"
+          className="text-2xl text-white hover:text-red-600 absolute top-2 right-3 cursor-pointer z-50"
           onClick={() => setResponsiveNav(false)}
         >
           <IoClose />
         </div>
-        <div className="relative h-20">
+        <div className="relative h-16">
           <Image
             src={logo}
             alt="company-logo"
@@ -320,6 +339,19 @@ const ResponsiveMenu = ({ user, logOut, setResponsiveNav, responsiveNav }) => {
               </a>
             </Link>
           ))}
+          <Link href={user !== null ? "#" : "/login"}>
+            <a className={``}>
+              <div
+                className={css.responsive__link}
+                onClick={user !== null ? logOut : () => {}}
+              >
+                <span>
+                  <AiOutlineUnlock />
+                </span>
+                {user !== null ? `Log Out` : "Sign In"}
+              </div>
+            </a>
+          </Link>
         </nav>
       </div>
     </div>

@@ -94,7 +94,7 @@
   z-index: 100;
   width: 30%;
   height: 100%;
-  background-color: rgb(17, 110, 71);
+  background-color: rgb(54, 150, 110);
   color: rgb(255, 255, 255);
   transition: all 0.5s ease-in;
   /* border-radius: 30% 0 0 30%; */
@@ -116,7 +116,7 @@
 
 .responsive__link {
   font-size: 14px;
-  padding: 0.6rem 1.4rem;
+  padding: 0.6rem 2rem;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -134,7 +134,7 @@
   font-weight: bold;
 }
 .threeLine__bar {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .threeLine__bar:hover {

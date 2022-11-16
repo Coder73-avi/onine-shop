@@ -11,6 +11,8 @@ import { addToCart } from "controllers/cartControl";
 import { addToWishList } from "controllers/wishListControl";
 import axios from "controllers/axios";
 
+import QuickView from "./QuickView";
+
 import defaultImage from "images/default-image-300x300.png";
 
 const ShopCard = ({ id, imageSrc, title, price, onSale, isNew }) => {
@@ -62,7 +64,7 @@ const ShopCard = ({ id, imageSrc, title, price, onSale, isNew }) => {
       const req = await axios.get("/getwishlists");
       if (req.status == 200) {
         const wishlistData = req.data;
-        const found = wishlistData?.some((val) => val.product__id == id);
+        const found = wishlistData?.some((val) => val.pid == id);
         if (found) setActiveStatus(found);
       }
     } catch (error) {
@@ -75,48 +77,56 @@ const ShopCard = ({ id, imageSrc, title, price, onSale, isNew }) => {
   }, [checkWishListIsActive]);
 
   return (
-    <div className={`shadow-2xl  hover:cursor-pointer ${css.shopCard}`}>
-      <div className="relative overflow-hidden">
-        {isNew ? <div className={css.newBtn}>New</div> : null}
-        {onSale == "1" ? (
-          <div className={`${css.saleBtn} ${isNew ? css.new : null}`}>
-            Sale !
-          </div>
-        ) : null}
-        <Link href={`/productdetails/${id}`}>
-          <a>
-            {/* <div className={css.cardDetails}>
+    <>
+      {quickView ? (
+        <QuickView
+          setQuickView={setQuickView}
+          data={{ id, imageSrc, title, price, onSale, isNew }}
+        />
+      ) : null}
+      <div className={`shadow-2xl  hover:cursor-pointer ${css.shopCard}`}>
+        <div className="relative overflow-hidden">
+          {isNew ? <div className={css.newBtn}>New</div> : null}
+          {onSale == "1" ? (
+            <div className={`${css.saleBtn} ${isNew ? css.new : null}`}>
+              Sale !
+            </div>
+          ) : null}
+          <Link href={`/productdetails/${id}`}>
+            <a>
+              {/* <div className={css.cardDetails}>
             <h2 className="text-lg hover:underline cursor-pointer font-bold">
               {title.slice(0, 20)} {title.length > 20 && " . . ."}
             </h2>
             <h3 className="text-lg font-bold ">Rs. {price}</h3>
           </div> */}
 
-            <DefaultImage
-              src={imageSrc || defaultImage}
-              alt="card-images"
-              className={"rounded-md overflow-hidden hover:opacity-80"}
-            />
-          </a>
-        </Link>
+              <DefaultImage
+                src={imageSrc || defaultImage}
+                alt="card-images"
+                className={"rounded-md overflow-hidden hover:opacity-80"}
+              />
+            </a>
+          </Link>
 
-        <div className={css.card__btn}>
-          <button title="Add To Cart" onClick={AddToCart}>
-            <BsFillCartFill />
-          </button>
-          <button
-            title="Add To Whishlist"
-            onClick={AddToWishList}
-            className={activeStatus ? css.active : ""}
-          >
-            <AiFillStar />
-          </button>
-          <button title="Quick View">
-            <AiOutlineFullscreen />
-          </button>
+          <div className={css.card__btn}>
+            <button title="Add To Cart" onClick={AddToCart}>
+              <BsFillCartFill />
+            </button>
+            <button
+              title="Add To Whishlist"
+              onClick={AddToWishList}
+              className={activeStatus ? css.active : ""}
+            >
+              <AiFillStar />
+            </button>
+            <button title="Quick View" onClick={() => setQuickView(!quickView)}>
+              <AiOutlineFullscreen />
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
