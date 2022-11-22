@@ -33,3 +33,11 @@ body {
     margin-inline: auto;
   }
 }
+
+ul {
+  list-style: disc;
+  padding: 0.7rem 0;
+}
+ul li {
+  margin-left: 1.5rem;
+}

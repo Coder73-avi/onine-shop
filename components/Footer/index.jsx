@@ -1,5 +1,5 @@
 import DefaultImage from "components/DefaultImage";
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import css from "./style.module.css";
 
 import khalti from "images/khalti.png";
@@ -9,8 +9,24 @@ import Link from "next/link";
 
 import { FaFacebookF } from "react-icons/fa";
 import { AiOutlineTwitter, AiOutlineInstagram } from "react-icons/ai";
+import axios from "controllers/axios";
 
 const Footer = () => {
+  const [topCategorys, setTopCategorys] = useState([]);
+
+  const getTopCategorys = useCallback(async () => {
+    try {
+      const getData = await axios.get("/gettopsellingcategorys");
+      if (getData.status == 200) {
+        setTopCategorys(getData.data);
+      }
+    } catch (err) {
+      return err;
+    }
+  }, []);
+  useEffect(() => {
+    getTopCategorys();
+  }, [getTopCategorys]);
   return (
     <footer className={css.footer}>
       <article className="xl:container xl:mx-auto grid md:grid-cols-3 lg:grid-cols-4 gap-4 ">
@@ -44,22 +60,18 @@ const Footer = () => {
               <a>Order Status</a>
             </Link>
             <Link href="/myaccount?name=payment-method">
-              <a>Payment Option</a>
+              <a>Payment Method</a>
             </Link>
           </div>
         </div>
         <div>
-          <div className={css.footer__title}>Online Shop</div>
+          <div className={css.footer__title}>Top Categorys</div>
           <div className={css.list}>
-            <Link href="/">
-              <a>Bed Room</a>
-            </Link>
-            <Link href="/">
-              <a>Living Room</a>
-            </Link>
-            <Link href="/">
-              <a>Lighting</a>
-            </Link>
+            {topCategorys?.map((val, indx) => (
+              <Link href={`/categorys/${val}`} key={indx}>
+                <a className="capitalize">{val}</a>
+              </Link>
+            ))}
           </div>
         </div>
         <div className="md:col-span-2 lg:col-span-1">

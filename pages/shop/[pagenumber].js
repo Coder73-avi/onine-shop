@@ -27,14 +27,7 @@ export default function Pagenumber({ products, noOfPage, categorys }) {
         >
           {products?.map((val, indx) => (
             <div className="mb-8" key={indx}>
-              <ShopCard
-                imageSrc={val?.imageSrc}
-                id={val?.pid}
-                title={val?.title}
-                price={val?.price}
-                onSale={val?.on__sale}
-                isNew={val?.is__new}
-              />
+              <ShopCard data={val} />
             </div>
           ))}
         </div>
@@ -69,6 +62,7 @@ export async function getStaticProps(context) {
 
     return {
       props: {
+        revalidate: 60 * 20,
         products: getData,
         noOfPage: paginationNum,
         categorys: [],

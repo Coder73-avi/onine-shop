@@ -49,7 +49,7 @@ const QuickView = ({ setQuickView, data }) => {
 
   const AddToWishList = async () => {
     try {
-      if (user == null) {
+      if (!user) {
         return router.push("/login");
       }
 
@@ -86,8 +86,8 @@ const QuickView = ({ setQuickView, data }) => {
   }, [data.id]);
 
   useEffect(() => {
-    checkWishListIsActive();
-  }, [checkWishListIsActive]);
+    if (user) checkWishListIsActive();
+  }, [checkWishListIsActive, user]);
 
   useEffect(() => {
     const handle = (e) => {
@@ -155,7 +155,7 @@ const QuickView = ({ setQuickView, data }) => {
                 <input
                   type="number"
                   className="w-6 outline-none text-sm py-2.5"
-                  value={productQty}
+                  defaultValue={productQty}
                 />
                 <button
                   className="hover:text-gray-500 pr-4"

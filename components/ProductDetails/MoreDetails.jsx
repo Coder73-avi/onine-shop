@@ -4,9 +4,10 @@ import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import css from "./css/moredetails.module.css";
 import axios from "controllers/axios";
+import parse from "html-react-parser";
 import Loading from "components/Loading";
 
-const MoreDetails = () => {
+const MoreDetails = ({ moreData }) => {
   const [navState, setNavState] = useState("more-info");
   return (
     <>
@@ -19,14 +20,14 @@ const MoreDetails = () => {
         >
           More Info
         </div>
-        <div
+        {/* <div
           className={`${css.navList} ${
             navState == "data-sheet" ? css.active : ""
           }`}
           onClick={() => setNavState("data-sheet")}
         >
           Data sheet
-        </div>
+        </div> */}
         <div
           className={`${css.navList} ${navState == "review" ? css.active : ""}`}
           onClick={() => setNavState("review")}
@@ -36,8 +37,8 @@ const MoreDetails = () => {
       </div>
 
       <div className="border p-8 my-5">
-        {navState == "more-info" && <MoreInfo />}
-        {navState == "data-sheet" && <DataSheet />}
+        {navState == "more-info" && <MoreInfo moreData={moreData} />}
+        {/* {navState == "data-sheet" && <DataSheet />} */}
         {navState == "review" && <Review />}
       </div>
     </>
@@ -46,22 +47,10 @@ const MoreDetails = () => {
 
 export default MoreDetails;
 
-export const MoreInfo = () => {
+export const MoreInfo = ({ moreData }) => {
   return (
     <div className={css.moreinfo}>
-      <div className="mb-3">
-        {`"Years ago, I bought the most stunning rattan daybed from the flea
-        market in Paris," Suzanne recalls. "It became the muse for my Southport
-        Collection." Her Southport Bed is meticulously hand woven of natural
-        rattan with airy "X" details.`}
-      </div>
-      <div>Suzanne Kasler Southport Rattan Bed features:</div>
-      <ul className="list-disc px-8 py-2">
-        <li>Wrapped rattan peel edges</li>
-        <li>Tightly woven panels</li>
-        <li>Mahogany wood frame</li>
-        <li>Assembly required</li>
-      </ul>
+      <div className="mb-3">{parse(moreData)}</div>
     </div>
   );
 };
@@ -96,7 +85,7 @@ export const Review = () => {
   const getReviews = useCallback(async () => {
     try {
       const { pid } = router.query;
-      const res = await axios.get("/getreviews/" + pid);
+      const res = await axios.get("/getreviewsforproduct/" + pid);
       if (res.status == 200) {
         setReviews(res.data);
         return setLoading(false);

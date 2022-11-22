@@ -16,12 +16,13 @@ import { formatingNumber } from "controllers/otherFunctions";
 
 const WhishList = () => {
   const router = useRouter();
-  const [{}, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const getWishlist = useCallback(async () => {
     try {
+      if (!user) router.push("/shop");
       const reqWishlist = await axios.get("/getwishlists");
       if (reqWishlist.status == 200) {
         setWishlist(reqWishlist.data);

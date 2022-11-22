@@ -20,19 +20,20 @@ export default function category({ categoryList }) {
         </div>
       ) : null}
       <main>
-        <div className=" grid md:grid-cols-4 gap-4 mx-4 my-6">
-          <div>
+        <div className=" grid md:grid-cols-4 gap-14 my-8 mx-8 ">
+          <div className="relative overflow-hidden">
             <Link href={`/categorys/uncategorized`}>
-              <a>
-                <div className="relative rounded-md overflow-hidden h-20 shadow-lg">
+              <a className="">
+                <div className="relative">
                   {/* <DefaultImage /> */}
-                  <Image
+                  <DefaultImage
                     src={defaultImage}
                     alt={"default-image"}
-                    layout="fill"
-                    objectFit={"cover"}
-                    objectPosition="center"
+                    className="rounded-md overflow-hidden"
                   />
+                </div>
+                <div className="absolute left-0 bottom-0 w-full py-3 bg-teal-800 text-white uppercase text-center text-base rounded-md overflow-hidden">
+                  {"Uncategorized"}
                 </div>
               </a>
             </Link>
@@ -40,18 +41,18 @@ export default function category({ categoryList }) {
           {categoryList?.map((val, indx) => {
             const name = val?.name.toLowerCase().replace(" ", "-");
             return (
-              <div key={indx}>
+              <div key={indx} className="relative overflow-hidden">
                 <Link href={`/categorys/${name}`} key={indx}>
-                  <a>
-                    <div className="relative rounded-md overflow-hidden h-20 shadow-lg">
+                  <a className="">
+                    <div className="relative ">
                       {/* <DefaultImage src={val?.imagesrc} /> */}
-                      <Image
+                      <DefaultImage
                         src={val?.imagesrc || defaultImage}
                         alt={val?.originalname || "default-image"}
-                        layout="fill"
-                        objectFit={"cover"}
-                        objectPosition="center"
                       />
+                    </div>
+                    <div className="absolute left-0 bottom-0 w-full py-3 bg-teal-800 text-white uppercase text-center text-base rounded-md overflow-hidden">
+                      {val.name}
                     </div>
                   </a>
                 </Link>

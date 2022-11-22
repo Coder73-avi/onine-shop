@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "controllers/axios";
 import NewProductList from "components/HomePage/NewProductList";
 
-export default function Search({ products }) {
+export default function Search({ products, onSaleProducts }) {
   const router = useRouter();
   const [keywords, setKeywords] = useState("");
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function Search({ products }) {
           ))}
         </div>
 
-        <NewProductList />
+        <NewProductList onSaleProducts={onSaleProducts} />
       </main>
     </>
   );
@@ -61,8 +61,9 @@ export async function getServerSideProps(context) {
   try {
     const { keywords } = context.params;
     const res = await axios.get("/searchproducts/" + keywords);
-    return { props: { products: res.data } };
+    const onSale = await axios.get("/getonsaleproducts");
+    return { props: { products: res.data, onSaleProducts: onSale.data } };
   } catch (error) {
-    return { props: { products: [] } };
+    return { props: { products: [], onSaleProducts: [] } };
   }
 }

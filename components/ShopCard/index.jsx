@@ -15,7 +15,7 @@ import QuickView from "./QuickView";
 
 import defaultImage from "images/default-image-300x300.png";
 
-const ShopCard = ({ id, imageSrc, title, price, onSale, isNew }) => {
+const ShopCard = ({ data }) => {
   const router = useRouter();
   const [{ user }, dispatch] = useStateValue();
   const [activeStatus, setActiveStatus] = useState(false);
@@ -27,7 +27,7 @@ const ShopCard = ({ id, imageSrc, title, price, onSale, isNew }) => {
         return router.push("/login");
       }
 
-      await addToCart({ product__id: id, qty: 1, product__option: "" });
+      await addToCart({ product__id: data?.pid, qty: 1, product__option: "" });
       return dispatch({
         type: "UPDATE__CART",
       });
@@ -44,14 +44,14 @@ const ShopCard = ({ id, imageSrc, title, price, onSale, isNew }) => {
       }
 
       const req = await axios.get("/getwishlists");
-      const found = req.data?.some((val) => val.product__id == id);
+      const found = req.data?.some((val) => val.product__id == data?.pid);
 
       if (found) {
-        const remove = await axios.delete("/deletewishlist/" + id);
+        const remove = await axios.delete("/deletewishlist/" + data?.pid);
         if (remove.status == 200) return setActiveStatus(false);
       }
 
-      await addToWishList({ product__id: id });
+      await addToWishList({ product__id: data?.pid });
       return setActiveStatus(true);
     } catch (error) {
       router.push("/login");
@@ -64,35 +64,30 @@ const ShopCard = ({ id, imageSrc, title, price, onSale, isNew }) => {
       const req = await axios.get("/getwishlists");
       if (req.status == 200) {
         const wishlistData = req.data;
-        const found = wishlistData?.some((val) => val.pid == id);
+        const found = wishlistData?.some((val) => val.pid == data.pid);
         if (found) setActiveStatus(found);
       }
     } catch (error) {
       // console.error(error);
     }
-  }, [id]);
+  }, [data.pid]);
 
   useEffect(() => {
-    checkWishListIsActive();
-  }, [checkWishListIsActive]);
+    if (user) checkWishListIsActive();
+  }, [checkWishListIsActive, user]);
 
   return (
     <>
-      {quickView ? (
-        <QuickView
-          setQuickView={setQuickView}
-          data={{ id, imageSrc, title, price, onSale, isNew }}
-        />
-      ) : null}
+      {quickView ? <QuickView setQuickView={setQuickView} data={data} /> : null}
       <div className={`shadow-2xl  hover:cursor-pointer ${css.shopCard}`}>
         <div className="relative overflow-hidden">
-          {isNew ? <div className={css.newBtn}>New</div> : null}
-          {onSale == "1" ? (
-            <div className={`${css.saleBtn} ${isNew ? css.new : null}`}>
+          {data?.is__new ? <div className={css.newBtn}>New</div> : null}
+          {data?.on__sale == "1" ? (
+            <div className={`${css.saleBtn} ${data?.is__new ? css.new : null}`}>
               Sale !
             </div>
           ) : null}
-          <Link href={`/productdetails/${id}`}>
+          <Link href={`/productdetails/${data?.pid}`}>
             <a>
               {/* <div className={css.cardDetails}>
             <h2 className="text-lg hover:underline cursor-pointer font-bold">
@@ -102,7 +97,7 @@ const ShopCard = ({ id, imageSrc, title, price, onSale, isNew }) => {
           </div> */}
 
               <DefaultImage
-                src={imageSrc || defaultImage}
+                src={data?.imageSrc || defaultImage}
                 alt="card-images"
                 className={"rounded-md overflow-hidden hover:opacity-80"}
               />

@@ -2,13 +2,13 @@ import React from "react";
 import Head from "next/head";
 import Breadcrumbs from "components/Breadcrumbs";
 import ShopCard from "components/ShopCard";
-import CategoryList from "components/CategoryList";
 import { useRouter } from "next/router";
 import axios from "controllers/axios";
 
 import Pagination from "components/Pagination";
+import NewProductList from "components/HomePage/NewProductList";
 
-const Shop = ({ products, noOfPage, categorys }) => {
+const Shop = ({ products, noOfPage, onSaleProducts }) => {
   const router = useRouter();
 
   React.useEffect(() => {
@@ -23,7 +23,6 @@ const Shop = ({ products, noOfPage, categorys }) => {
       <main>
         <Breadcrumbs location={[{ name: "Shop", path: "/shop" }]} />
 
-        <CategoryList categorys={categorys} />
         <div
           className={
             "w-[90%] mx-auto mt-4 mb-10 columns-2 lg:columns-3 gap-4 custom-container"
@@ -31,19 +30,14 @@ const Shop = ({ products, noOfPage, categorys }) => {
         >
           {products?.map((val, indx) => (
             <div className="mb-8" key={indx}>
-              <ShopCard
-                imageSrc={val?.imageSrc}
-                id={val?.pid}
-                title={val?.title}
-                price={val?.price}
-                onSale={val?.on__sale}
-                isNew={val?.is__new}
-              />
+              <ShopCard data={val} />
             </div>
           ))}
         </div>
 
         <Pagination noOfPage={noOfPage} link={"/shop/"} />
+        <br />
+        <NewProductList onSaleProducts={onSaleProducts} />
       </main>
     </>
   );
@@ -54,6 +48,7 @@ export default Shop;
 export async function getStaticProps() {
   try {
     const res = await axios.get("/getproducts/20/1");
+    const onSale = await axios.get("/getonsaleproducts");
 
     const { getData, paginationNum } = res.data;
 
@@ -62,12 +57,13 @@ export async function getStaticProps() {
         revalid: 8400,
         products: getData,
         noOfPage: paginationNum,
-        categorys: [],
+        onSaleProducts: onSale.data,
       },
     };
   } catch (err) {
+    console.log(err);
     return {
-      props: { product: [], noOfPage: 0, categorys: [] },
+      props: { product: [], onSaleProducts: [], noOfPage: 0 },
     };
   }
 }

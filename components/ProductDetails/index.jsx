@@ -29,7 +29,6 @@ import ProductRating from "components/ProductRating";
 
 const ProductDetails = ({ data, topSelling }) => {
   const router = useRouter();
-  const livingroom = [image4, image5, image6, image4];
 
   const [numOrder, setNumOrder] = useState(1);
   const [{ user }, dispatch] = useStateValue();
@@ -131,11 +130,11 @@ const ProductDetails = ({ data, topSelling }) => {
     } catch (error) {
       // console.error(error);
     }
-  }, [data.id]);
+  }, [data.pid]);
 
   useEffect(() => {
-    checkWishListIsActive();
-  }, [checkWishListIsActive]);
+    if (user) checkWishListIsActive();
+  }, [checkWishListIsActive, user]);
 
   return (
     <div className="container p-6">
@@ -281,7 +280,7 @@ const ProductDetails = ({ data, topSelling }) => {
         </div>
       </div>
 
-      <MoreDetails />
+      <MoreDetails moreData={data?.more__info} />
     </div>
   );
 };

@@ -6,8 +6,9 @@ import RoomMakeOver from "components/HomePage/RoomMakeOver";
 import DesignYourRoomByHobbies from "components/HomePage/DesignYourRoomByHobbies";
 import NewProductList from "components/HomePage/NewProductList";
 import CategoryListed from "components/HomePage/CategoryListed";
+import axios from "controllers/axios";
 
-export default function Home() {
+export default function Home({ onSaleProducts }) {
   const [searchCategory, setSearchCategory] = useState("");
   return (
     <>
@@ -19,9 +20,19 @@ export default function Home() {
       <HomePage />
       <RoomMakeOver />
       <DesignYourRoomByHobbies />
-      <NewProductList />
+      <NewProductList onSaleProducts={onSaleProducts} />
 
       {/* <CategoryListed /> */}
     </>
   );
+}
+
+export async function getStaticProps() {
+  try {
+    const onSale = await axios.get("/getonsaleproducts");
+
+    return { props: { onSaleProducts: onSale.data, revalidate: 60 * 20 } };
+  } catch (error) {
+    return { props: { onSaleProducts: [] } };
+  }
 }
