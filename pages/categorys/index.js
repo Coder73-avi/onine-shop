@@ -68,7 +68,8 @@ export default function category({ categoryList }) {
 export const getStaticProps = async () => {
   try {
     const res = await sameSiteAxios.get("/categorys");
-    if (res.status == 200) return { props: { categoryList: res.data } };
+    if (res.status == 200)
+      return { props: { revalidate: 60 * 10, categoryList: res.data } };
     return { props: { categoryList: [] } };
   } catch (error) {
     return { props: { categoryList: [] } };

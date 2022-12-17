@@ -1,0 +1,14 @@
+.coummunity__btn {
+  padding: 0.5rem 0.7rem;
+  /* background-color: teal; */
+  border: 1px solid #ccc;
+  color: rgb(107, 106, 106);
+  border-radius: 0.4rem;
+  font-size: 12px;
+  font-weight: bolder;
+}
+
+.coummunity__btn:hover {
+  color: white;
+  background: rgb(3, 33, 58);
+}

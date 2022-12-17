@@ -9,6 +9,7 @@ const Inputbox = ({
   classNameInput,
   classNameLabel,
   placeholder,
+  required = true,
   onChange,
   value,
 }) => {
@@ -26,7 +27,7 @@ const Inputbox = ({
         }
         placeholder={placeholder || "Type"}
         onChange={onChange}
-        required
+        required={required}
       />
     </div>
   );

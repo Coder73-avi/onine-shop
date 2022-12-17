@@ -50,7 +50,7 @@ export default MoreDetails;
 export const MoreInfo = ({ moreData }) => {
   return (
     <div className={css.moreinfo}>
-      <div className="mb-3">{parse(moreData)}</div>
+      <div className="mb-3">{parse(moreData || "")}</div>
     </div>
   );
 };

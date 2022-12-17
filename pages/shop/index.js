@@ -54,7 +54,7 @@ export async function getStaticProps() {
 
     return {
       props: {
-        revalid: 8400,
+        revalid: 60 * 10,
         products: getData,
         noOfPage: paginationNum,
         onSaleProducts: onSale.data,

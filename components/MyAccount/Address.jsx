@@ -125,10 +125,10 @@ export const AddressCard = ({
       <div className="text-gray-500 ">
         Mobile: {phonenumber || `(123) 456-7890`}
       </div>
-      <div className="flex flex-row justify-end items-center my-3">
+      <div className="flex flex-row justify-end items-center my-1">
         <button
           type="button"
-          className={`flex flex-row justify-center items-center gap-4 py-4 px-6 text-sm font-mono  border  rounded-md shadow  ${
+          className={`flex flex-row justify-center items-center gap-4 py-3 px-4 text-sm font-mono  border  rounded-md shadow  ${
             deliveryat.toLowerCase() == "office"
               ? "border-teal-300 text-teal-600"
               : "border-orange-300 text-orange-600"

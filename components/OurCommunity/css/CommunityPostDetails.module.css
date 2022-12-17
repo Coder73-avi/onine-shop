@@ -1,0 +1,17 @@
+.orderNowBtn,
+.soldOut {
+  margin-top: 0.8rem;
+  padding: 0.6rem 0.9rem;
+  background-color: rgb(3, 55, 160);
+  color: white;
+  border-radius: 0.3rem;
+}
+
+.orderNowBtn:hover {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  opacity: 0.8;
+}
+
+.soldOut {
+  background-color: rgb(204, 136, 9);
+}

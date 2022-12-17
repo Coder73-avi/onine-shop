@@ -53,13 +53,12 @@ const CheckOut = () => {
         <Loading />
       ) : (
         <div className="grid md:grid-cols-5 gap-10">
-          <div className="col-span-5">
-            <BillingAddress address={address} />
-          </div>
           <div className="col-span-5 md:col-span-3">
             <OrderDetails carts={carts} />
           </div>
           <div className="col-span-5 md:col-span-2">
+            <BillingAddress address={address} />
+            <br />
             <OrderSummary
               carts={carts}
               dispatch={dispatch}

@@ -32,11 +32,11 @@ const HomePage = () => {
                 />
               </a>
             </Link>
-            <Link href="/shop">
+            <Link href="/categorys/plants">
               <a
                 className={`h-36 md:h-64 relative rounded-2xl overflow-hidden ${css.image__div}`}
               >
-                <div className={css.home__text}>VASE</div>
+                <div className={css.home__text}>Plants</div>
                 <Image
                   src={vase}
                   alt="images"
@@ -76,11 +76,18 @@ const HomePage = () => {
                 />
               </a>
             </Link>
-            <Link href="/another">
+            <Link href="/ourcommunity">
               <a
                 className={`h-36 md:h-64 relative rounded-2xl overflow-hidden ${css.image__div}`}
               >
-                <div className={css.home__text}>ANOTHER</div>
+                <div
+                  className={`${css.home__text} flex flex-col justify-center items-center`}
+                >
+                  <span>Our Community</span>
+                  <span className="text-xs font-bold text-red-600 capitalize">
+                    sales. buy. share.
+                  </span>
+                </div>
                 <Image
                   src={another}
                   alt="images"

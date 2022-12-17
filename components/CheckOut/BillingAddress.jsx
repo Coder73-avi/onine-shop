@@ -1,11 +1,12 @@
+import { AddressCard } from "components/MyAccount/Address";
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import React, { useState } from "react";
 
 const BillingAddress = ({ address }) => {
-  const [{ user }, dispatch] = useStateValue();
+  // const [{ user }, dispatch] = useStateValue();
   return (
     <>
-      <div className="text-sm border p-4 rounded-md shadow-sm ">
+      {/* <div className="text-sm border p-4 rounded-md shadow-sm ">
         <h3 className="text-xs text-gray-900 ">
           Delivery to : {address?.fullname}
         </h3>
@@ -35,7 +36,20 @@ const BillingAddress = ({ address }) => {
             edit
           </p>
         </div>
-      </div>
+      </div> */}
+
+      <AddressCard
+        id={address?.id}
+        fullname={address?.fullname}
+        address={address?.address}
+        region={address?.region}
+        city={address?.city}
+        street={address?.street}
+        area={address?.area}
+        deliveryat={address?.deliveryat}
+        phonenumber={address?.phonenumber}
+        active={address?.status == "active" ? true : false}
+      />
     </>
   );
 };

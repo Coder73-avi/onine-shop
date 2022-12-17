@@ -1,3 +1,7 @@
+#orderDiv::-webkit-scrollbar {
+  display: none;
+}
+
 .order__status__btns {
   display: flex;
   flex-direction: row;

@@ -70,7 +70,7 @@ const ShopCard = ({ data }) => {
     } catch (error) {
       // console.error(error);
     }
-  }, [data.pid]);
+  }, [data?.pid]);
 
   useEffect(() => {
     if (user) checkWishListIsActive();
@@ -87,15 +87,9 @@ const ShopCard = ({ data }) => {
               Sale !
             </div>
           ) : null}
-          <Link href={`/productdetails/${data?.pid}`}>
+          <Link href={`/productdetails/${data?.title?.replaceAll(' ', "_")}`}>
             <a>
-              {/* <div className={css.cardDetails}>
-            <h2 className="text-lg hover:underline cursor-pointer font-bold">
-              {title.slice(0, 20)} {title.length > 20 && " . . ."}
-            </h2>
-            <h3 className="text-lg font-bold ">Rs. {price}</h3>
-          </div> */}
-
+            
               <DefaultImage
                 src={data?.imageSrc || defaultImage}
                 alt="card-images"

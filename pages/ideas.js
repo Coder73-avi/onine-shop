@@ -41,10 +41,7 @@ export default function ideas({ imageList }) {
 export const getStaticProps = async () => {
   try {
     const req = await sameSiteAxios.get("/getallimages");
-    if (req.status == 200) {
-      return { props: { imageList: req.data } };
-    }
-    return { props: { imageList: [] } };
+    return { props: { revalidate: 60 * 20, imageList: req.data } };
   } catch (error) {
     return { props: { imageList: [] } };
   }

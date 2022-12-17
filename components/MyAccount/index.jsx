@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import axios from "controllers/axios";
 import css from "./css/style.module.css";
 import { AiOutlineDashboard, AiOutlineCloudDownload } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
@@ -13,6 +12,8 @@ import Address from "./Address";
 import AccountDetails from "./AccountDetails";
 import Dashboard from "./Dashboard";
 import MyReview from "./MyReview";
+import { BiNews } from "react-icons/bi";
+import MyPost from "./MyPost";
 
 const MyAccount = ({ router }) => {
   const myaccount = [
@@ -31,6 +32,21 @@ const MyAccount = ({ router }) => {
       name: "Downloads",
       path: "/myaccount?name=downloads",
       icon: <AiOutlineCloudDownload />,
+    },
+    {
+      name: "Community Post",
+      path: "/myaccount?name=community-post",
+      icon: <BiNews />,
+    },
+    {
+      name: "Community Sale",
+      path: "/myaccount?name=community-sale",
+      icon: <BiNews />,
+    },
+    {
+      name: "Community Purchase",
+      path: "/myaccount?name=community-purchase",
+      icon: <BiNews />,
     },
     {
       name: "Payment Method",
@@ -85,11 +101,14 @@ const MyAccount = ({ router }) => {
         </div>
 
         <div className="col-span-4 md:col-span-3 ">
-          <div className="border md:p-4 min-h-full">
+          <div className="border md:p-4 min-h-full relative overflow-x-auto overflow-w-hide">
             {!router.query.hasOwnProperty("name") && <Dashboard />}
             {router.query?.name == "my-orders" && <Myorders />}
             {router.query?.name == "my-review" && <MyReview />}
             {router.query?.name == "downloads" && <Myorders />}
+            {router.query?.name == "community-post" && <MyPost />}
+            {router.query?.name == "community-sale" && <MyPost />}
+            {router.query?.name == "community-purchase" && <MyPost />}
             {router.query?.name == "payment-method" && <PaymentMethod />}
             {router.query?.name == "address" && <Address />}
             {router.query?.name == "account-details" && <AccountDetails />}

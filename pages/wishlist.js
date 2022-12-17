@@ -24,7 +24,7 @@ export async function getStaticProps() {
   try {
     const onSale = await axios.get("/getonsaleproducts");
 
-    return { props: { onSaleProducts: onSale.data, revalidate: 60 * 20 } };
+    return { props: { onSaleProducts: onSale.data, revalidate: 60 * 10 } };
   } catch (error) {
     return { props: { onSaleProducts: [] } };
   }

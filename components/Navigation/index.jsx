@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useCallback, useState, useEffect, useRef } from "react";
 import css from "./style.module.css";
-import { FaRegLightbulb, FaUser } from "react-icons/fa";
+import { FaPeopleCarry, FaRegLightbulb, FaUser } from "react-icons/fa";
 import {
   AiFillHeart,
   AiOutlineUnlock,
@@ -13,7 +13,7 @@ import {
 } from "react-icons/ai";
 import { FaRegShareSquare } from "react-icons/fa";
 import { BiSearch } from "react-icons/bi";
-import { MdAddShoppingCart } from "react-icons/md";
+import { MdAddShoppingCart, MdOutlinePublic } from "react-icons/md";
 
 import axios from "controllers/axios";
 import logo from "images/logo.png";
@@ -47,13 +47,14 @@ const mainMenu = [
     icon: "",
     path: "/shop",
   },
-  {
-    name: "Renting",
-    icon: "",
-    path: "/shop",
-  },
+
   { name: "About Us", icon: "", path: "/" },
   { name: "Contact Us", icon: "", path: "/" },
+  {
+    name: "Our Community",
+    icon: <FaPeopleCarry />,
+    path: "/ourcommunity",
+  },
 ];
 
 const Navigation = () => {
@@ -92,12 +93,13 @@ const Navigation = () => {
   }, [dispatch]);
 
   const auth = GetCookie("auth");
+
   useEffect(() => {
     if (auth) checkingUserAuth();
     if (!auth) {
       dispatch({ type: "AUTH__USER", user: null });
       dispatch({ type: "EMPTYCART" });
-      router.push("/");
+      // router.push("/");
     }
   }, [auth, checkingUserAuth]);
 
@@ -184,9 +186,11 @@ const Navigation = () => {
             </Link>
           </div>
           <nav className={css.main__nav}>
-            {mainMenu.map(({ name, path }, indx) => (
+            {mainMenu.map(({ name, path, icon }, indx) => (
               <Link href={path} key={indx}>
-                <a className={`${css.main__nav__link} font-semibold`}>{name}</a>
+                <a className={`${css.main__nav__link} font-semibold`}>
+                  <span className="text-lg">{icon}</span> {name}
+                </a>
               </Link>
             ))}
           </nav>

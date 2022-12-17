@@ -29,7 +29,7 @@ const DropDownCart = ({ setShowCart, carts }) => {
   return (
     <div className={`${css.DropDownCart}`} ref={dropCartRef}>
       {carts?.map((val, indx) => {
-        const title = val?.title.slice(0, 20);
+        const title = val?.title?.slice(0, 20);
         const subtotal = parseInt(val?.qty) * parseInt(val?.price);
         return (
           <div
@@ -48,7 +48,7 @@ const DropDownCart = ({ setShowCart, carts }) => {
             </div>
             <div className="col-span-3">
               <h1 className="text-sm font-bold text-gray-800">
-                {title} {title.length > 20 && " . . ."}
+                {title} {title?.length > 20 && " . . ."}
               </h1>
               <h4 className="text-gray-500 flex flex-row gap-0 items-center text-xs">
                 {val?.qty || 1} <IoClose /> Rs {formatingNumber(val?.price)} ={" "}

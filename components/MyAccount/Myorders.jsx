@@ -88,31 +88,33 @@ const Myorders = () => {
           ))}
         </div>
       )}
-      <section className="p-4 flex flex-col justify-center gap-6">
-        {orders
-          ?.filter((item) => {
-            if (filterStatus == "") {
-              return item;
-            }
-            if (
-              item.status.toLowerCase().includes(filterStatus.toLowerCase())
-            ) {
-              return item;
-            }
-          })
-          ?.map((val, indx) => {
-            return (
-              <MyOrderCard
-                val={val}
-                addReview={() => {
-                  setReviewShow(true);
-                  setOrderId(val?.id);
-                  return setProductid(val?.product__id);
-                }}
-                key={indx}
-              />
-            );
-          })}
+      <section className="  " id={css.orderDiv}>
+        <div className="p-4 flex flex-col justify-center gap-6">
+          {orders
+            ?.filter((item) => {
+              if (filterStatus == "") {
+                return item;
+              }
+              if (
+                item.status.toLowerCase().includes(filterStatus.toLowerCase())
+              ) {
+                return item;
+              }
+            })
+            ?.map((val, indx) => {
+              return (
+                <MyOrderCard
+                  val={val}
+                  addReview={() => {
+                    setReviewShow(true);
+                    setOrderId(val?.id);
+                    return setProductid(val?.product__id);
+                  }}
+                  key={indx}
+                />
+              );
+            })}
+        </div>
       </section>
     </>
   );

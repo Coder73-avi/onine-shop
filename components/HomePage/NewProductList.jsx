@@ -73,7 +73,7 @@ const NewProductList = ({ onSaleProducts = [] }) => {
           </div>
         )}
 
-        <div className="grid md:grid-cols-3 gap-x-10 gap-y-2">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-2">
           {onSaleProducts?.map((val, indx) => {
             return (
               <div key={indx}>
@@ -110,7 +110,7 @@ export const Card = ({
       <a className={css.card}>
         <div
           className={`relative w-[30%] ${
-            topselling ? "" : "h-20"
+            topselling ? "" : "min-h-[100px] h-full"
           } rounded-md overflow-hidden`}
         >
           {topselling ? (

@@ -28,14 +28,14 @@ const QuickView = ({ setQuickView, data }) => {
       if (productQty < 1) {
         setProductQty(1);
       }
-      // await addToCart({
-      //   product__id: data?.id,
-      //   qty: productQty,
-      //   product__option: "",
-      // });
-      // dispatch({
-      //   type: "UPDATE__CART",
-      // });
+      await addToCart({
+        product__id: data?.pid,
+        qty: productQty,
+        product__option: "",
+      });
+      dispatch({
+        type: "UPDATE__CART",
+      });
 
       if (buy) {
         return router.push("/checkout");
@@ -83,7 +83,7 @@ const QuickView = ({ setQuickView, data }) => {
     } catch (error) {
       // console.error(error);
     }
-  }, [data.id]);
+  }, [data?.id]);
 
   useEffect(() => {
     if (user) checkWishListIsActive();

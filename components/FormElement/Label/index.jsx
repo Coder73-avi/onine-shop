@@ -5,7 +5,8 @@ const Label = ({ title, classNameLabel }) => {
     <label
       htmlFor={title?.toLowerCase()}
       className={
-        classNameLabel || "block mb-2 text-sm  text-gray-700 dark:text-gray-300"
+        classNameLabel ||
+        "block mb-2 text-sm font-bold  text-gray-700 dark:text-gray-300"
       }
     >
       {title}

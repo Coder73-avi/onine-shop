@@ -130,18 +130,18 @@ const ProductDetails = ({ data, topSelling }) => {
     } catch (error) {
       // console.error(error);
     }
-  }, [data.pid]);
+  }, [data?.pid]);
 
   useEffect(() => {
     if (user) checkWishListIsActive();
   }, [checkWishListIsActive, user]);
 
   return (
-    <div className="container p-6">
+    <div className="container p-6 mx-auto">
       <div className="grid md:grid-cols-2 lg:grid-cols-8 gap-10">
-        <div className="md:col-span-2 lg:col-span-6 grid grid-cols-5 lg:grid-cols-2 gap-8">
+        <div className="md:col-span-2 lg:col-span-6 grid grid-cols-5 lg:grid-cols-2 md:gap-1 lg:gap-8">
           <div className="col-span-5 md:col-span-2 lg:col-span-1">
-            <div className="border p-4">
+            <div className="border p-4 md:p-1">
               <div className="relative rounded-md overflow-hidden">
                 {data?.is__new ? <div className={css.newBtn}>New</div> : null}
                 {data?.on__sale == "1" ? (

@@ -1,0 +1,50 @@
+#tableContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.dropHead {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+.dropHead:hover {
+  background-color: rgb(152, 177, 221);
+  color: white;
+}
+
+.dropHead:hover .dropDown {
+  display: flex;
+}
+
+.dropDown {
+  position: absolute;
+  top: 1.6rem;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: rgba(68, 68, 220, 0.853);
+  border-radius: 0.2rem;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.dropDownLink {
+  padding: 0.6rem 1rem;
+  text-transform: capitalize;
+  color: rgb(255, 255, 255);
+  width: 100%;
+  text-align: left;
+}
+
+.dropDownLink:hover {
+  background-color: rgba(68, 68, 220, 0.853);
+  color: rgb(193, 193, 221);
+}

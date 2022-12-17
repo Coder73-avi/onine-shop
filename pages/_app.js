@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Aos from "aos";
 import "styles/globalfonts.css";
 import "styles/globalcolors.css";
+import "styles/loading.css";
 import "styles/globals.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -9,7 +10,6 @@ import "aos/dist/aos.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import "quill/dist/quill.snow.css";
-
 
 import { ToastContainer } from "react-toastify";
 

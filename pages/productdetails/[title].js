@@ -9,13 +9,13 @@ const Productdetails = ({ product, topSelling, onSaleProducts }) => {
   return (
     <>
       <Head>
-        <title>Product Details</title>
+        <title>{product?.title||"Product Details"}</title>
       </Head>
       <main>
         <Breadcrumbs
           location={[
             { name: "Shop", path: "/shop" },
-            { name: "Product Details", path: "/productdetails" },
+            { name:product?.title || "Product Details", path:  "/productdetails/"+product?.title.replaceAll(" ", "_") },
           ]}
         />
         <ProductDetails data={product} topSelling={topSelling} />
@@ -29,18 +29,19 @@ export default Productdetails;
 
 export async function getStaticPaths() {
   const res = await axios.get("/getproducts");
+
   const paths = res.data?.getData?.map((curElement) => {
-    return { params: { pid: curElement.pid.toString() } };
+    return { params: { title: curElement.title.toString().replaceAll(" ", "_")} };
   });
   return {
     paths,
     fallback: false, // can also be true or 'blocking'
   };
 }
-export const getStaticProps = async (context) => {
+export const getStaticProps = async ({params}) => {
   try {
-    const { pid } = context.params;
-    const res = await axios.get("/getproduct/" + pid);
+    const { title } = params;
+    const res = await axios.get(`/getproduct/title/${title.replaceAll("_", " ")}`);
     const topSelling = await axios.get("/topsellingproduct");
     const onSale = await axios.get("/getonsaleproducts");
 
@@ -48,7 +49,7 @@ export const getStaticProps = async (context) => {
 
     return {
       props: {
-        revalidate: 60 * 30,
+        revalidate: 60 * 10,
         product: res.data[0],
         topSelling: topSelling.data,
         onSaleProducts: onSale.data,

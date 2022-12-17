@@ -1,15 +1,15 @@
 import Breadcrumbs from "components/Breadcrumbs";
 import DefaultImage from "components/DefaultImage";
-import Footer from "components/Footer";
 import NewProductList from "components/HomePage/NewProductList";
 import pagenotfound from "images/404.webp";
 import Link from "next/link";
+import axios from "controllers/axios";
 
-export default function fourofour() {
+export default function fourofour({ onSaleProducts }) {
   return (
     <>
       <Breadcrumbs location={[{ name: "404", path: "/" }]} />
-      <section className="flex flex-col justify-center items-center h-[100%] gap-3">
+      <section className="flex flex-col justify-center items-center h-[100%] gap-3 mb-4">
         <div className="relative md:h-[40vh] lg:h-[50vh] w-[40vw]">
           <DefaultImage src={pagenotfound} alt="404, page-not-found" />
         </div>
@@ -20,7 +20,17 @@ export default function fourofour() {
           </button>
         </Link>
       </section>
-      <NewProductList />
+      <NewProductList onSaleProducts={onSaleProducts} />
     </>
   );
+}
+
+export async function getStaticProps() {
+  try {
+    const onSale = await axios.get("/getonsaleproducts");
+
+    return { props: { onSaleProducts: onSale.data, revalidate: 60 * 20 } };
+  } catch (error) {
+    return { props: { onSaleProducts: [] } };
+  }
 }

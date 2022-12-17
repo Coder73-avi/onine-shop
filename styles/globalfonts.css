@@ -8,6 +8,11 @@
 }
 
 @font-face {
+  font-family: MilkyWalkyss;
+  src: url("../fonts/MilkyWalky/MilkyWalky-Regular.ttf");
+}
+
+@font-face {
   font-family: Popplins;
   src: url("../fonts/Poppins/Poppins-Regular.ttf");
 }

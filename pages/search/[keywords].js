@@ -10,9 +10,9 @@ export default function Search({ products, onSaleProducts }) {
   const router = useRouter();
   const [keywords, setKeywords] = useState("");
   useEffect(() => {
-    const search = router.query.keywords;
+    const search = router.query?.keywords;
     setKeywords(search);
-  }, [router.query.keywords]);
+  }, [router.query?.keywords]);
   return (
     <>
       <Head>
@@ -39,14 +39,7 @@ export default function Search({ products, onSaleProducts }) {
           ) : null}
           {products?.map((val, indx) => (
             <div className="mb-8" key={indx}>
-              <ShopCard
-                imageSrc={val?.imageSrc}
-                id={val?.pid}
-                title={val?.title}
-                price={val?.price}
-                onSale={val?.on__sale}
-                isNew={val?.is__new}
-              />
+              <ShopCard data={val} />
             </div>
           ))}
         </div>

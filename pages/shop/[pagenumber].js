@@ -62,7 +62,7 @@ export async function getStaticProps(context) {
 
     return {
       props: {
-        revalidate: 60 * 20,
+        revalidate: 60 * 10,
         products: getData,
         noOfPage: paginationNum,
         categorys: [],
