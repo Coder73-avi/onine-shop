@@ -5,6 +5,7 @@ import axios from "controllers/axios";
 import { useRouter } from "next/router";
 import { uid } from "uid";
 import { formatingNumber } from "controllers/otherFunctions";
+import Swal from "sweetalert2";
 
 const OrderSummary = ({ carts, dispatch, address__id }) => {
   const router = useRouter();
@@ -30,10 +31,17 @@ const OrderSummary = ({ carts, dispatch, address__id }) => {
       const req = await axios.post("/addorders", newCart);
       if (req.status == 201) {
         dispatch({ type: "UPDATE__CART" });
-        router.push("/myaccount?name=my-orders");
+        Swal.fire({
+          // position: "top-end",
+          icon: "success",
+          title: "Order send Successfully",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+        return setTimeout(() => router.push("/myaccount?name=my-orders"), 1500);
       }
     } catch (error) {
-      alert("Sorry Order is not made.");
+      return alert("Sorry Order is not made.");
       // return console.error(error);
     }
   };

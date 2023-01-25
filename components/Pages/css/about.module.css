@@ -1,0 +1,9 @@
+
+.about_info_card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.7rem;
+  /* border: 1px solid gray; */
+}

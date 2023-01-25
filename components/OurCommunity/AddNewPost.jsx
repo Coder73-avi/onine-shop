@@ -50,7 +50,7 @@ const AddNewPost = ({ setFormShow, formStatus = "new", postId }) => {
         errorsObj.imagefile = "Minimun one image is required !!!";
     }
 
-    if (data?.discription?.length < 10)
+    if (data?.discription?.length < 9)
       errorsObj.discription = "Discription must be mininum 10 characters !!!";
 
     if (productStatus == "onsale") {

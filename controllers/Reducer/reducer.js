@@ -1,3 +1,5 @@
+import { updateCarts } from "./updateCarts";
+
 export const initialState = {
   isAuth: false,
   cartChange: 0,
@@ -9,7 +11,7 @@ export const initialState = {
 export const getCartTotal = (cart) => {
   return cart?.reduce(
     (amount, item) => parseInt(item?.price * item?.qty) + amount,
-    0
+    0,
   );
 };
 
@@ -19,11 +21,13 @@ export default function reducer(state, action) {
       return { ...state };
     case "UPDATE__CART":
       return { ...state, cartChange: Math.random() };
+    case "REMOVE__CART":
+      return updateCarts(state, action);
     case "ADD__TO__CART":
       return { ...state, carts: [...action.carts] };
     case "REMOVE__ITEMS__FROM__CART":
       const filterCart = state.cart.filter(
-        (val, indx) => indx !== action.removeIndx
+        (val, indx) => indx !== action.removeIndx,
       );
       return {
         ...state,

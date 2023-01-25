@@ -45,7 +45,7 @@ const MyPost = () => {
 
   const editPost = (pid) => {
     const checkStatusPost = data?.some(
-      (item) => item.pid == pid && item.status == "onreview"
+      (item) => item.pid == pid && item.status == "onreview",
     );
     if (checkStatusPost)
       return alert("You cann't edit your product is under review !!!");
@@ -137,7 +137,7 @@ const MyPost = () => {
                     {val?.type || "(None)"}
                   </button>
                 </td>
-                <td className=" px-2 py-1">{val?.status || "(None)"}</td>
+                <td className={` px-2 py-1 `}>{val?.status || "(None)"}</td>
                 <td className=" px-2">
                   <div className={css.dropHead}>
                     <BsThreeDots />
@@ -150,11 +150,20 @@ const MyPost = () => {
                       </button>
                       <button
                         className={css.dropDownLink}
-                        onClick={() =>
-                          router.push(
-                            "/ourcommunity/" + val?.title.replaceAll(" ", "-")
-                          )
-                        }
+                        onClick={() => {
+                          const checkStatusPost = data?.some(
+                            (item) =>
+                              item?.pid == val?.pid &&
+                              item?.status == "onreview",
+                          );
+                          if (checkStatusPost)
+                            return alert(
+                              "You cann't view your product is under review !!!",
+                            );
+                          return router.push(
+                            "/ourcommunity/" + val?.title.replaceAll(" ", "_"),
+                          );
+                        }}
                       >
                         view
                       </button>

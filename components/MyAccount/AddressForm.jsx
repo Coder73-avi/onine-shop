@@ -6,6 +6,7 @@ import { BsHandbagFill } from "react-icons/bs";
 import { AiTwotoneHome } from "react-icons/ai";
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 const AddressForm = ({ setLoading }) => {
   const [{ user }, dispatch] = useStateValue();
@@ -35,7 +36,13 @@ const AddressForm = ({ setLoading }) => {
 
       const req = await axios.post("/addbillingaddress", inputData);
       if (req.status == 201) {
-        alert("Add Successfully");
+        Swal.fire({
+          // position: "top-end",
+          icon: "success",
+          title: "Add Successfully",
+          showConfirmButton: false,
+          timer: 1000,
+        });
         setInputData({
           fullname: "",
           region: "",
@@ -80,10 +87,16 @@ const AddressForm = ({ setLoading }) => {
 
       const req = await axios.patch(
         "/updatebillingaddress/" + router.query?.id,
-        inputData
+        inputData,
       );
       if (req.status == 200) {
-        alert("Update Successfully");
+        return Swal.fire({
+          // position: "top-end",
+          icon: "success",
+          title: "Updated Successfully",
+          showConfirmButton: false,
+          timer: 1000,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -130,10 +143,11 @@ const AddressForm = ({ setLoading }) => {
           />
           <Inputbox
             title="Building / House No / Floor / Street"
-            placeholder={"Please enter"}
+            placeholder={"Building / House No / Floor / Street"}
             name="street"
             value={inputData?.street}
             onChange={inputHandle}
+            required={false}
           />
           <Inputbox
             title="Area"
@@ -148,6 +162,7 @@ const AddressForm = ({ setLoading }) => {
             name="colony"
             value={inputData?.colony}
             onChange={inputHandle}
+            required={false}
           />
           <Inputbox
             title="Address"
@@ -155,6 +170,7 @@ const AddressForm = ({ setLoading }) => {
             name="address"
             value={inputData?.address}
             onChange={inputHandle}
+            required={false}
           />
           <div></div>
           <div>

@@ -3,6 +3,7 @@ import { useStateValue } from "controllers/Reducer/stateProvider";
 import React, { useEffect, useState } from "react";
 
 import AccountDetailsForm from "./AccountDetailsForm";
+import UserSocialLogin from "./UserSocialLogin";
 
 const AccountDetails = () => {
   const [{ user }, dispatch] = useStateValue();
@@ -16,7 +17,13 @@ const AccountDetails = () => {
         My Account Details
       </h1>
       <hr className="mb-4" />
-      {loading ? <Loading /> : <AccountDetailsForm setLoading={setLoading} />}
+      {loading ? <Loading /> : null}
+
+      {user?.type == "normal" ? (
+        <UserSocialLogin user={user} />
+      ) : (
+        <AccountDetailsForm setLoading={setLoading} />
+      )}
     </>
   );
 };

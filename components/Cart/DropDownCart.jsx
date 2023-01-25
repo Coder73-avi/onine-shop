@@ -65,8 +65,8 @@ const DropDownCart = ({ setShowCart, carts }) => {
               className="absolute right-0 bottom-0 flex flex-row justify-end"
               onClick={async () => {
                 await removeItemFromCart(val?.id, val?.qty);
-                dispatch({ type: "UPDATE__CART" });
-                return setShowCart(false);
+                dispatch({ type: "REMOVE__CART", id: val?.id });
+                // return setShowCart(false);
               }}
             >
               {/* <IoClose className={css.closeBtn} /> */}

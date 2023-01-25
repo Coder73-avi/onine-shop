@@ -6,31 +6,13 @@ import Image from "next/image";
 import coverImage from "images/room-make-over.webp";
 import roommakeover from "images/home/roommakeover.avif";
 import DefaultImage from "components/DefaultImage";
+import Banner from "./Banner";
 
-const RoomMakeOver = () => {
-  const opts = {
-    width: "400",
-    height: "220",
-    playerVars: {
-      autoplay: 0,
-    },
-  };
-
+const RoomMakeOver = ({ banner }) => {
   return (
     <>
       <section className="">
-        <div className="relative w-full h-24 md:h-36 lg:h-52 shadow overflow-hidden ">
-          <Image
-            src={coverImage}
-            alt="default-image"
-            layout="fill"
-            objectFit="cover"
-            objectPosition={"center"}
-          />
-          <div className="absolute z-50 text-white font-bold text-md md:text-xl lg:text-3xl flex flex-row justify-start xl:justify-center items-center w-full h-full  px-6 ">
-            Room Make Over
-          </div>
-        </div>
+        <Banner src={banner?.src} alt={banner?.alt} />
         <div className="grid lg:grid-cols-3 gap-8 md:px-4 lg:p-0 my-4 lg:justify-center items-center mx-auto">
           <div className="p-4 overflow-hidden rounded-2xl col-span-3 lg:col-span-1">
             <video controls autoPlay={true} loop muted>

@@ -38,16 +38,17 @@ export default function Pagenumber({ products, noOfPage, categorys }) {
   );
 }
 
-export async function getStaticPaths() {
-  const res = await axios.get("/getproducts/20");
-  const noOfPages = res.data?.paginationNum;
-  const paths = Array(noOfPages)
-    .fill()
-    .map((curElement, indx) => {
-      const page = indx + 1;
+const NO_OF_PAGES = 20;
 
-      return { params: { pagenumber: page.toString() } };
-    });
+export async function getStaticPaths() {
+  const res = await axios.get("/getproducts/" + NO_OF_PAGES);
+  const noOfPages = res.data?.paginationNum;
+
+  const paths = [];
+  for (let i = 0; i < noOfPages; i++) {
+    const page = i + 1;
+    paths.push({ params: { pagenumber: page.toString() } });
+  }
   return {
     paths,
     fallback: false, // can also be true or 'blocking'
@@ -56,21 +57,21 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   try {
-    const { pagenumber } = context.params;
-    const res = await axios.get("/getproducts/20/" + pagenumber);
-    const { getData, paginationNum } = res.data;
-
+    const pagenumber = context.params?.pagenumber;
+    const res = await axios.get(`/getproducts/${NO_OF_PAGES}/` + pagenumber);
+    const { newData, paginationNum } = res.data;
+    // console.log(res.data);
     return {
       props: {
         revalidate: 60 * 10,
-        products: getData,
+        products: newData,
         noOfPage: paginationNum,
-        categorys: [],
       },
     };
   } catch (error) {
+    // console.log(error);
     return {
-      props: { product: [], noOfPage: 0, categorys: [] },
+      props: { noOfPage: 0, products: [] },
     };
   }
 }

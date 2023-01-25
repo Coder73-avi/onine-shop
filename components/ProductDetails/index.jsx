@@ -17,15 +17,15 @@ import DefaultImage from "components/DefaultImage";
 import axios from "controllers/axios";
 
 import defaultImage from "images/default-image-300x300.png";
-import image4 from "images/newproduct/4.webp";
-import image5 from "images/newproduct/5.webp";
-import image6 from "images/newproduct/6.webp";
+
 import { Card } from "components/HomePage/NewProductList";
 import MoreDetails from "./MoreDetails";
 import { addToCart } from "controllers/cartControl";
 import { addToWishList } from "controllers/wishListControl";
 import { formatingNumber } from "controllers/otherFunctions";
 import ProductRating from "components/ProductRating";
+import Slider from "react-slick";
+import Swal from "sweetalert2";
 
 const ProductDetails = ({ data, topSelling }) => {
   const router = useRouter();
@@ -38,8 +38,8 @@ const ProductDetails = ({ data, topSelling }) => {
   const [productOption, setProducutOption] = useState("");
 
   useEffect(() => {
-    setImageUrl(data?.imageSrc);
-  }, [data?.imageSrc]);
+    setImageUrl(data?.images[0]?.url);
+  }, [data?.images]);
 
   useEffect(() => {
     if (data?.product__options) {
@@ -82,8 +82,17 @@ const ProductDetails = ({ data, topSelling }) => {
         qty: numOrder,
         product__option: productOption,
       });
-      return dispatch({
+
+      dispatch({
         type: "UPDATE__CART",
+      });
+      setNumOrder(1);
+      return Swal.fire({
+        // position: "top-end",
+        icon: "success",
+        title: "Add successfully in Cart",
+        showConfirmButton: false,
+        timer: 1000,
       });
     } catch (error) {
       router.push("/login");
@@ -136,6 +145,14 @@ const ProductDetails = ({ data, topSelling }) => {
     if (user) checkWishListIsActive();
   }, [checkWishListIsActive, user]);
 
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: data?.images?.length < 3 ? data?.images?.length : 3,
+    slidesToScroll: 1,
+  };
+
   return (
     <div className="container p-6 mx-auto">
       <div className="grid md:grid-cols-2 lg:grid-cols-8 gap-10">
@@ -153,27 +170,30 @@ const ProductDetails = ({ data, topSelling }) => {
                   </div>
                 ) : null}
                 <DefaultImage
-                  src={imageUrl || defaultImage}
+                  src={data?.host + imageUrl || defaultImage}
                   alt={data?.originalname || "product-image"}
                 />
               </div>
 
-              <div className="my-5 grid grid-cols-2 lg:grid-cols-3 gap-4">
-                {data?.images?.map((val, indx) => (
-                  <div
-                    key={indx}
-                    onClick={() => setImageUrl(val.url)}
-                    className="relative w-28 h-24 cursor-pointer hover:opacity-80 rounded-md overflow-hidden "
-                  >
-                    <Image
-                      src={`${val.url}` || product1}
-                      alt="carousel-images"
-                      layout="fill"
-                      objectFit="cover"
-                      objectPosition="center"
-                    />
-                  </div>
-                ))}
+              <div className="my-5 ">
+                <Slider {...settings}>
+                  {data?.images?.map((val, indx) => (
+                    <div key={indx}>
+                      <div
+                        onClick={() => setImageUrl(val.url)}
+                        className="relative h-[100px] min-w-[120px] max-w-[120px] rounded-lg overflow-hidden cursor-pointer hover:opacity-50 transition"
+                      >
+                        <Image
+                          src={`${data?.host + val.url}` || product1}
+                          alt="carousel-images"
+                          layout="fill"
+                          objectFit="cover"
+                          objectPosition="center"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </Slider>
               </div>
             </div>
           </div>
@@ -183,7 +203,11 @@ const ProductDetails = ({ data, topSelling }) => {
             <h1 className="font-bold text-2xl">
               {data?.title || "loading..."}
             </h1>
-            <ProductRating maxRating={4} />
+            {data?.rating ? (
+              <ProductRating maxRating={data?.rating} />
+            ) : (
+              <div className="text-xs font-bold text-gray-400">No Review</div>
+            )}
             <div className={css.price}>Rs. {formatingNumber(data?.price)} </div>
             <hr />
             <div className="text-sm text-justify">
@@ -275,12 +299,13 @@ const ProductDetails = ({ data, topSelling }) => {
               originalName={val?.originalname}
               title={val?.title}
               price={val?.price}
+              rating={val?.rating}
             />
           ))}
         </div>
       </div>
 
-      <MoreDetails moreData={data?.more__info} />
+      <MoreDetails moreData={data?.more__info} pid={data?.pid} />
     </div>
   );
 };

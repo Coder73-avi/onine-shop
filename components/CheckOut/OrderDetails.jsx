@@ -14,6 +14,7 @@ const OrderDetails = () => {
     const trys = "turue";
     console.log(trys.slice(1, 1));
   }, []);
+
   return (
     <section className=" rounded-md">
       <div className="flex flex-col gap-3">
@@ -48,8 +49,10 @@ const OrderDetails = () => {
                       className="  text-red-500 italic hover:text-red-600 text-sm "
                       onClick={async () => {
                         await removeItemFromCart(val?.id, val?.qty);
-                        dispatch({ type: "UPDATE__CART" });
-                        return router.push("/checkout");
+                        dispatch({
+                          type: "REMOVE__CART",
+                          id: val?.id,
+                        });
                       }}
                     >
                       Remove

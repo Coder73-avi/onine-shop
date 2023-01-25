@@ -7,7 +7,7 @@ import axios from "controllers/axios";
 import parse from "html-react-parser";
 import Loading from "components/Loading";
 
-const MoreDetails = ({ moreData }) => {
+const MoreDetails = ({ moreData, pid }) => {
   const [navState, setNavState] = useState("more-info");
   return (
     <>
@@ -39,7 +39,7 @@ const MoreDetails = ({ moreData }) => {
       <div className="border p-8 my-5">
         {navState == "more-info" && <MoreInfo moreData={moreData} />}
         {/* {navState == "data-sheet" && <DataSheet />} */}
-        {navState == "review" && <Review />}
+        {navState == "review" && <Review pid={pid} />}
       </div>
     </>
   );
@@ -77,14 +77,13 @@ export const DataSheet = () => {
     </div>
   );
 };
-export const Review = () => {
+export const Review = ({ pid }) => {
   const router = useRouter();
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
 
   const getReviews = useCallback(async () => {
     try {
-      const { pid } = router.query;
       const res = await axios.get("/getreviewsforproduct/" + pid);
       if (res.status == 200) {
         setReviews(res.data);
@@ -94,7 +93,7 @@ export const Review = () => {
       console.error(error);
       return setLoading(false);
     }
-  }, [router.query]);
+  }, [pid]);
 
   useEffect(() => {
     getReviews();

@@ -1,3 +1,9 @@
+.main__logo {
+  position: relative;
+  width: 200px;
+  height: 50px;
+}
+
 .sub__nav {
   display: flex;
   flex-direction: row;
@@ -57,6 +63,11 @@
   gap: 0.9rem;
   justify-content: center;
   align-items: center;
+}
+
+.searchForm {
+  position: relative;
+  height: auto;
 }
 
 .searchBox {
@@ -157,8 +168,11 @@
 .threeLine__bar:hover {
   color: teal;
 }
+#mobile__search__icon {
+  display: none;
+}
 
-@media (min-width: 788px) {
+@media (min-width: 950px) {
   .threeLine__bar {
     display: none;
   }
@@ -174,9 +188,13 @@
   .searchInput {
     width: 100%;
   }
+  .main__nav {
+    font-size: 14px;
+    gap: 1rem;
+  }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 950px) {
   .shopping__cart {
     font-size: 14px;
   }
@@ -188,19 +206,45 @@
   }
 }
 
+@media (max-width: 600px) {
+  #mobile__search__icon {
+    display: block;
+  }
+  .searchForm {
+    position: absolute;
+    width: 100vw;
+    height: 0;
+    left: -1.5rem;
+    top: 3.3rem;
+    z-index: 100;
+    background: rgb(255, 255, 255);
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+  .showSearchForm {
+    padding: 0.8rem;
+    height: 100%;
+  }
+  .searchBox {
+    width: 100%;
+  }
+}
+
 @media (max-width: 430px) {
   .responsive__div {
     width: 60%;
   }
   .searchBox {
     font-size: 12px;
-    width: 200px;
+    width: 100%;
   }
   .searchInput {
     width: 100%;
   }
+}
 
-  .main__nav {
-    display: none;
+@media (max-width: 310px) {
+  .main__logo {
+    width: 130px;
   }
 }

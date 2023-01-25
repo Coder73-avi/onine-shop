@@ -6,9 +6,8 @@ import { useRouter } from "next/router";
 import axios from "controllers/axios";
 
 import Pagination from "components/Pagination";
-import NewProductList from "components/HomePage/NewProductList";
 
-const Shop = ({ products, noOfPage, onSaleProducts }) => {
+const Shop = ({ products, noOfPage }) => {
   const router = useRouter();
 
   React.useEffect(() => {
@@ -37,7 +36,6 @@ const Shop = ({ products, noOfPage, onSaleProducts }) => {
 
         <Pagination noOfPage={noOfPage} link={"/shop/"} />
         <br />
-        <NewProductList onSaleProducts={onSaleProducts} />
       </main>
     </>
   );
@@ -48,22 +46,24 @@ export default Shop;
 export async function getStaticProps() {
   try {
     const res = await axios.get("/getproducts/20/1");
-    const onSale = await axios.get("/getonsaleproducts");
 
-    const { getData, paginationNum } = res.data;
-
+    const { newData, paginationNum } = res.data;
     return {
       props: {
         revalid: 60 * 10,
-        products: getData,
+        products: newData,
         noOfPage: paginationNum,
-        onSaleProducts: onSale.data,
       },
     };
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return {
-      props: { product: [], onSaleProducts: [], noOfPage: 0 },
+      props: {
+        product: [],
+        onSaleProducts: [],
+        noOfPage: 0,
+        onSaleProducts: [],
+      },
     };
   }
 }

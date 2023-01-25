@@ -1,0 +1,22 @@
+.banner_heading {
+  min-height: 40vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  font-size: 36px;
+  font-weight: 600;
+  color: white;
+  font-family: Popplins;
+  /* background-color: rgba(255, 0, 0, 0.459); */
+}
+
+.banner_image {
+  position: fixed;
+  /* top: 100px; */
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  transition: top 0.3s linear;
+}

@@ -7,7 +7,7 @@ import { IoIosArrowForward } from "react-icons/io";
 
 const Breadcrumbs = ({ location }) => {
   return (
-    <div className={`border-t border-b py-4 md:px-3 ${css.bredcrumbs__area} `}>
+    <div className={`border-t border-b py-4 md:px-3 bg-white`}>
       <div
         className={`w-[95%] mx-auto flex flex-row items-center gap-2 ${css.bredcrumbs} custom-container`}
       >

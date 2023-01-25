@@ -17,14 +17,16 @@ export default function ideas({ imageList }) {
             0 Images found !!!
           </div>
         ) : null}
-        <div className="w-[90%] mx-auto mt-4 mb-10 columns-2 lg:columns-4 gap-4 ">
+        <div className="w-[90%] mx-auto mt-4 mb-10 columns-2 lg:columns-4 gap-10 ">
           {imageList?.map((image, indx) => {
             return (
               <div
                 key={indx}
                 className="overflow-hidden rounded-md shadow-lg mb-8"
               >
-                <Link href={`/productdetails/${image.product__id}`}>
+                <Link
+                  href={`/productdetails/${image.title?.replaceAll(" ", "_")}`}
+                >
                   <a>
                     <DefaultImage src={image?.url} alt={image?.originalname} />
                   </a>
@@ -43,6 +45,7 @@ export const getStaticProps = async () => {
     const req = await sameSiteAxios.get("/getallimages");
     return { props: { revalidate: 60 * 20, imageList: req.data } };
   } catch (error) {
+    // console.log(error);
     return { props: { imageList: [] } };
   }
 };

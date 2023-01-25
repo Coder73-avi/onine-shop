@@ -34,12 +34,12 @@ const CheckOut = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [user, cartChange]);
+  }, [user, router]);
 
   useEffect(() => {
     if (carts.length == 0) router.push("/shop");
     if (user !== null) checkOutList();
-  }, [checkOutList, user]);
+  }, [carts.length, checkOutList, router, user]);
 
   return (
     <section className="w-[97%] lg:w-[90%] mx-auto my-4">

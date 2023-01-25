@@ -24,6 +24,7 @@ import { useRouter } from "next/router";
 import { BsCartCheck } from "react-icons/bs";
 import { GetCookie, RemoveCookie } from "controllers/SetCookie";
 import { IoClose } from "react-icons/io5";
+import Swal from "sweetalert2";
 
 const subMenu = [
   { name: "My Account", icon: <FaUser />, path: "/myaccount" },
@@ -48,8 +49,8 @@ const mainMenu = [
     path: "/shop",
   },
 
-  { name: "About Us", icon: "", path: "/" },
-  { name: "Contact Us", icon: "", path: "/" },
+  { name: "About Us", icon: "", path: "/about" },
+  { name: "Contact Us", icon: "", path: "/contact" },
   {
     name: "Our Community",
     icon: <FaPeopleCarry />,
@@ -67,8 +68,15 @@ const Navigation = () => {
   const logOut = async () => {
     try {
       RemoveCookie("auth");
-      alert("Log out successfully");
-      return window.location.href(false);
+      // alert("Log out successfully");
+      Swal.fire({
+        // position: "top-end",
+        icon: "success",
+        title: "Log Out Successfully",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+      return setTimeout(() => window.location.reload(false), 1000);
     } catch (error) {
       return console.error(error);
     }
@@ -90,7 +98,7 @@ const Navigation = () => {
       dispatch({ type: "AUTH__USER", user: null });
       return dispatch({ type: "ADD__TO__CART", carts: [] });
     }
-  }, [dispatch]);
+  }, []);
 
   const auth = GetCookie("auth");
 
@@ -108,7 +116,6 @@ const Navigation = () => {
       if (user !== null) {
         const res = await axios.get("/getcheckouts");
         if (res.status == 200) {
-          // console.log(res.data);
           return dispatch({ type: "ADD__TO__CART", carts: res.data });
         }
       }
@@ -164,8 +171,8 @@ const Navigation = () => {
       </section>
 
       <section className={css.main__nav__section + " bg-white border-b pb-2"}>
-        <div className="flex flex-row justify-between items-center gap-2 custom-container ">
-          <div className="flex flex-row gap-6 items-center">
+        <div className="flex flex-row justify-between items-center gap-2 custom-container relative">
+          <div className="flex flex-row gap-2 items-center">
             <div
               className={css.threeLine__bar}
               onClick={() => setResponsiveNav(!responsiveNav)}
@@ -173,9 +180,7 @@ const Navigation = () => {
               <AiOutlineMenu />
             </div>
             <Link href="/">
-              <a
-                className={`${css.main__logo} relative h-10 w-20 md:h-14 md:w-36`}
-              >
+              <a className={`${css.main__logo} `}>
                 <Image
                   src={logo}
                   alt="logo"
@@ -201,7 +206,7 @@ const Navigation = () => {
             responsiveNav={responsiveNav}
           />
           <div className={css.side__icons}>
-            <div className=" block">
+            <div className="block">
               <SearchBox />
             </div>
             <div
@@ -230,7 +235,9 @@ export default Navigation;
 
 const SearchBox = () => {
   const router = useRouter();
+  const searchRef = useRef();
   const [keywords, setKeywords] = useState("");
+  const [showSearchBox, setShowSearchBox] = useState(false);
 
   useEffect(() => {
     const route = router.query;
@@ -241,24 +248,51 @@ const SearchBox = () => {
     }
   }, [router.query]);
 
+  useEffect(() => {
+    const handle = (e) => {
+      if (!searchRef.current?.contains(e.target))
+        return setShowSearchBox(false);
+    };
+
+    addEventListener("mousedown", handle);
+    return () => removeEventListener("mousedown", handle);
+  }, []);
+
   const searchProduct = (e) => {
     e.preventDefault();
     if (keywords == "") return router.push("/shop");
     return router.push("/search/" + keywords);
   };
   return (
-    <form className={` ${css.searchBox}`} onSubmit={searchProduct}>
-      <input
-        type="search"
-        placeholder="Search products"
-        onChange={(e) => setKeywords(e.target.value)}
-        value={keywords}
-        className={css.searchInput}
-      />
-      <button className="text-sm lg:text-lg hover:text-teal-600">
+    <>
+      <button
+        className="text-lg pt-1.5 lg:text-lg hover:text-teal-600"
+        id={css.mobile__search__icon}
+        onClick={() => setShowSearchBox(!showSearchBox)}
+      >
         <BiSearch />
       </button>
-    </form>
+      <form
+        ref={searchRef}
+        className={`${css.searchForm} ${
+          showSearchBox ? css.showSearchForm : ""
+        }`}
+        onSubmit={searchProduct}
+      >
+        <div className={css.searchBox}>
+          <input
+            type="search"
+            placeholder="Search products"
+            onChange={(e) => setKeywords(e.target.value)}
+            value={keywords}
+            className={css.searchInput}
+          />
+          <button className="text-sm lg:text-lg hover:text-teal-600">
+            <BiSearch />
+          </button>
+        </div>
+      </form>
+    </>
   );
 };
 
@@ -327,12 +361,6 @@ const ResponsiveMenu = ({ user, logOut, setResponsiveNav, responsiveNav }) => {
           />
         </div>
         <nav className={css.responsive__nav}>
-          {/* <div
-            className="absolute top-5 right-5 text-3xl"
-            onClick={() => setResponsiveNav(false)}
-          >
-            <IoClose />
-          </div> */}
           {resMainMenu.map(({ name, icon, path }, indx) => (
             <Link href={path} key={indx}>
               <a className={` `} onClick={() => setResponsiveNav(false)}>

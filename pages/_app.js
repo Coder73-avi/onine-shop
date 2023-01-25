@@ -10,6 +10,7 @@ import "aos/dist/aos.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import "quill/dist/quill.snow.css";
+// import "sweetalert2/src/sweetalert2.scss";
 
 import { ToastContainer } from "react-toastify";
 
@@ -19,11 +20,14 @@ import reducer, { initialState } from "controllers/Reducer/reducer";
 import NextNProgress from "nextjs-progressbar";
 import Footer from "components/Footer";
 import { useRouter } from "next/router";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const pathArr = ["/myaccount", "/login"];
-  // require("dotenv").config();
+
   useEffect(() => {
     Aos.init();
     Aos.refresh();
@@ -31,23 +35,25 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <StateProvider initialState={initialState} reducer={reducer}>
-        <ToastContainer
-          position="top-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-        />
-        <NextNProgress options={{ showSpinner: false }} color="#087960" />
-        <Navigation />
-        <Component {...pageProps} />
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+        <StateProvider initialState={initialState} reducer={reducer}>
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+          />
+          <NextNProgress options={{ showSpinner: false }} color="#087960" />
+          <Navigation />
+          <Component {...pageProps} />
 
-        {!pathArr.includes(router.pathname) ? <Footer /> : null}
-      </StateProvider>
+          {!pathArr.includes(router.pathname) ? <Footer /> : null}
+        </StateProvider>
+      </GoogleOAuthProvider>
     </>
   );
 }

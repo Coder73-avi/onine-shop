@@ -25,6 +25,7 @@ const WhishList = () => {
       if (!user) router.push("/shop");
       const reqWishlist = await axios.get("/getwishlists");
       if (reqWishlist.status == 200) {
+        console.log(reqWishlist.data);
         setWishlist(reqWishlist.data);
         setLoading(false);
       }
@@ -32,7 +33,7 @@ const WhishList = () => {
       setWishlist([]);
       setLoading(false);
     }
-  }, []);
+  }, [router, user]);
 
   useEffect(() => {
     getWishlist();
@@ -87,8 +88,8 @@ const WhishList = () => {
                 <a className="flex flex-row gap-3 hover:bg-opcity-50 flex-grow ">
                   <div className="h-20 relative rounded-md overflow-hidden ">
                     <DefaultImage
-                      src={val?.imageSrc || demoimage}
-                      alt="wiselist-image"
+                      src={val?.image?.src || demoimage}
+                      alt={val?.image?.alt}
                     />
                   </div>
                   <div className="flex flex-col items-start  gap-1 py-2">

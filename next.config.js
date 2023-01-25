@@ -12,7 +12,10 @@ const nextConfig = {
   env: {
     // URL: "http://localhost:4001",
     URL: "https://api.raeelaproduction.com",
+    GOOGLE_CLIENT_ID:
+      "434554521621-6smtnnqahblegv3oq2pd83ertbl92ktc.apps.googleusercontent.com",
   },
+  FACEBOOK_APP_ID: "851941756069770",
 };
 
 module.exports = nextConfig;

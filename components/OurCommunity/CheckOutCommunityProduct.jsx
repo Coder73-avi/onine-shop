@@ -73,53 +73,6 @@ const CheckOutCommunityProduct = ({ data, sendOrder, setSendOrder }) => {
         <div className="border rounded-md p-3">
           <div className="grid md:grid-cols-2 gap-6">
             {address?.map((val, indx) => (
-              // <div key={indx} className="text-sm border p-5 rounded-md shadow">
-              //   <h3 className="font-semibold text-gray-700  mb-4 capitalize">
-              //     {val?.fullname}
-              //   </h3>
-              //   <div className="text-gray-500 mb-4">
-              //     {/* {val?.address || `1355 Market St`}, <br /> */}
-              //     {`${val?.region} ${val?.city} ${val?.street}, ${val?.area}` ||
-              //       `Suite 900 San Francisco, CA 94103`}
-              //   </div>
-              //   <div className="text-gray-500 ">
-              //     Mobile: {val?.phonenumber || `(123) 456-7890`}
-              //   </div>
-              //   <div className="flex flex-row justify-end items-center my-3">
-              //     <button
-              //       type="button"
-              //       className={`flex flex-row justify-center items-center gap-4 py-2 px-4 text-sm font-mono  border  rounded-md shadow  ${
-              //         val?.deliveryat.toLowerCase() == "office"
-              //           ? "border-teal-300 text-teal-600"
-              //           : "border-orange-300 text-orange-600"
-              //       }`}
-              //     >
-              //       {val?.deliveryat.toLowerCase() == "office" ? (
-              //         <BsHandbagFill />
-              //       ) : (
-              //         <AiTwotoneHome />
-              //       )}
-              //       <span className="capitalize">{val?.deliveryat}</span>
-              //     </button>
-              //   </div>
-              //   <div className="flex flex-row gap-3 items-center">
-              //     <Link
-              //       href={`/myaccount?name=address&&form=update&&id=${val?.id}`}
-              //     >
-              //       <button className={css.edit__address}>
-              //         <FiEdit /> Edit
-              //       </button>
-              //     </Link>
-
-              //     <button
-              //       className={css.edit__address}
-              //       disabled={val?.status == "active" ? true : false}
-              //       // onClick={activeAddress}
-              //     >
-              //       Active
-              //     </button>
-              //   </div>
-              // </div>
               <AddressCard
                 key={indx}
                 setRanNum={setRanNum}

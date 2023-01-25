@@ -49,7 +49,7 @@ const Address = () => {
       </div>
       <hr className="my-2" />
       {loading && <Loading />}
-      {!loading && addressData?.length == 0 && (
+      {!loading && addressData?.length == 0 && router.query?.form !== "new" && (
         <div className="text-sm text-gray-600">
           Billing addres is not found. You must add new Address.{" "}
           <Link href={"/myaccount?name=address&&form=new"}>

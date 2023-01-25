@@ -1,0 +1,58 @@
+.pop_main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(172, 174, 175, 0.548);
+  z-index: 110;
+}
+
+.pop_container {
+  width: 50%;
+  padding: 4rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.pop_sign {
+  display: block;
+  height: 100px;
+  width: 100px;
+  /* border: 4px solid rgba(187, 186, 186, 0.781); */
+  background-color: rgba(187, 186, 186, 0.781);
+  border-radius: 50%;
+  position: relative;
+}
+
+.pop_sign::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  content: "";
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-color: blue;
+}
+
+.message {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+}
+
+.pop_message {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-secondary);
+}

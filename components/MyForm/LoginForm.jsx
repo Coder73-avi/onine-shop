@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import css from "./css/login.module.css";
 import Link from "next/link";
 import axios from "controllers/axios";
@@ -8,6 +8,11 @@ import { AiOutlineGooglePlus } from "react-icons/ai";
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import { useRouter } from "next/router";
 import SetCookie, { GetCookie } from "controllers/SetCookie";
+import LoginWithGoogle from "./LoginWithGoogle";
+import LoginWithFacebook from "./LoginWithFacebook";
+import Loading from "components/Loading";
+import PopMessage from "components/Loading/PopMessage";
+import Swal from "sweetalert2";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -18,6 +23,7 @@ const LoginForm = () => {
   const [errorMsg, setErrorMsg] = useState("Please fill out this field.");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const submitLogin = async (e) => {
     try {
@@ -27,8 +33,14 @@ const LoginForm = () => {
       if (res.status == 200) {
         setErrorMsg("Login Successfully");
         SetCookie("auth", res.data?.token);
-        window.location.reload(false);
-        return router.push("/myaccount");
+        Swal.fire({
+          // position: "top-end",
+          icon: "success",
+          title: "Login Successfully",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+        return setTimeout(() => window.location.reload(false), 1500);
       }
     } catch (error) {
       console.error(error.response?.data);
@@ -38,20 +50,23 @@ const LoginForm = () => {
 
   return (
     <>
+      {/* {<PopMessage />} */}
+      {/* {loading ? (
+        <div className="top-0 left-0 fixed border w-[100%] h-[100%] bg-red-500 z-50">
+          <Loading />
+        </div>
+      ) : null} */}
       <section className={css.login__section}>
         <div className="grid md:grid-cols-2">
           <div className={css.form}>
             <h1 className="text-center font-extrabold mb-4 text-3xl text-teal-700">
               Login
             </h1>
-            <div className={css.socialLogin}>
-              <div>
-                <RiFacebookFill />
-              </div>
-              <div>
-                <AiOutlineGooglePlus />
-              </div>
+            <div className="grid md:grid-cols-2 place-items-center gap-4">
+              <LoginWithGoogle setLoading={setLoading} />
+              <LoginWithFacebook />
             </div>
+
             <form method="post" onSubmit={submitLogin}>
               <div className="w-full px-3 mb-6 my-1">
                 <label className={`${label}`} htmlFor="grid-email">

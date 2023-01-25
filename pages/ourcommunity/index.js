@@ -16,11 +16,11 @@ export default function ourcommunity({ communitypost }) {
           location={[{ name: "Our community", path: "/ourcommunity" }]}
         />
         
-        <section className="columns-3 gap-12 w-[90%] mx-auto my-4">
+        <section className="md:columns-2 lg:columns-3 gap-12 w-[90%] mx-auto my-4">
           {communitypost.map((val, indx) => {
             return (
               <div key={indx} className="mb-6 shadow-lg">
-                <Link href={`/ourcommunity/${val?.title.replaceAll(" ", "_")}`}>
+                <Link href={`/ourcommunity/${val?.title.replaceAll(" ", "-")}`}>
                   <a className="w-full min-h-[300px]  ">
                     <CommunityPostCard data={val} />
                   </a>

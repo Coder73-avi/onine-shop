@@ -16,23 +16,17 @@ import { formatingNumber } from "controllers/otherFunctions";
 import ProductRating from "components/ProductRating";
 import Image from "next/image";
 import onSaleBanner from "images/on-sale-banner.jpg";
+import Banner from "./Banner";
 
-const NewProductList = ({ onSaleProducts = [] }) => {
-  const bedroom = [image1, image2, image3];
-  const livingroom = [image4, image5, image6];
+const NewProductList = ({ onSaleProducts = [], banner }) => {
+  // const bedroom = [image1, image2, image3];
+  // const livingroom = [image4, image5, image6];
+
   return (
     <>
-      <div className="w-full h-[200px] relative">
-        <Image
-          src={onSaleBanner || defaultImage}
-          alt="on-sale-banner"
-          layout="fill"
-          objectFit="cover"
-          objectPosition={"center"}
-        />
-      </div>
+      <Banner src={banner?.src} alt={banner?.alt} />
       <div className="w-[90%] xl:container mx-auto my-8">
-        {false && (
+        {/* {false && (
           <div className="grid md:grid-cols-3 gap-4">
             <div>
               <h2 className={css.title}>bedroom</h2>
@@ -71,7 +65,7 @@ const NewProductList = ({ onSaleProducts = [] }) => {
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-2">
           {onSaleProducts?.map((val, indx) => {
@@ -102,11 +96,11 @@ export const Card = ({
   title,
   price,
   originalName = null,
-  maxRating = 3,
+  rating,
   topselling = true,
 }) => {
   return (
-    <Link href={`/productdetails/${pid}`}>
+    <Link href={`/productdetails/${title.replaceAll(" ", "-")}`}>
       <a className={css.card}>
         <div
           className={`relative w-[30%] ${
@@ -131,7 +125,11 @@ export const Card = ({
         </div>
         <div className={css.card__text}>
           <h2 className={css.card__title}>{title.slice(0, 16) + " . . ."}</h2>
-          <ProductRating maxRating={maxRating} />
+          {rating ? (
+            <ProductRating maxRating={rating} />
+          ) : (
+            <div className="text-xs font-bold text-gray-400">No Review</div>
+          )}
           <div className={css.card__price}>Rs. {formatingNumber(price)} </div>
         </div>
       </a>

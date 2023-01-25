@@ -5,6 +5,10 @@ import axios from "controllers/axios";
 import { useRouter } from "next/router";
 import { useStateValue } from "controllers/Reducer/stateProvider";
 import SetCookie from "controllers/SetCookie";
+import LoginWithGoogle from "./LoginWithGoogle";
+import LoginWithFacebook from "./LoginWithFacebook";
+import Loading from "components/Loading";
+import Swal from "sweetalert2";
 
 const SignUpForm = () => {
   const [{}, dispatch] = useStateValue();
@@ -12,6 +16,7 @@ const SignUpForm = () => {
   const label = `block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2`;
   const input = `appearance-none text-sm block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-teal-500 focus:bg-white`;
   const error = `text-red-500 text-xs italic`;
+  const [loading, setLoading] = useState(false);
 
   const [userData, setUserData] = useState({
     firstname: "",
@@ -48,9 +53,14 @@ const SignUpForm = () => {
       const send = await axios.post("/signup", userData);
       if (send.status == 201) {
         SetCookie("auth", send.data?.token);
-        alert("Signup Successfully");
-        window.location.reload(false);
-        return router.push("/myaccount");
+        Swal.fire({
+          // position: "top-end",
+          icon: "success",
+          title: "Sign Up Successfully",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+        return setTimeout(() => window.location.reload(false), 1500);
       }
     } catch (error) {
       alert(error?.response?.data?.message);
@@ -60,6 +70,8 @@ const SignUpForm = () => {
 
   return (
     <>
+      {loading ? <Loading /> : null}
+
       <section className={css.signup__section}>
         <div className="grid lg:grid-cols-2">
           <div className={`order-2 lg:order-1 ${css.info__btn}`}>
@@ -74,6 +86,11 @@ const SignUpForm = () => {
             <h1 className="text-center font-extrabold mb-4 text-3xl text-teal-700">
               Sign Up{" "}
             </h1>
+
+            <div className="grid md:grid-cols-2 place-items-center gap-4 mb-8">
+              <LoginWithGoogle name="Sign Up" setLoading={setLoading} />
+              <LoginWithFacebook name="Sign Up" setLoading={setLoading} />
+            </div>
 
             <form method="post" onSubmit={submitSignUp}>
               <div className="grid md:grid-cols-2">

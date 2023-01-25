@@ -4,7 +4,7 @@ export const addToCart = async (newObj) => {
   try {
     const req = await axios.post("/addcheckout", newObj);
     if (req.status == 201 || req.status == 200) {
-      return console.log("add successfully");
+      return;
     }
   } catch (error) {
     // return console.error(error);
@@ -21,7 +21,6 @@ export const removeItemFromCart = async (id, qty = 1) => {
 
     if (remove.status == 200) {
       return console.log("Removed Successfully");
-      return;
     }
   } catch (error) {
     return console.error(error);

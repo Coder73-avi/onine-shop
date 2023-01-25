@@ -76,6 +76,14 @@ const ShopCard = ({ data }) => {
     if (user) checkWishListIsActive();
   }, [checkWishListIsActive, user]);
 
+  useEffect(() => {
+    if (quickView) {
+      document.body.classList.add("noscroll");
+    } else {
+      document.body.classList.remove("noscroll");
+    }
+  }, [quickView]);
+
   return (
     <>
       {quickView ? <QuickView setQuickView={setQuickView} data={data} /> : null}
@@ -87,12 +95,11 @@ const ShopCard = ({ data }) => {
               Sale !
             </div>
           ) : null}
-          <Link href={`/productdetails/${data?.title?.replaceAll(' ', "_")}`}>
+          <Link href={`/productdetails/${data?.title?.replaceAll(" ", "-")}`}>
             <a>
-            
               <DefaultImage
-                src={data?.imageSrc || defaultImage}
-                alt="card-images"
+                src={data?.image?.src || defaultImage}
+                alt={data?.image?.alt}
                 className={"rounded-md overflow-hidden hover:opacity-80"}
               />
             </a>

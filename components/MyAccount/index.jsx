@@ -12,8 +12,9 @@ import Address from "./Address";
 import AccountDetails from "./AccountDetails";
 import Dashboard from "./Dashboard";
 import MyReview from "./MyReview";
-import { BiNews } from "react-icons/bi";
+import { BiNews, BiPurchaseTagAlt } from "react-icons/bi";
 import MyPost from "./MyPost";
+import CommunityOrders from "./CommunityOrders";
 
 const MyAccount = ({ router }) => {
   const myaccount = [
@@ -38,15 +39,15 @@ const MyAccount = ({ router }) => {
       path: "/myaccount?name=community-post",
       icon: <BiNews />,
     },
-    {
-      name: "Community Sale",
-      path: "/myaccount?name=community-sale",
-      icon: <BiNews />,
-    },
+    // {
+    //   name: "Community Sale",
+    //   path: "/myaccount?name=community-sale",
+    //   icon: <BiNews />,
+    // },
     {
       name: "Community Purchase",
       path: "/myaccount?name=community-purchase",
-      icon: <BiNews />,
+      icon: <BiPurchaseTagAlt />,
     },
     {
       name: "Payment Method",
@@ -107,8 +108,8 @@ const MyAccount = ({ router }) => {
             {router.query?.name == "my-review" && <MyReview />}
             {router.query?.name == "downloads" && <Myorders />}
             {router.query?.name == "community-post" && <MyPost />}
-            {router.query?.name == "community-sale" && <MyPost />}
-            {router.query?.name == "community-purchase" && <MyPost />}
+            {/* {router.query?.name == "community-sale" && <CommunityOrders />} */}
+            {router.query?.name == "community-purchase" && <CommunityOrders />}
             {router.query?.name == "payment-method" && <PaymentMethod />}
             {router.query?.name == "address" && <Address />}
             {router.query?.name == "account-details" && <AccountDetails />}

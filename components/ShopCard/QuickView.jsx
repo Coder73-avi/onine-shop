@@ -99,21 +99,21 @@ const QuickView = ({ setQuickView, data }) => {
 
   return (
     <div className={css.quickView}>
-      <div className="flex flex-col justify-center items-center h-full   ">
+      <div className="flex flex-col justify-center items-center h-full    ">
         <div
           ref={quickViewRef}
           className={
-            "grid md:grid-cols-2 justify-center items-center bg-white w-[70%] rounded-lg gap-6 relative overflow-auto md:pr-3  " +
+            "grid md:grid-cols-2 justify-center items-center bg-white w-[70%] min-h-[80%] rounded-lg gap-6 relative overflow-auto px-3 " +
             css.divScroll
           }
         >
           <div
-            className="block lg:hidden absolute top-4 left-4 z-50 text-2xl cursor-pointer text-teal-600"
+            className=" absolute top-4 right-6 z-50 text-3xl cursor-pointer text-teal-600"
             onClick={() => setQuickView(false)}
           >
             <IoClose />
           </div>
-          <div className="relative">
+          <div className="relative rounded-md overflow-hidden ">
             {data?.isNew ? <div className={css.newBtn}>New</div> : null}
             {data?.onSale == "1" ? (
               <div
@@ -123,7 +123,7 @@ const QuickView = ({ setQuickView, data }) => {
                 Sale !
               </div>
             ) : null}
-            <DefaultImage src={data?.imageSrc} alt={data?.originalname} />
+            <DefaultImage src={data?.image?.src} alt={data?.image.alt} />
           </div>
           <article className={css.product__info + " p-4"}>
             <h1 className="text-2xl font-bold mb-2">{data?.title}</h1>

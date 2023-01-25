@@ -1,11 +1,11 @@
 import Breadcrumbs from "components/Breadcrumbs";
 import NewProductList from "components/HomePage/NewProductList";
 import ShopCard from "components/ShopCard";
-import { sameSiteAxios } from "controllers/axios";
+import axios, { sameSiteAxios } from "controllers/axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-export default function Category({ products, onSaleProducts }) {
+export default function Category({ products, onSaleProducts, banner }) {
   const router = useRouter();
   const categoryName = router.query.category;
   return (
@@ -34,7 +34,7 @@ export default function Category({ products, onSaleProducts }) {
           ))}
         </div>
 
-        <NewProductList onSaleProducts={onSaleProducts} />
+        <NewProductList onSaleProducts={onSaleProducts} banner={banner} />
       </main>
     </>
   );
@@ -45,11 +45,22 @@ export const getServerSideProps = async (req) => {
     const { category } = req.params;
     const newCategory = category.toLowerCase().replace("-", " ");
     const res = await sameSiteAxios.get(
-      `/getproductsbycategory/${newCategory}`
+      `/getproductsbycategory/${newCategory}`,
     );
+    const banner = await axios.get("/getbanners/on_sale");
     const onSale = await sameSiteAxios.get("/getonsaleproducts");
-    return { props: { products: res.data, onSaleProducts: onSale.data } };
+
+    const { host, url, originalname } = banner.data;
+    const src = host + url;
+    const alt = originalname;
+    return {
+      props: {
+        products: res.data,
+        onSaleProducts: onSale.data,
+        banner: { src, alt },
+      },
+    };
   } catch (error) {
-    return { props: { products: [], onSaleProducts: [] } };
+    return { props: { products: [], onSaleProducts: [], banner: {} } };
   }
 };
